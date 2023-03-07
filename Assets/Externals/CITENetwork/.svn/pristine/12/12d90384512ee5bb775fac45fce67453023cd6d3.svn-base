@@ -1,0 +1,95 @@
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading;
+using AOT;
+using UnityEngine;
+using Mirror;
+using System.Runtime.InteropServices;
+
+
+public class WebWrapperImpl {
+    static int idGenerator = 0;
+    readonly int id;
+    static readonly Dictionary<int, WebWrapperImpl> transports = new Dictionary<int, WebWrapperImpl>();
+
+    public event Action<int, ArraySegment<byte>> ReceivedData;
+    public event Action<int> Connected;
+    public event Action<int> Disconnected;
+
+    [DllImport("__Internal")]
+    static extern void createNativeWebWrapper(int transportInstance, string uri, Action<int,int> onConnected, Action<int,int> onDisconnected, Action<int, int, IntPtr, int> onData);
+    private WebWrapperImpl(string uri) {
+        id = Interlocked.Increment(ref idGenerator);
+	    createNativeWebWrapper(id, uri, OnConnected, OnDisconnected, OnData);
+        Debug.Log("WebWrapper "+id+" initialized, ready to serve!");
+    }
+
+    public static WebWrapperImpl create(string uri){
+        WebWrapperImpl impl = new WebWrapperImpl(uri);
+        transports[impl.id] = impl;
+        return impl;
+    }
+
+    // client
+    [DllImport("__Internal")]
+    static extern bool isConnectedJS(int transportInstance);
+    public bool isConnected(){
+        Debug.Log("Webwrap: IsConnected");
+        return isConnectedJS(id);
+    }
+
+
+    [DllImport("__Internal")]
+    private static extern bool sendJS(int transportInstance, int[] peers, int peerSize, int channel, byte[] data, int dataSize);
+    public bool send(List<int> connectionIds, int channelId, ArraySegment<byte> data) {
+        return sendJS(id, connectionIds.ToArray(), connectionIds.Count, channelId, data.Array, data.Count);
+    }
+
+    [DllImport("__Internal")]
+    static extern void kickJS(int transportInstance, int connectionId);
+    public void kick(int connectionId){
+        Debug.Log("WebWrap: kick("+connectionId+")");
+        kickJS(id, connectionId);
+    }
+
+    [DllImport("__Internal")]
+    static extern void disconnectJS(int transportInstance);
+    public void disconnect() {
+        Debug.Log("WebWrap: Disconnect()");
+        disconnectJS(id);
+    }
+
+    [DllImport("__Internal")]
+    static extern string getAddressJS(int transportInstance, int connectionId);
+    public string getAddress(int connectionId) {
+        Debug.Log("WebWrap: getAddress()");
+        return getAddressJS(id, connectionId);
+    }
+
+    public override string ToString() {
+        // TODO: Ask lib for string representation of us
+        return "TODO: WebWrapper";
+    }
+
+
+    [MonoPInvokeCallback(typeof(Action))]
+    public static void OnData(int id, int peer, IntPtr ptr, int length) {
+        byte[] data = new byte[length];
+        Marshal.Copy(ptr, data, 0, length);
+        transports[id].ReceivedData(peer, new ArraySegment<byte>(data));
+    }
+
+    [MonoPInvokeCallback(typeof(Action))]
+    public static void OnConnected(int id, int peer) {
+        Debug.Log("WebWrap: OnConnected()");
+	    transports[id].Connected(peer);
+    }
+
+    [MonoPInvokeCallback(typeof(Action))]
+    public static void OnDisconnected(int id, int peer) {
+        Debug.Log("WebWrap: OnDisconnected()");
+    	transports[id].Disconnected(peer);
+    }
+
+}

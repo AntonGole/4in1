@@ -1,0 +1,44 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using LostPolygon.Apple.LocalMultiplayer;
+using LostPolygon.Apple.LocalMultiplayer.Networking;
+
+public class CITERoomManager : AppleLocalMultiplayerNetworkManagerHelper {
+
+    public void Start() {
+        SetCustomDeviceBrowser(GetComponent<ICustomDeviceBrowser>());
+
+        AppleLocalMultiplayer.Log.SetVerboseLog(true);
+
+        // Set the local peer name that will be seen by other peers
+        AppleLocalMultiplayer.Session.SetLocalPeerName(SystemInfo.deviceName);
+    }
+
+    public override void OnEnable() {
+        base.OnEnable();
+        AppleLocalMultiplayer.CustomServiceAdvertiser.InvitationReceived += OnCustomServiceAdvertiserInvitationReceived;
+        Debug.Log("Enabled auto-invitations");
+    }
+
+    public override void OnDisable() {
+        base.OnDisable();
+        AppleLocalMultiplayer.CustomServiceAdvertiser.InvitationReceived -= OnCustomServiceAdvertiserInvitationReceived;
+    }
+
+    private void OnCustomServiceAdvertiserInvitationReceived(PeerId invitingPeerId, AppleLocalMultiplayer.InvitationHandler invitationHandler) {
+        Debug.Log("Got invitation, auto-accepting invite from "+invitingPeerId);
+        invitationHandler(true);
+    }
+
+    public void JoinRoom(string room){
+        Debug.Log("Joining room " + room);
+        _multipeerConnectivitySettings.ServiceType = room;
+        StartClient();
+    }
+
+    public void LeaveRoom()
+    {
+        StopAll();
+    }
+}

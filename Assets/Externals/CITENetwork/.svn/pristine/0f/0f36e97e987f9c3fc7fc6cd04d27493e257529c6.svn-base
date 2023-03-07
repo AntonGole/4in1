@@ -1,0 +1,109 @@
+using System;
+using System.Collections.Generic;
+using System.Net;
+using UnityEngine;
+using Mirror;
+
+public class CITEWebWrapperTransport : Transport {
+    private WebWrapperImpl wrapper;
+
+    public CITEWebWrapperTransport() {
+        Debug.Log("CITE WebWrapper Transport");
+    }
+
+    public override bool Available() {
+        // We support WebGL only
+        return Application.platform == RuntimePlatform.WebGLPlayer;
+    }
+
+    // Client
+    public override bool ClientConnected(){
+        if (wrapper==null) return false;
+        return false; // TODO
+    }
+
+    public override void ClientConnect(string host) {
+        if (wrapper!=null) throw new InvalidOperationException("Cannot start a client that already had a started transport");
+        wrapper = WebWrapperImpl.create("webstrate-signalling://client");
+
+        // Dispatch events from the client
+        wrapper.Connected += (connectionId) => OnClientConnected.Invoke();
+        wrapper.Disconnected += (connectionId) => OnClientDisconnected.Invoke();
+        wrapper.ReceivedData += (connectionId, data) => OnClientDataReceived.Invoke(data, Channels.DefaultReliable);
+        // TODO: wrapper.ReceivedError+= (error) => OnClientError.Invoke(error);
+    }
+
+    public override bool ClientSend(int channelId, ArraySegment<byte> segment) {
+        wrapper.send(null, channelId, segment); // anything a client sends goes to a server
+        return true;
+    }
+
+    public override void ClientDisconnect() {
+        wrapper.disconnect();
+    }
+
+    public override Uri ServerUri() {
+        UriBuilder builder = new UriBuilder();
+        builder.Scheme = "webwrap";
+        builder.Host = Dns.GetHostName();
+        builder.Port = 80;
+        return builder.Uri;
+    }
+
+
+
+
+
+
+    // server
+    public override bool ServerActive() {
+        if (wrapper==null) return false;
+        return false; // TODO
+    }
+
+    public override void ServerStart() {
+        if (wrapper!=null) throw new InvalidOperationException("Cannot start a server that already had a started transport");
+        wrapper = WebWrapperImpl.create("webstrate-signalling://server");
+
+        // Dispatch the events from the server
+        wrapper.Connected += (connectionId) => OnServerConnected.Invoke(connectionId);
+        wrapper.Disconnected += (connectionId) => OnServerDisconnected.Invoke(connectionId);
+        wrapper.ReceivedData += (connectionId, data) => OnServerDataReceived.Invoke(connectionId, data, Channels.DefaultReliable);
+        // TODO: wrapper.ReceivedError += (connectionId, error) => OnServerError.Invoke(connectionId, error);
+    }
+
+    public override bool ServerSend(List<int> connectionIds, int channelId, ArraySegment<byte> segment) {
+        return wrapper.send(connectionIds, channelId, segment);
+    }
+
+    public override bool ServerDisconnect(int connectionId) {
+        wrapper.kick(connectionId);
+        return true;
+    }
+
+    public override string ServerGetClientAddress(int connectionId) {
+        return "TODO"; // TODO: textual representation of client
+    }
+    public override void ServerStop() {
+        wrapper.disconnect();
+    }
+
+    // Common
+    public override void Shutdown() {
+        // TODO: Stop client/server
+        Debug.Log("WebWrap: Shutdown()");
+
+    }
+
+    public override int GetMaxPacketSize(int channelId) {
+        // We have no limit, just go for int max size
+        return int.MaxValue;
+    }
+
+    public override string ToString() {
+        // TODO: Ask lib for string representation of us
+        return "TODO: WebWrapper";
+    }
+
+}
+

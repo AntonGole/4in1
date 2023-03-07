@@ -1,0 +1,74 @@
+var WebWrapper = {
+    $nativeTransportInstances: [],
+
+	createNativeWebWrapper: function(transportID) {
+        var transport = {
+            isConnected: function(){
+                console.log("isConnected()");
+                return true;
+            },
+
+            disconnect: function(){
+                console.log("disconnect()");
+            },
+
+            send: function(){
+                console.log("send()"); 
+            },
+
+            kick: function(){
+                console.log("kick()");
+            },
+
+            getAddress: function(){
+                console.log("getAddress()");
+		        return "todo";
+            },
+
+	        toString: function(){
+        		return "todoToString";
+            }
+        };
+
+        // Store its reference for later
+        nativeTransportInstances[transportID] = transport;
+    	console.log("CITEWebWrapper native ["+transportID+"] checking in");
+        console.log(transport);
+	},
+
+    isConnectedJS: function(transportID){
+        return nativeTransportInstances[transportID].isConnected();
+    },
+   
+    disconnectJS: function(transportID){
+        nativeTransportInstances[transportID].disconnect();
+    },
+
+    sendJS: function(transportID, peers, peerSize, channel, ptr, length){
+        // TODO: unmarshal peers array
+        nativeTransportInstances[transportID].send(peers, channel, HEAPU8.buffer.slice(ptr, ptr+length));
+    },
+    
+    kickJS: function(transportID, peer){
+        nativeTransportInstances[transportID].kick(peer);
+    },
+
+    getAddressJS: function(transportID, peer){
+	var returnStr = nativeTransportInstances[transportID].getAddress(peer);
+	var bufferSize = lengthBytesUTF8(returnStr) + 1;
+	var buffer = _malloc(bufferSize);
+        stringToUTF8(returnStr, buffer, bufferSize);
+        return buffer;
+    },
+
+    toStringJS: function(){
+	var returnStr = nativeTransportInstances[transportID].toString();
+	var bufferSize = lengthBytesUTF8(returnStr) + 1;
+	var buffer = _malloc(bufferSize);
+        stringToUTF8(returnStr, buffer, bufferSize);
+        return buffer;
+    }
+};
+
+autoAddDeps(WebWrapper, '$nativeTransportInstances');
+mergeInto(LibraryManager.library, WebWrapper);
