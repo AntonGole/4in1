@@ -1,3 +1,5 @@
+Sonja:
+
 När ni kör spelet:
 - ändra "aspect" till 4:3 format (om det inte finns så skapa en sådan)
 - Välj display 1, 2, 3 eller 4 för att styra en kanon.
@@ -5,6 +7,8 @@ När ni kör spelet:
 (Varje spelare har varsinn kamera/display kopplad till sin UI)
 
 ________________________________________________________________________________________________________________
+Anton:
+
 Enklast är att öppna inre 4in1 mappen som ett projekt i Unity med version 2021.3.20f1.
 
 Gör detta innan ni pushar:
