@@ -252,7 +252,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 335286226}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Invisible Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 453935834}
   - component: {fileID: 453935835}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wall 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -511,7 +511,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1327275332}
   - component: {fileID: 1327275333}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wall 2 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -659,7 +659,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1673614241}
   - component: {fileID: 1673614242}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wall 2 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -704,7 +704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1753193089}
   - component: {fileID: 1753193090}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wall 2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -844,7 +844,7 @@ PrefabInstance:
     - target: {fileID: 3544968205792564620, guid: 32ad26497bba04d43940fa402350a240,
         type: 3}
       propertyPath: CollisionModule.colliderForce
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3544968205792564620, guid: 32ad26497bba04d43940fa402350a240,
         type: 3}
