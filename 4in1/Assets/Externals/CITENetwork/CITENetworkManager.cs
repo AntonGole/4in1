@@ -6,12 +6,14 @@ using UnityEngine.SceneManagement;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
+using Mirror.SimpleWeb;
 
 public class CITENetworkManager : NetworkManager {
     private Dictionary<NetworkConnection,int> connectedIDs;
     public int bootstrapSceneBuildIndex;
     public int errorSceneBuildIndex;
-
+    public GameObject floor; 
+    
     public override void Awake(){
         base.Awake();
 	    initialize();
@@ -131,4 +133,104 @@ public class CITENetworkManager : NetworkManager {
 	    Debug.Log("------------------------->>> REBOOT <<<-----------------------------------");
         SceneManager.LoadScene(errorSceneBuildIndex, LoadSceneMode.Single);
     }
+
+    public override void OnServerAddPlayer(NetworkConnectionToClient conn) {
+        Debug.Log("VAR");
+
+        base.OnServerAddPlayer(conn);
+
+        GameObject go = conn.identity.gameObject;
+        go.transform.position = calculateCornerPosition(conn.connectionId, floor, go);
+        go.transform.rotation = calculateCornerRotation(conn.connectionId); 
+        go.transform.Translate(Vector3.forward * 1.5f);
+        Vector3 direction_towards_center = new Vector3(0, 0, 0) - go.transform.position;
+        go.transform.rotation = Quaternion.LookRotation(direction_towards_center); 
+
+    }
+
+    private Vector3 calculateCornerPosition(int player_identity, GameObject floor, GameObject player) {
+
+        MeshRenderer renderer = floor.GetComponent<MeshRenderer>(); 
+        // Vector3[] corners = new Vector3[8];
+        Bounds bounds = renderer.bounds; 
+        // renderer.bounds.extents.x, 
+
+        var delta_x = bounds.extents.x;
+        var delta_y = bounds.extents.y;
+        var delta_z = bounds.extents.z;
+        var player_height = player.GetComponent<MeshRenderer>().bounds.extents.y; 
+
+        Vector3 adjust_up = new Vector3(0, player_height, 0);
+
+        Vector3 corner0 = bounds.center + new Vector3(-delta_x, delta_y, delta_z) + adjust_up;
+        Vector3 corner1 = bounds.center + new Vector3(delta_x, delta_y, delta_z) + adjust_up;
+        Vector3 corner2 = bounds.center + new Vector3(-delta_x, delta_y, -delta_z) + adjust_up;
+        Vector3 corner3 = bounds.center + new Vector3(delta_x, delta_y, -delta_z) + adjust_up;
+        Vector3 default_position = bounds.center + new Vector3(0, delta_y, 0) + adjust_up;
+        
+        
+        switch (player_identity) {
+            case 0:
+                return corner0;
+                break; 
+            case 1:
+                return corner1;
+                break; 
+            case 2:
+                return corner2;
+                break; 
+            case 3:
+                return corner3;
+                break; 
+            default:
+                return default_position; 
+            }
+        
+        
+            // Vector3[] hello = new Vector3[4]; 
+            
+            
+
+        
+        // floor.transform.TransformPoint(cor)
+
+
+
+        // float delta_x = 20 / 2;
+        // float delta_z = (float)(16.2 / 2);
+        // var object_width = 1;
+        //
+        // // Vector3 output = new Vector3(0, 0, 0); 
+        //
+        // switch (player_identity) {
+        //     case 0:
+        //         return new Vector3(-delta_x + 0.5f, 0, delta_z - 0.5f);
+        //         break; 
+        // default:
+        //     return new Vector3(0, 0, 0); 
+        // }
+        // Vector3[] hello = new Vector3[4]; 
+
+    }
+
+    private Quaternion calculateCornerRotation(int player_identity) {
+        
+        switch (player_identity) {
+            case 0:
+                return Quaternion.Euler(0f, 135f, 0f); 
+                break; 
+            case 1:
+                return Quaternion.Euler(0f, -135f, 0f); 
+                break; 
+            case 2:
+                return Quaternion.Euler(0f, 45, 0f); 
+                break; 
+            case 3:
+                return Quaternion.Euler(0f, -45f, 0f); 
+                break; 
+            default:
+                return Quaternion.identity; 
+        }
+    }
+    
 }
