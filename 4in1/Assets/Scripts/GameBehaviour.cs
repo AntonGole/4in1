@@ -9,6 +9,8 @@ public class GameBehaviour : CITEPlayer {
     public GameObject clientBasedTestObject;
 
     private GameObject clientCube;
+    private bool isRotating = false;
+    private Vector3 initialMousePosition;
 
     // Start is called before the first frame update
     public override void OnStartLocalPlayer(){
@@ -18,47 +20,73 @@ public class GameBehaviour : CITEPlayer {
         foreach (CameraPositioner helper in FindObjectsOfType<CameraPositioner>()){
             helper.setView(playerID);
         }
-
-        if(hasAuthority)
-        {
-            CmdCreateClientControlledTestObject(new Vector3(0, 0, 0));
-        }
-    }
-
-    /**
-        A client can ask the server to spawn a test object that is controlled entirely by the
-        server and has the state of it broadcast to all of the clients
-    */
-    [Command] public void CmdCreateServerControlledTestObject(){
-        Debug.Log("Creating a test object");
         
-        GameObject testThing = Instantiate(serverBasedTestObject, new Vector3(clientCube.transform.position.x, clientCube.transform.position.y, clientCube.transform.position.z), Quaternion.identity);
-        testThing.GetComponent<Rigidbody>().isKinematic = false; // We simulate everything on the server so only be kinematic on the clients
-        testThing.GetComponent<Rigidbody>().velocity = new Vector3(5,0,5);
-
-        // Tell everyone about this new shiny object
-        NetworkServer.Spawn (testThing);
     }
+    
+    // public void CmdMoveForward() {
+        // transform.Translate(Vector3.forward *Time.deltaTime);
+    // }
 
-    /**
-        A client can request that the server spawns an object that the client can control directly
-    */
-    [Command] public void CmdCreateClientControlledTestObject(Vector3 initialPosition){
-        Debug.Log("Creating a test object for "+connectionToClient+" to control");
-        GameObject testThing = Instantiate(clientBasedTestObject, initialPosition, Quaternion.identity);
 
-        // Tell everyone about it and hand it over to the client who asked for it
-        NetworkServer.Spawn(testThing, connectionToClient);
+    public void Update() {
+        if (hasAuthority) {
+            if (Input.GetMouseButtonDown(0)) {
+                isRotating = true;
+                initialMousePosition = Input.mousePosition;
+            }
 
-        clientCube = testThing;
-    }
+            else if (Input.GetMouseButtonUp(0)) {
+                isRotating = false;
+            }
 
-    public void Update(){
-        if (hasAuthority){
-            if (Input.GetKeyUp("space")){
-                CmdCreateServerControlledTestObject();
-            } else if (Input.GetKeyUp("m")){
+            if (isRotating) {
+                Vector3 currentMousePosition = Input.mousePosition;
+                float deltaX = (currentMousePosition.x - initialMousePosition.x) * 0.1f;
+                float deltaY = (currentMousePosition.y - initialMousePosition.y) * 0.1f;
+                CmdRotate(deltaX, deltaY);
             }
         }
     }
+
+
+
 }
+
+
+
+// if(hasAuthority)
+// {
+//     CmdCreateClientControlledTestObject(new Vector3(0, 0, 0));
+// }
+
+
+
+/**
+    A client can ask the server to spawn a test object that is controlled entirely by the
+    server and has the state of it broadcast to all of the clients
+*/
+// [Command] public void CmdCreateServerControlledTestObject(){
+//     Debug.Log("Creating a test object");
+//     
+//     GameObject testThing = Instantiate(serverBasedTestObject, new Vector3(clientCube.transform.position.x, clientCube.transform.position.y, clientCube.transform.position.z), Quaternion.identity);
+//     testThing.GetComponent<Rigidbody>().isKinematic = false; // We simulate everything on the server so only be kinematic on the clients
+//     testThing.GetComponent<Rigidbody>().velocity = new Vector3(5,0,5);
+//
+//     // Tell everyone about this new shiny object
+//     NetworkServer.Spawn (testThing);
+// }
+//
+// /**
+//     A client can request that the server spawns an object that the client can control directly
+// */
+// [Command] public void CmdCreateClientControlledTestObject(Vector3 initialPosition){
+//     Debug.Log("Creating a test object for "+connectionToClient+" to control");
+//     GameObject testThing = Instantiate(clientBasedTestObject, initialPosition, Quaternion.identity);
+//
+//     // Tell everyone about it and hand it over to the client who asked for it
+//     NetworkServer.Spawn(testThing, connectionToClient);
+//
+//     clientCube = testThing;
+// }
+
+

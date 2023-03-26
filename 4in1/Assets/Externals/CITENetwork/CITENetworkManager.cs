@@ -145,7 +145,7 @@ public class CITENetworkManager : NetworkManager {
         go.transform.Translate(Vector3.forward * 1.5f);
         Vector3 direction_towards_center = new Vector3(0, 0, 0) - go.transform.position;
         go.transform.rotation = Quaternion.LookRotation(direction_towards_center); 
-
+        conn.identity.AssignClientAuthority(conn);
     }
 
     private Vector3 calculateCornerPosition(int player_identity, GameObject floor, GameObject player) {
