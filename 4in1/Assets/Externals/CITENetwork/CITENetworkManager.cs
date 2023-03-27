@@ -37,7 +37,7 @@ public class CITENetworkManager : NetworkManager {
     public override void OnServerConnect(NetworkConnectionToClient conn){
         // Find the first free player ID not already in use
         int newPlayerID = 0;
-        Debug.Log($"NEW PLAYER ID ::::: {newPlayerID}");
+        // Debug.Log($"NEW PLAYER ID ::::: {newPlayerID}");
         while (connectedIDs.ContainsValue(newPlayerID)){
             newPlayerID++;
         }
@@ -49,11 +49,11 @@ public class CITENetworkManager : NetworkManager {
         base.OnServerConnect(conn);
 
 
-        Debug.Log("printing connected IDSSSSSSSSSS");
+        // Debug.Log("printing connected IDSSSSSSSSSS");
 
-        foreach (var connectedID in connectedIDs) {
-            Debug.Log($"key: {connectedID.Key}, value: {connectedID.Value}");
-        }
+        // foreach (var connectedID in connectedIDs) {
+            // Debug.Log($"key: {connectedID.Key}, value: {connectedID.Value}");
+        // }
         
     }
 
@@ -153,8 +153,8 @@ public class CITENetworkManager : NetworkManager {
         base.OnServerAddPlayer(conn);
 
         GameObject go = conn.identity.gameObject;
-        go.transform.position = calculateCornerPosition(conn.connectionId, floor, go);
-        go.transform.rotation = calculateCornerRotation(conn.connectionId); 
+        go.transform.position = calculateCornerPosition(GetPlayerID(conn), floor, go);
+        go.transform.rotation = calculateCornerRotation(GetPlayerID(conn)); 
         go.transform.Translate(Vector3.forward * 1.5f);
         Vector3 direction_towards_center = new Vector3(0, 0, 0) - go.transform.position;
         go.transform.rotation = Quaternion.LookRotation(direction_towards_center); 
