@@ -200,35 +200,12 @@ public class CITENetworkManager : NetworkManager {
             default:
                 return default_position; 
             }
-        
-        
-            // Vector3[] hello = new Vector3[4]; 
-            
-            
-
-        
-        // floor.transform.TransformPoint(cor)
-
-
-
-        // float delta_x = 20 / 2;
-        // float delta_z = (float)(16.2 / 2);
-        // var object_width = 1;
-        //
-        // // Vector3 output = new Vector3(0, 0, 0); 
-        //
-        // switch (player_identity) {
-        //     case 0:
-        //         return new Vector3(-delta_x + 0.5f, 0, delta_z - 0.5f);
-        //         break; 
-        // default:
-        //     return new Vector3(0, 0, 0); 
-        // }
-        // Vector3[] hello = new Vector3[4]; 
 
     }
 
     private Quaternion calculateCornerRotation(int player_identity) {
+
+        Debug.Log($"inne i calculate corner!!!!!!!! player identity: {player_identity}");
         
         switch (player_identity) {
             case 0:
@@ -249,3 +226,32 @@ public class CITENetworkManager : NetworkManager {
     }
     
 }
+
+
+        
+        
+// Vector3[] hello = new Vector3[4]; 
+            
+            
+
+        
+// floor.transform.TransformPoint(cor)
+
+
+
+// float delta_x = 20 / 2;
+// float delta_z = (float)(16.2 / 2);
+// var object_width = 1;
+//
+// // Vector3 output = new Vector3(0, 0, 0); 
+//
+// switch (player_identity) {
+//     case 0:
+//         return new Vector3(-delta_x + 0.5f, 0, delta_z - 0.5f);
+//         break; 
+// default:
+//     return new Vector3(0, 0, 0); 
+// }
+// Vector3[] hello = new Vector3[4]; 
+
+
