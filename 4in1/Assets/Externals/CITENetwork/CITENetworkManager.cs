@@ -42,9 +42,19 @@ public class CITENetworkManager : NetworkManager {
             newPlayerID++;
         }
         connectedIDs.Add(conn, newPlayerID);
+        
+        
 
         Debug.Log("Added connection for player with ID " + newPlayerID);
         base.OnServerConnect(conn);
+
+
+        Debug.Log("printing connected IDSSSSSSSSSS");
+
+        foreach (var connectedID in connectedIDs) {
+            Debug.Log($"key: {connectedID.Key}, value: {connectedID.Value}");
+        }
+        
     }
 
     /**
