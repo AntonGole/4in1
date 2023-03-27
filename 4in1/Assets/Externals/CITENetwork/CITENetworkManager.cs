@@ -37,6 +37,7 @@ public class CITENetworkManager : NetworkManager {
     public override void OnServerConnect(NetworkConnectionToClient conn){
         // Find the first free player ID not already in use
         int newPlayerID = 0;
+        Debug.Log($"NEW PLAYER ID ::::: {newPlayerID}");
         while (connectedIDs.ContainsValue(newPlayerID)){
             newPlayerID++;
         }
@@ -135,6 +136,9 @@ public class CITENetworkManager : NetworkManager {
     }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn) {
+        
+        Debug.Log($"NetworkConnectionToClient ----- ID: {conn.connectionId}, {conn.address}");
+
 
         base.OnServerAddPlayer(conn);
 
@@ -149,6 +153,7 @@ public class CITENetworkManager : NetworkManager {
 
     private Vector3 calculateCornerPosition(int player_identity, GameObject floor, GameObject player) {
         
+        Debug.Log($"player_identity: {player_identity}");
 
         MeshRenderer renderer = floor.GetComponent<MeshRenderer>(); 
         // Vector3[] corners = new Vector3[8];
@@ -168,7 +173,6 @@ public class CITENetworkManager : NetworkManager {
         Vector3 corner3 = bounds.center + new Vector3(delta_x, delta_y, -delta_z) + adjust_up;
         Vector3 default_position = bounds.center + new Vector3(0, delta_y, 0) + adjust_up;
 
-        Debug.Log($"player_identity: {player_identity}");
         
         switch (player_identity) {
             case 0:
