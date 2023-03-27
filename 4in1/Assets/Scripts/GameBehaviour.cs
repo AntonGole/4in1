@@ -1,17 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using Mirror;
 
 public class GameBehaviour : CITEPlayer {
-    public GameObject serverBasedTestObject;
-    public GameObject clientBasedTestObject;
-
-    private GameObject clientCube;
+    [SyncVar] private Quaternion rotation;
     private bool isRotating = false;
     private Vector3 initialMousePosition;
-
+    private Quaternion initialRotation;
+    
     // Start is called before the first frame update
     public override void OnStartLocalPlayer(){
         Debug.Log("Local GameBehaviour started as player "+playerID);
@@ -22,17 +17,46 @@ public class GameBehaviour : CITEPlayer {
         }
         
     }
-    
-    // public void CmdMoveForward() {
-        // transform.Translate(Vector3.forward *Time.deltaTime);
-    // }
+            
+    public override void OnStartClient()
+    {
+        if (!hasAuthority)
+        {
+            transform.rotation = rotation;
+        }
 
+        initialRotation = transform.rotation; 
+    }
+    
+    [Client]
+    public void CmdRotate(float deltaY, float deltaX) {
+        if (hasAuthority) {
+            Quaternion horizontalRotation = Quaternion.Euler(0f, deltaY, 0f);
+            Quaternion newTowerRotation = initialRotation * horizontalRotation;
+
+            Quaternion verticalRotation = Quaternion.Euler(deltaX, 0f, 0f);
+            Quaternion newBarrelRotation = initialRotation * verticalRotation;
+
+            CmdSetRotation(newTowerRotation, newBarrelRotation);
+        }
+    }
+
+
+    [Command]
+    public void CmdSetRotation(Quaternion newTowerRotation, Quaternion newBarrelRotation) {
+        rotation = newTowerRotation;
+        transform.rotation = newTowerRotation;
+    }
+    
+    
 
     public void Update() {
         if (hasAuthority) {
             if (Input.GetMouseButtonDown(0)) {
                 isRotating = true;
                 initialMousePosition = Input.mousePosition;
+                initialRotation = transform.rotation; 
+                // initialTowerRotation = 
             }
 
             else if (Input.GetMouseButtonUp(0)) {
@@ -48,11 +72,25 @@ public class GameBehaviour : CITEPlayer {
         }
     }
 
-
-
 }
 
 
+
+
+    // public GameObject serverBasedTestObject;
+    // public GameObject clientBasedTestObject;
+
+    // private GameObject clientCube;
+    // private Transform towerTransform; 
+
+    
+
+    // public void CmdMoveForward() {
+    // transform.Translate(Vector3.forward *Time.deltaTime);
+    // }
+
+
+    
 
 // if(hasAuthority)
 // {
