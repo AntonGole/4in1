@@ -154,7 +154,10 @@ public class CITENetworkManager : NetworkManager {
 
         GameObject go = conn.identity.gameObject;
         go.transform.position = calculateCornerPosition(GetPlayerID(conn), floor, go);
-        go.transform.rotation = calculateCornerRotation(GetPlayerID(conn)); 
+        Quaternion rot =  calculateCornerRotation(GetPlayerID(conn));
+        Debug.Log($"I got rotation: {rot}");
+        go.transform.rotation = calculateCornerRotation(GetPlayerID(conn));
+        Debug.Log($"the rotation of the transform: {go.transform.rotation}");
         go.transform.Translate(Vector3.forward * 1.5f);
         Vector3 direction_towards_center = new Vector3(0, 0, 0) - go.transform.position;
         go.transform.rotation = Quaternion.LookRotation(direction_towards_center); 
