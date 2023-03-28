@@ -2,7 +2,7 @@
 using Mirror;
 
 public class GameBehaviour : CITEPlayer {
-    [SyncVar] private Quaternion rotation;
+    [SyncVar(hook = nameof(OnRotationChanged))] private Quaternion rotation;
     private bool isRotating = false;
     private Vector3 initialMousePosition;
     private Quaternion initialRotation;
@@ -27,6 +27,15 @@ public class GameBehaviour : CITEPlayer {
 
         initialRotation = transform.rotation; 
     }
+    
+    private void OnRotationChanged(Quaternion oldRotation, Quaternion newRotation)
+    {
+        if (!hasAuthority)
+        {
+            transform.rotation = newRotation;
+        }
+    }
+    
     
     [Client]
     public void CmdRotate(float deltaY, float deltaX) {
