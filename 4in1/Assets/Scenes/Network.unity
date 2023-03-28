@@ -133,8 +133,8 @@ GameObject:
   m_Component:
   - component: {fileID: 422158496}
   - component: {fileID: 422158498}
-  - component: {fileID: 422158497}
   - component: {fileID: 422158499}
+  - component: {fileID: 422158500}
   m_Layer: 0
   m_Name: Advanced Network Configuration
   m_TagString: Untagged
@@ -157,38 +157,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &422158497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 422158495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f33c8b4740d5449698da4b7b6020baf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 1
-  runInBackground: 1
-  autoStartServerBuild: 0
-  serverTickRate: 60
-  offlineScene: 
-  onlineScene: Assets/Scenes/GameScene.unity
-  transport: {fileID: 422158499}
-  networkAddress: 127.0.0.1
-  maxConnections: 15
-  authenticator: {fileID: 0}
-  playerPrefab: {fileID: 4991587829960700339, guid: 1790354e67a3343e0b7d83a2bcefa93e,
-    type: 3}
-  autoCreatePlayer: 1
-  playerSpawnMethod: 1
-  spawnPrefabs:
-  - {fileID: 7355064248260246877, guid: 019d01962db8a3848a13f312a815fc5f, type: 3}
-  - {fileID: 2873574338075905310, guid: 4d1baa0ff95367b9fb26c8cf89ba7436, type: 3}
-  bootstrapSceneBuildIndex: 2
-  errorSceneBuildIndex: 1
-  floor: {fileID: 4874957317502237515, guid: 20567aa97ef1f3e4a9a601b611447e43, type: 3}
 --- !u!114 &422158498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a863b02c269405cb40e54653d61094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRequirement: 1
+  minRequirement: 2
   initialJoinTimeout: 5
 --- !u!114 &422158499
 MonoBehaviour:
@@ -232,6 +200,36 @@ MonoBehaviour:
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
+--- !u!114 &422158500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422158495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf7d63f46f44b9b92a880aab2a1f5aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
+  runInBackground: 1
+  autoStartServerBuild: 0
+  serverTickRate: 60
+  offlineScene: 
+  onlineScene: Assets/Scenes/GameScene.unity
+  transport: {fileID: 422158499}
+  networkAddress: 127.0.0.1
+  maxConnections: 200
+  authenticator: {fileID: 0}
+  playerPrefab: {fileID: 4991587829960700339, guid: 1790354e67a3343e0b7d83a2bcefa93e,
+    type: 3}
+  autoCreatePlayer: 1
+  playerSpawnMethod: 1
+  spawnPrefabs: []
+  bootstrapSceneBuildIndex: 2
+  errorSceneBuildIndex: 1
+  floor: {fileID: 4874957317502237515, guid: 20567aa97ef1f3e4a9a601b611447e43, type: 3}
 --- !u!850595691 &2135625231
 LightingSettings:
   m_ObjectHideFlags: 0
