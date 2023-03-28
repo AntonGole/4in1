@@ -30,10 +30,7 @@ public class GameBehaviour : CITEPlayer {
     
     private void OnRotationChanged(Quaternion oldRotation, Quaternion newRotation)
     {
-        if (!hasAuthority)
-        {
             transform.rotation = newRotation;
-        }
     }
     
     

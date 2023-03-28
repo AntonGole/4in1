@@ -147,21 +147,53 @@ public class CITENetworkManager : NetworkManager {
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn) {
         
-        Debug.Log($"NetworkConnectionToClient ----- ID: {conn.connectionId}, {conn.address}");
+        // Debug.Log($"NetworkConnectionToClient ----- ID: {conn.connectionId}, {conn.address}");
 
 
-        base.OnServerAddPlayer(conn);
+        // base.OnServerAddPlayer(conn);
 
-        GameObject go = conn.identity.gameObject;
-        go.transform.position = calculateCornerPosition(GetPlayerID(conn), floor, go);
-        Quaternion rot =  calculateCornerRotation(GetPlayerID(conn));
-        Debug.Log($"I got rotation: {rot}");
-        go.transform.rotation = calculateCornerRotation(GetPlayerID(conn));
-        Debug.Log($"the rotation of the transform: {go.transform.rotation}");
-        go.transform.Translate(Vector3.forward * 1.5f);
-        Vector3 direction_towards_center = new Vector3(0, 0, 0) - go.transform.position;
-        go.transform.rotation = Quaternion.LookRotation(direction_towards_center); 
+        int playerId = GetPlayerID(conn);
+        // var gameObject = conn.identity.gameObject; 
+
+        Vector3 middlePosition = new Vector3(0, 0, 0);
+        Vector3 cornerPosition = calculateCornerPosition(playerId, floor, playerPrefab);
+        Quaternion cornerRotation = calculateCornerRotation(playerId);
+        Vector3 nudgedPosition = calculateNudgedPosition(cornerPosition, cornerRotation, 1.5f);
+        Quaternion nudgedRotation = calculateNudgedRotation(cornerPosition, middlePosition); 
+        
+        Transform startPos = GetStartPosition();
+        
+        GameObject player = startPos != null
+            ? Instantiate(playerPrefab, nudgedPosition, nudgedRotation)
+            : Instantiate(playerPrefab);
+
+        // instantiating a "Player" prefab gives it the name "Player(clone)"
+        // => appending the connectionId is WAY more useful for debugging!
+        player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
+        
+        NetworkServer.AddPlayerForConnection(conn, player);
         conn.identity.AssignClientAuthority(conn);
+        
+        
+                
+        //
+        //
+        //
+        // GameObject go = conn.identity.gameObject;
+        // go.transform.position = calculateCornerPosition(GetPlayerID(conn), floor, go);
+        // Quaternion rot =  calculateCornerRotation(GetPlayerID(conn));
+        // // Debug.Log($"I got rotation: {rot}");
+        // go.transform.rotation = calculateCornerRotation(GetPlayerID(conn));
+        // // Debug.Log($"the rotation of the transform: {go.transform.rotation}");
+        // go.transform.Translate(Vector3.forward * 1.5f);
+        // Vector3 direction_towards_center = new Vector3(0, 0, 0) - go.transform.position;
+        // go.transform.rotation = Quaternion.LookRotation(direction_towards_center); 
+        //
+        //
+        //
+        
+        
+        
     }
 
     private Vector3 calculateCornerPosition(int player_identity, GameObject floor, GameObject player) {
@@ -227,7 +259,15 @@ public class CITENetworkManager : NetworkManager {
                 return Quaternion.identity; 
         }
     }
-    
+
+    private Vector3 calculateNudgedPosition(Vector3 cornerPosition, Quaternion orientation, float nugdeDistance) {
+        return cornerPosition + orientation * Vector3.forward * nugdeDistance; 
+    }
+
+    private Quaternion calculateNudgedRotation(Vector3 position, Vector3 middle) {
+        Vector3 directionToMiddle = middle - position;
+        return Quaternion.LookRotation(directionToMiddle); 
+    }
 }
 
 
