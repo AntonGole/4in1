@@ -14,7 +14,7 @@ public class PuzzleBehaviour : NetworkBehaviour {
 
     // Tell all the views in the scene about us
     public override void OnStartLocalPlayer(){
-        puzzleSegment = gameObject.GetComponent<GameBehaviour>().playerID;
+        puzzleSegment = gameObject.GetComponent<WaterballPlayer>().playerID;
         foreach (PuzzleView view in FindObjectsOfType<PuzzleView>()){
             view.OnPuzzleStarted(this);
         }

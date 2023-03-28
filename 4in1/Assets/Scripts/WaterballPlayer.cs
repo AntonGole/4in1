@@ -1,47 +1,65 @@
 ﻿using UnityEngine;
 using Mirror;
 
-public class GameBehaviour : CITEPlayer {
-    [SyncVar(hook = nameof(OnRotationChanged))] private Quaternion rotation;
+public class WaterballPlayer : CITEPlayer {
+    [SyncVar(hook = nameof(OnHorizontalRotationChanged))]
+    private Quaternion horizontalRotation;
+    
+    [SyncVar(hook = nameof(OnVerticalRotationChanged))] 
+    private Quaternion verticalRotation;
+
+    public GameObject barrelPart;
+    public GameObject towerPart;
+
     private bool isRotating = false;
     private Vector3 initialMousePosition;
     private Quaternion initialRotation;
-    
+
+    private Quaternion initialTowerRotation;
+    private Quaternion initialBarrelRotation; 
+
     // Start is called before the first frame update
-    public override void OnStartLocalPlayer(){
-        Debug.Log("Local GameBehaviour started as player "+playerID);
+    public override void OnStartLocalPlayer() {
+        Debug.Log("Local GameBehaviour started as player " + playerID);
 
         // Find camera helpers and let them know who we are
-        foreach (CameraPositioner helper in FindObjectsOfType<CameraPositioner>()){
+        foreach (CameraPositioner helper in FindObjectsOfType<CameraPositioner>()) {
             helper.setView(playerID);
-        }
-        
+        } 
+        isRotating = false;
     }
-            
-    public override void OnStartClient()
-    {
-        if (!hasAuthority)
-        {
-            transform.rotation = rotation;
+
+    public override void OnStartClient() {
+        if (!hasAuthority) {
+            transform.rotation = horizontalRotation;
         }
 
-        initialRotation = transform.rotation; 
+        initialRotation = transform.rotation;
+    }
+
+    private void OnHorizontalRotationChanged(Quaternion oldRotation, Quaternion newRotation) {
+        towerPart.transform.localRotation = newRotation;
     }
     
-    private void OnRotationChanged(Quaternion oldRotation, Quaternion newRotation)
+    private void OnVerticalRotationChanged(Quaternion oldRotation, Quaternion newRotation)
     {
-            transform.rotation = newRotation;
+        barrelPart.transform.localRotation = newRotation;
     }
     
     
+
+
     [Client]
     public void CmdRotate(float deltaY, float deltaX) {
         if (hasAuthority) {
             Quaternion horizontalRotation = Quaternion.Euler(0f, deltaY, 0f);
-            Quaternion newTowerRotation = initialRotation * horizontalRotation;
+            Quaternion newTowerRotation = initialTowerRotation * horizontalRotation;
 
-            Quaternion verticalRotation = Quaternion.Euler(deltaX, 0f, 0f);
-            Quaternion newBarrelRotation = initialRotation * verticalRotation;
+            Quaternion verticalRotation = Quaternion.Euler(-deltaX, 0f, 0f);
+            Quaternion newBarrelRotation = initialBarrelRotation * verticalRotation;
+
+            // Quaternion barrelHorizontalRotation = Quaternion.Euler(0, deltaY, 0);
+            // Quaternion newerBarrelRotation = newBarrelRotation * barrelHorizontalRotation; 
 
             CmdSetRotation(newTowerRotation, newBarrelRotation);
         }
@@ -50,19 +68,22 @@ public class GameBehaviour : CITEPlayer {
 
     [Command]
     public void CmdSetRotation(Quaternion newTowerRotation, Quaternion newBarrelRotation) {
-        rotation = newTowerRotation;
-        transform.rotation = newTowerRotation;
+        horizontalRotation = newTowerRotation;
+        towerPart.transform.localRotation = newTowerRotation;
+
+        verticalRotation = newBarrelRotation;
+        barrelPart.transform.localRotation = newBarrelRotation; 
     }
-    
-    
+
 
     public void Update() {
         if (hasAuthority) {
             if (Input.GetMouseButtonDown(0)) {
                 isRotating = true;
                 initialMousePosition = Input.mousePosition;
-                initialRotation = transform.rotation; 
-                // initialTowerRotation = 
+                initialTowerRotation = towerPart.transform.localRotation;
+                initialBarrelRotation = barrelPart.transform.localRotation; 
+                // initialRotation = transform.rotation;
             }
 
             else if (Input.GetMouseButtonUp(0)) {
@@ -77,32 +98,26 @@ public class GameBehaviour : CITEPlayer {
             }
         }
     }
-
 }
 
 
 
+// public GameObject serverBasedTestObject;
+// public GameObject clientBasedTestObject;
 
-    // public GameObject serverBasedTestObject;
-    // public GameObject clientBasedTestObject;
-
-    // private GameObject clientCube;
-    // private Transform towerTransform; 
-
-    
-
-    // public void CmdMoveForward() {
-    // transform.Translate(Vector3.forward *Time.deltaTime);
-    // }
+// private GameObject clientCube;
+// private Transform towerTransform; 
 
 
-    
+// public void CmdMoveForward() {
+// transform.Translate(Vector3.forward *Time.deltaTime);
+// }
+
 
 // if(hasAuthority)
 // {
 //     CmdCreateClientControlledTestObject(new Vector3(0, 0, 0));
 // }
-
 
 
 /**
@@ -132,5 +147,3 @@ public class GameBehaviour : CITEPlayer {
 //
 //     clientCube = testThing;
 // }
-
-

@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a863b02c269405cb40e54653d61094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRequirement: 2
+  minRequirement: 1
   initialJoinTimeout: 5
 --- !u!114 &422158499
 MonoBehaviour:
@@ -222,10 +222,10 @@ MonoBehaviour:
   networkAddress: 127.0.0.1
   maxConnections: 200
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 4991587829960700339, guid: 1790354e67a3343e0b7d83a2bcefa93e,
+  playerPrefab: {fileID: 6165147063460364115, guid: 393c838261798a04e90389d27739f031,
     type: 3}
   autoCreatePlayer: 1
-  playerSpawnMethod: 1
+  playerSpawnMethod: 0
   spawnPrefabs: []
   bootstrapSceneBuildIndex: 2
   errorSceneBuildIndex: 1
