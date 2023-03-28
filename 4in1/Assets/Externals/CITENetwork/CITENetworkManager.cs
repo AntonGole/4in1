@@ -159,18 +159,21 @@ public class CITENetworkManager : NetworkManager {
         Vector3 cornerPosition = calculateCornerPosition(playerId, floor, playerPrefab);
         Quaternion cornerRotation = calculateCornerRotation(playerId);
         Vector3 nudgedPosition = calculateNudgedPosition(cornerPosition, cornerRotation, 1.5f);
-        Quaternion nudgedRotation = calculateNudgedRotation(cornerPosition, middlePosition); 
-        
-        Transform startPos = GetStartPosition();
-        
-        GameObject player = startPos != null
-            ? Instantiate(playerPrefab, nudgedPosition, nudgedRotation)
-            : Instantiate(playerPrefab);
+        Quaternion nudgedRotation = calculateNudgedRotation(cornerPosition, middlePosition);
+
+        // Transform startPos = GetStartPosition();
+
+        // GameObject player = startPos != null
+        // ? Instantiate(playerPrefab, nudgedPosition, nudgedRotation)
+        // : Instantiate(playerPrefab);
+
+
+        GameObject player = Instantiate(playerPrefab, nudgedPosition, nudgedRotation);
 
         // instantiating a "Player" prefab gives it the name "Player(clone)"
         // => appending the connectionId is WAY more useful for debugging!
         player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
-        
+
         NetworkServer.AddPlayerForConnection(conn, player);
         conn.identity.AssignClientAuthority(conn);
         
