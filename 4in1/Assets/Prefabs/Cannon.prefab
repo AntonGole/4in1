@@ -407,7 +407,7 @@ PrefabInstance:
     - target: {fileID: 3940847185870593964, guid: 272d6b2c0c838ee478ae6cbe616c4d01,
         type: 3}
       propertyPath: CollisionModule.quality
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3940847185870593964, guid: 272d6b2c0c838ee478ae6cbe616c4d01,
         type: 3}
