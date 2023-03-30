@@ -30,11 +30,11 @@ public class WaterballPlayer : CITEPlayer {
     }
 
     public override void OnStartClient() {
-        if (!hasAuthority) {
-            transform.rotation = horizontalRotation;
-        }
+        // if (!hasAuthority) {
+            // transform.rotation = horizontalRotation;
+        // }
 
-        initialRotation = transform.rotation;
+        // initialRotation = transform.rotation;
     }
 
     private void OnHorizontalRotationChanged(Quaternion oldRotation, Quaternion newRotation) {
