@@ -20,15 +20,18 @@ public class WaterballParticleStream : MonoBehaviour {
 
     private void OnParticleCollision(GameObject other) {
         if (!parentNetworkIdentity.hasAuthority) {
+            Debug.Log("hade inte authority");
             return;
         }
 
         if (other.gameObject.layer != LayerMask.NameToLayer("Ball")) {
+            Debug.Log("layermasken var inte Ball");
             return;
         }
 
         WaterballBall waterballBall = other.GetComponent<WaterballBall>();
         if (waterballBall == null) {
+            Debug.Log("fanns ingen waterball component");
             return;
         }
 
@@ -37,6 +40,9 @@ public class WaterballParticleStream : MonoBehaviour {
 
         if (numCollisionEvents > 0) {
             Debug.Log("found collisions");
+        }
+        else {
+            Debug.Log("fanns inga collisions");
         }
         foreach (var collision in collisionEvents) {
             var collisionVelocity = collision.velocity;
