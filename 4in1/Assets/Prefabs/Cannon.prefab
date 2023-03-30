@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
-  syncInterval: 0.1
+  syncInterval: 0.01
   playerID: -1
   barrelPart: {fileID: 1194714952341941709}
   towerPart: {fileID: 373196664381607419}
