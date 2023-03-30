@@ -55,7 +55,7 @@ public class WaterballPlayer : CITEPlayer {
 
     [Command]
     private void CmdApplyForceOnBall(WaterballBall ball, Vector3 impactForce, Vector3 impactPosition) {
-        ball.CmdApplyForce(impactForce, impactPosition);
+        ball.ApplyForce(impactForce, impactPosition);
     }
 
     [Client]
