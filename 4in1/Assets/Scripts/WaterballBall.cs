@@ -33,8 +33,8 @@ public class WaterballBall : NetworkBehaviour
     // [Command]
     public void ApplyForce(Vector3 impactForce, Vector3 impactPosition)
     {
-        // rb.AddForceAtPosition(impactForce, impactPosition, ForceMode.Impulse);
-        // position = rb.position;
-        // velocity = rb.velocity;
+        rb.AddForceAtPosition(impactForce, impactPosition, ForceMode.Impulse);
+        position = rb.position;
+        velocity = rb.velocity;
     }
 }

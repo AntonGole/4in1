@@ -47,15 +47,20 @@ public class WaterballPlayer : CITEPlayer {
     }
 
 
-    public void ApplyForceOnBall(WaterballBall ball, Vector3 impactForce, Vector3 impactPosition) {
+    public void ApplyForceOnBall(NetworkIdentity ballNetworkIdentity, Vector3 impactForce, Vector3 impactPosition) {
         if (hasAuthority) {
-            CmdApplyForceOnBall(ball, impactForce, impactPosition);
+            CmdApplyForceOnBall(ballNetworkIdentity.netId, impactForce, impactPosition);
         }
     }
 
     [Command]
-    private void CmdApplyForceOnBall(WaterballBall ball, Vector3 impactForce, Vector3 impactPosition) {
-        // ball.ApplyForce(impactForce, impactPosition);
+    private void CmdApplyForceOnBall(uint ballNetId, Vector3 impactForce, Vector3 impactPosition) {
+
+        
+        GameObject ballObject = NetworkServer.spawned[ballNetId].gameObject;
+        WaterballBall ball = ballObject.GetComponent<WaterballBall>(); 
+        
+        ball.ApplyForce(impactForce, impactPosition);
         Debug.Log("inne i waterball player cmd apply force");
     }
 
