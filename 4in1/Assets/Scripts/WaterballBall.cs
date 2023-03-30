@@ -37,8 +37,4 @@ public class WaterballBall : NetworkBehaviour
         position = rb.position;
         velocity = rb.velocity;
     }
-    
-    
-    
-    
 }

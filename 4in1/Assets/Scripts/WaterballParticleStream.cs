@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class WaterballParticleStream : NetworkBehaviour {
+public class WaterballParticleStream : MonoBehaviour {
     public float forceMagnitude = 1;
     public ParticleSystem particleSystem;
+    public GameObject parentNetworkObject;
+    private NetworkIdentity parentNetworkIdentity; 
 
     private void Start() {
         // particleSystem = GetComponent<ParticleSystem>();
         var collisions = particleSystem.collision;
         collisions.enabled = true;
         collisions.sendCollisionMessages = true;
+        parentNetworkIdentity = parentNetworkIdentity.GetComponent<NetworkIdentity>(); 
     }
 
 
     private void OnParticleCollision(GameObject other) {
-        if (!hasAuthority) {
+        if (!parentNetworkIdentity.hasAuthority) {
             return;
         }
 
