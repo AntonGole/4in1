@@ -14,7 +14,7 @@ public class WaterballParticleStream : MonoBehaviour {
         var collisions = particleSystem.collision;
         collisions.enabled = true;
         collisions.sendCollisionMessages = true;
-        parentNetworkIdentity = parentNetworkIdentity.GetComponent<NetworkIdentity>(); 
+        parentNetworkIdentity = parentNetworkObject.GetComponent<NetworkIdentity>(); 
     }
 
 
