@@ -34,6 +34,10 @@ public class WaterballParticleStream : MonoBehaviour {
 
         List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
         int numCollisionEvents = particleSystem.GetCollisionEvents(other, collisionEvents);
+
+        if (numCollisionEvents > 0) {
+            Debug.Log("found collisions");
+        }
         foreach (var collision in collisionEvents) {
             var collisionVelocity = collision.velocity;
             var collisionIntersection = collision.intersection;
