@@ -44,10 +44,12 @@ public class WaterballParticleStream : MonoBehaviour {
         else {
             Debug.Log("fanns inga collisions");
         }
+
         foreach (var collision in collisionEvents) {
             var collisionVelocity = collision.velocity;
             var collisionIntersection = collision.intersection;
-            waterballBall.CmdApplyForce(collisionVelocity * forceMagnitude, collisionIntersection);
+            parentNetworkObject.GetComponent<WaterballPlayer>()
+                .ApplyForceOnBall(waterballBall, collisionVelocity, collisionIntersection);
         }
     }
 }

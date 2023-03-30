@@ -45,9 +45,18 @@ public class WaterballPlayer : CITEPlayer {
     {
         barrelPart.transform.localRotation = newRotation;
     }
-    
-    
 
+
+    public void ApplyForceOnBall(WaterballBall ball, Vector3 impactForce, Vector3 impactPosition) {
+        if (hasAuthority) {
+            CmdApplyForceOnBall(ball, impactForce, impactPosition);
+        }
+    }
+
+    [Command]
+    private void CmdApplyForceOnBall(WaterballBall ball, Vector3 impactForce, Vector3 impactPosition) {
+        ball.CmdApplyForce(impactForce, impactPosition);
+    }
 
     [Client]
     public void CmdRotate(float deltaY, float deltaX) {
