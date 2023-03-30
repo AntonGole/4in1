@@ -28,6 +28,9 @@ public class WaterballNetworkManager : CITENetworkManager {
         Vector3 nudgedPosition = calculateNudgedPosition(cornerPosition, cornerRotation, 1.5f);
         Quaternion nudgedRotation = calculateNudgedRotation(cornerPosition, middlePosition);
 
+
+        Debug.Log($"playerid: {playerId}, nudged position: {nudgedPosition}, nudged rotation: {nudgedRotation}");
+        
         // Transform startPos = GetStartPosition();
 
         // GameObject player = startPos != null
