@@ -69,10 +69,10 @@ public class WaterballPlayer : CITEPlayer {
     [Client]
     public void ClientRotate(float deltaY, float deltaX, Quaternion initialTowerRotation, Quaternion initialBarrelRotation) {
         if (hasAuthority) {
-            Quaternion horizontalRotation = Quaternion.Euler(0f, deltaY, 0f);
+            Quaternion horizontalRotation = Quaternion.Euler(0f, deltaX, 0f);
             Quaternion newTowerRotation = initialTowerRotation * horizontalRotation;
 
-            Quaternion verticalRotation = Quaternion.Euler(-deltaX, 0f, 0f);
+            Quaternion verticalRotation = Quaternion.Euler(deltaY, 0f, 0f);
             Quaternion newBarrelRotation = initialBarrelRotation * verticalRotation;
 
             CmdSetRotation(newTowerRotation, newBarrelRotation);
