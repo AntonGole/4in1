@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class WaterballParticleStream : MonoBehaviour {
+public class WaterballParticleStreamPhysicsInteraction : MonoBehaviour {
     public float forceMagnitude = 1;
     public ParticleSystem particleSystem;
     public GameObject parentNetworkObject;

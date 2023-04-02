@@ -67,13 +67,13 @@ public class WaterballPlayer : CITEPlayer {
     }
 
     [Client]
-    public void ClientRotate(float deltaY, float deltaX, Quaternion initialTowerRotation, Quaternion initialBarrelRotation) {
+    public void ClientRotate(float deltaY, float deltaX, Quaternion towerRotation, Quaternion barrelRotation) {
         if (hasAuthority) {
-            Quaternion horizontalRotation = Quaternion.Euler(0f, -deltaX, 0f);
-            Quaternion newTowerRotation = initialTowerRotation * horizontalRotation;
+            Quaternion horizontalRotation = Quaternion.Euler(0f, deltaX, 0f);
+            Quaternion newTowerRotation = towerRotation * horizontalRotation;
 
             Quaternion verticalRotation = Quaternion.Euler(deltaY, 0f, 0f);
-            Quaternion newBarrelRotation = initialBarrelRotation * verticalRotation;
+            Quaternion newBarrelRotation = barrelRotation * verticalRotation;
 
             CmdSetRotation(newTowerRotation, newBarrelRotation);
         }
@@ -94,58 +94,76 @@ public class WaterballPlayer : CITEPlayer {
         if (!hasAuthority) {
             return;
         }
+        handleTouch();
+        handleMouse();
+    }
+
+    private void handleTouch() {
+        if (Input.touchCount <= 0) {
+            return;
+        }
 
         Touch touch = Input.GetTouch(0);
 
         switch (touch.phase) {
-            case TouchPhase.Began:
-
-                initialTowerRotation = towerPart.transform.localRotation;
-                initialBarrelRotation = barrelPart.transform.localRotation;
-                break;
-
             case TouchPhase.Moved:
-
-
                 float deltaX = touch.deltaPosition.x * sensitivity;
                 float deltaY = touch.deltaPosition.y * sensitivity;
-
-                var inputTowerRotation = towerPart.transform.localRotation; 
-                var inputBarrelRotation = barrelPart.transform.localRotation; 
-                
-                ClientRotate(deltaY, deltaX, inputTowerRotation, inputBarrelRotation);
+                var inputTowerRotation = towerPart.transform.localRotation;
+                var inputBarrelRotation = barrelPart.transform.localRotation;
+                ClientRotate(deltaY, -deltaX, inputTowerRotation, inputBarrelRotation);
                 break;
 
-
+            case TouchPhase.Began:
             case TouchPhase.Ended:
             case TouchPhase.Canceled:
                 break;
         }
     }
 
+    private void handleMouse() {
+        if (Input.GetMouseButtonDown(0)) {
+            isRotating = true;
+            initialMousePosition = Input.mousePosition;
+            initialTowerRotation = towerPart.transform.localRotation;
+            initialBarrelRotation = barrelPart.transform.localRotation;
+        }
 
-    // public void Update() {
-    // if (hasAuthority) {
-    // if (Input.GetMouseButtonDown(0)) {
-    // isRotating = true;
-    // initialMousePosition = Input.mousePosition;
-    // initialTowerRotation = towerPart.transform.localRotation;
-    // initialBarrelRotation = barrelPart.transform.localRotation; 
-    // }
+        else if (Input.GetMouseButtonUp(0)) {
+            isRotating = false;
+        }
 
-    // else if (Input.GetMouseButtonUp(0)) {
-    // isRotating = false;
-    // }
-
-    // if (isRotating) {
-    // Vector3 currentMousePosition = Input.mousePosition;
-    // float deltaX = (currentMousePosition.x - initialMousePosition.x) * 0.1f;
-    // float deltaY = (currentMousePosition.y - initialMousePosition.y) * 0.1f;
-    // CmdRotate(deltaX, deltaY);
-    // }
-    // }
-    // }
+        if (isRotating) {
+            Vector3 currentMousePosition = Input.mousePosition;
+            float deltaX = (currentMousePosition.x - initialMousePosition.x) * sensitivity;
+            float deltaY = (currentMousePosition.y - initialMousePosition.y) * sensitivity;
+            ClientRotate(-deltaY, deltaX, initialTowerRotation, initialBarrelRotation);
+        }
+    }
 }
+
+
+// public void Update() {
+// if (hasAuthority) {
+// if (Input.GetMouseButtonDown(0)) {
+// isRotating = true;
+// initialMousePosition = Input.mousePosition;
+// initialTowerRotation = towerPart.transform.localRotation;
+// initialBarrelRotation = barrelPart.transform.localRotation; 
+// }
+
+// else if (Input.GetMouseButtonUp(0)) {
+// isRotating = false;
+// }
+
+// if (isRotating) {
+// Vector3 currentMousePosition = Input.mousePosition;
+// float deltaX = (currentMousePosition.x - initialMousePosition.x) * 0.1f;
+// float deltaY = (currentMousePosition.y - initialMousePosition.y) * 0.1f;
+// CmdRotate(deltaX, deltaY);
+// }
+// }
+// }
 
 
 // public GameObject serverBasedTestObject;
