@@ -1,22 +1,26 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Mirror;
 
 public class WaterballPlayer : CITEPlayer {
     [SyncVar(hook = nameof(OnHorizontalRotationChanged))]
     private Quaternion horizontalRotation;
-    
-    [SyncVar(hook = nameof(OnVerticalRotationChanged))] 
+
+    [SyncVar(hook = nameof(OnVerticalRotationChanged))]
     private Quaternion verticalRotation;
 
     public GameObject barrelPart;
     public GameObject towerPart;
+
+    public float sensitivity = 0.1f;
 
     private bool isRotating = false;
     private Vector3 initialMousePosition;
     private Quaternion initialRotation;
 
     private Quaternion initialTowerRotation;
-    private Quaternion initialBarrelRotation; 
+    private Quaternion initialBarrelRotation;
+
 
     // Start is called before the first frame update
     public override void OnStartLocalPlayer() {
@@ -25,13 +29,14 @@ public class WaterballPlayer : CITEPlayer {
         // Find camera helpers and let them know who we are
         foreach (CameraPositioner helper in FindObjectsOfType<CameraPositioner>()) {
             helper.setView(playerID);
-        } 
+        }
+
         isRotating = false;
     }
 
     public override void OnStartClient() {
         // if (!hasAuthority) {
-            // transform.rotation = horizontalRotation;
+        // transform.rotation = horizontalRotation;
         // }
 
         // initialRotation = transform.rotation;
@@ -40,9 +45,8 @@ public class WaterballPlayer : CITEPlayer {
     private void OnHorizontalRotationChanged(Quaternion oldRotation, Quaternion newRotation) {
         towerPart.transform.localRotation = newRotation;
     }
-    
-    private void OnVerticalRotationChanged(Quaternion oldRotation, Quaternion newRotation)
-    {
+
+    private void OnVerticalRotationChanged(Quaternion oldRotation, Quaternion newRotation) {
         barrelPart.transform.localRotation = newRotation;
     }
 
@@ -55,11 +59,9 @@ public class WaterballPlayer : CITEPlayer {
 
     [Command]
     private void CmdApplyForceOnBall(uint ballNetId, Vector3 impactForce, Vector3 impactPosition) {
-
-        
         GameObject ballObject = NetworkServer.spawned[ballNetId].gameObject;
-        WaterballBall ball = ballObject.GetComponent<WaterballBall>(); 
-        
+        WaterballBall ball = ballObject.GetComponent<WaterballBall>();
+
         ball.ApplyForce(impactForce, impactPosition);
         Debug.Log("inne i waterball player cmd apply force");
     }
@@ -73,9 +75,6 @@ public class WaterballPlayer : CITEPlayer {
             Quaternion verticalRotation = Quaternion.Euler(-deltaX, 0f, 0f);
             Quaternion newBarrelRotation = initialBarrelRotation * verticalRotation;
 
-            // Quaternion barrelHorizontalRotation = Quaternion.Euler(0, deltaY, 0);
-            // Quaternion newerBarrelRotation = newBarrelRotation * barrelHorizontalRotation; 
-
             CmdSetRotation(newTowerRotation, newBarrelRotation);
         }
     }
@@ -87,34 +86,63 @@ public class WaterballPlayer : CITEPlayer {
         towerPart.transform.localRotation = newTowerRotation;
 
         verticalRotation = newBarrelRotation;
-        barrelPart.transform.localRotation = newBarrelRotation; 
+        barrelPart.transform.localRotation = newBarrelRotation;
     }
 
 
-    public void Update() {
-        if (hasAuthority) {
-            if (Input.GetMouseButtonDown(0)) {
-                isRotating = true;
-                initialMousePosition = Input.mousePosition;
+    private void Update() {
+        if (!hasAuthority) {
+            return;
+        }
+
+        Touch touch = Input.GetTouch(0);
+
+        switch (touch.phase) {
+            case TouchPhase.Began:
+
                 initialTowerRotation = towerPart.transform.localRotation;
-                initialBarrelRotation = barrelPart.transform.localRotation; 
-                // initialRotation = transform.rotation;
-            }
+                initialBarrelRotation = barrelPart.transform.localRotation;
+                break;
 
-            else if (Input.GetMouseButtonUp(0)) {
-                isRotating = false;
-            }
+            case TouchPhase.Moved:
 
-            if (isRotating) {
-                Vector3 currentMousePosition = Input.mousePosition;
-                float deltaX = (currentMousePosition.x - initialMousePosition.x) * 0.1f;
-                float deltaY = (currentMousePosition.y - initialMousePosition.y) * 0.1f;
-                CmdRotate(deltaX, deltaY);
-            }
+
+                float deltaX = touch.deltaPosition.x * sensitivity;
+                float deltaY = touch.deltaPosition.y * sensitivity;
+
+                CmdRotate(deltaY, deltaX);
+                break;
+
+
+            case TouchPhase.Ended:
+            case TouchPhase.Canceled:
+                break;
         }
     }
-}
 
+
+    // public void Update() {
+    // if (hasAuthority) {
+    // if (Input.GetMouseButtonDown(0)) {
+    // isRotating = true;
+    // initialMousePosition = Input.mousePosition;
+    // initialTowerRotation = towerPart.transform.localRotation;
+    // initialBarrelRotation = barrelPart.transform.localRotation; 
+    // }
+
+    // else if (Input.GetMouseButtonUp(0)) {
+    // isRotating = false;
+    // }
+
+    // if (isRotating) {
+    // Vector3 currentMousePosition = Input.mousePosition;
+    // float deltaX = (currentMousePosition.x - initialMousePosition.x) * 0.1f;
+    // float deltaY = (currentMousePosition.y - initialMousePosition.y) * 0.1f;
+    // CmdRotate(deltaX, deltaY);
+    // }
+    // }
+    // }
+}
 
 
 // public GameObject serverBasedTestObject;
