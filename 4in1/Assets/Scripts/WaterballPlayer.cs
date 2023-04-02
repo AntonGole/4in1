@@ -110,8 +110,8 @@ public class WaterballPlayer : CITEPlayer {
                 float deltaX = touch.deltaPosition.x * sensitivity;
                 float deltaY = touch.deltaPosition.y * sensitivity;
 
-                var inputTowerRotation = towerPart.transform.rotation; 
-                var inputBarrelRotation = barrelPart.transform.rotation; 
+                var inputTowerRotation = towerPart.transform.localRotation; 
+                var inputBarrelRotation = barrelPart.transform.localRotation; 
                 
                 ClientRotate(deltaY, deltaX, inputTowerRotation, inputBarrelRotation);
                 break;
