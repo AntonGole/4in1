@@ -67,7 +67,7 @@ public class WaterballPlayer : CITEPlayer {
     }
 
     [Client]
-    public void CmdRotate(float deltaY, float deltaX) {
+    public void ClientRotate(float deltaY, float deltaX, Quaternion initialTowerRotation, Quaternion initialBarrelRotation) {
         if (hasAuthority) {
             Quaternion horizontalRotation = Quaternion.Euler(0f, deltaY, 0f);
             Quaternion newTowerRotation = initialTowerRotation * horizontalRotation;
@@ -110,7 +110,10 @@ public class WaterballPlayer : CITEPlayer {
                 float deltaX = touch.deltaPosition.x * sensitivity;
                 float deltaY = touch.deltaPosition.y * sensitivity;
 
-                CmdRotate(deltaY, deltaX);
+                var inputTowerRotation = towerPart.transform.rotation; 
+                var inputBarrelRotation = barrelPart.transform.rotation; 
+                
+                ClientRotate(deltaY, deltaX, inputTowerRotation, inputBarrelRotation);
                 break;
 
 
