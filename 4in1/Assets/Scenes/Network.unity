@@ -135,6 +135,8 @@ GameObject:
   - component: {fileID: 422158498}
   - component: {fileID: 422158499}
   - component: {fileID: 422158500}
+  - component: {fileID: 422158502}
+  - component: {fileID: 422158501}
   m_Layer: 0
   m_Name: Advanced Network Configuration
   m_TagString: Untagged
@@ -169,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a863b02c269405cb40e54653d61094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRequirement: 2
+  minRequirement: 1
   initialJoinTimeout: 5
 --- !u!114 &422158499
 MonoBehaviour:
@@ -230,6 +232,38 @@ MonoBehaviour:
   bootstrapSceneBuildIndex: 2
   errorSceneBuildIndex: 1
   floor: {fileID: 4874957317502237515, guid: 20567aa97ef1f3e4a9a601b611447e43, type: 3}
+--- !u!114 &422158501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422158495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c518f8ab28245599b7cea09307159c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  levelNames: []
+--- !u!114 &422158502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422158495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1815155833
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!850595691 &2135625231
 LightingSettings:
   m_ObjectHideFlags: 0
