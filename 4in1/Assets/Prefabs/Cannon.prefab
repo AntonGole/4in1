@@ -337,13 +337,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 971626108236142684, guid: 724a0f749cc03894fb02df368fecb008,
         type: 3}
+      propertyPath: cullingMode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 971626108236142684, guid: 724a0f749cc03894fb02df368fecb008,
+        type: 3}
       propertyPath: moveWithTransform
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 971626108236142684, guid: 724a0f749cc03894fb02df368fecb008,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 971626108236142684, guid: 724a0f749cc03894fb02df368fecb008,
         type: 3}
@@ -417,8 +422,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3747972665522545857, guid: 724a0f749cc03894fb02df368fecb008,
         type: 3}
+      propertyPath: cullingMode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3747972665522545857, guid: 724a0f749cc03894fb02df368fecb008,
+        type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3747972665522545857, guid: 724a0f749cc03894fb02df368fecb008,
         type: 3}
@@ -428,6 +438,16 @@ PrefabInstance:
     - target: {fileID: 3747972665522545857, guid: 724a0f749cc03894fb02df368fecb008,
         type: 3}
       propertyPath: InitialModule.gravityModifier.scalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855435834572996800, guid: 724a0f749cc03894fb02df368fecb008,
+        type: 3}
+      propertyPath: cullingMode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502780475805936015, guid: 724a0f749cc03894fb02df368fecb008,
+        type: 3}
+      propertyPath: cullingMode
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8470324467141025480, guid: 724a0f749cc03894fb02df368fecb008,

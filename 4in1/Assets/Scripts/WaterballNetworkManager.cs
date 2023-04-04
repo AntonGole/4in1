@@ -25,7 +25,7 @@ public class WaterballNetworkManager : CITENetworkManager {
         Vector3 middlePosition = new Vector3(0, 0, 0);
         Vector3 cornerPosition = calculateCornerPosition(playerId, floor, playerPrefab);
         Quaternion cornerRotation = calculateCornerRotation(playerId);
-        Vector3 nudgedPosition = calculateNudgedPosition(cornerPosition, cornerRotation, 1.5f);
+        Vector3 nudgedPosition = calculateNudgedPosition(cornerPosition, cornerRotation, 0.8f);
         Quaternion nudgedRotation = calculateNudgedRotation(cornerPosition, middlePosition);
 
 
