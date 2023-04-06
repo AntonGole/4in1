@@ -29,7 +29,7 @@ public class WaterballNetworkManager : CITENetworkManager {
         Quaternion nudgedRotation = calculateNudgedRotation(cornerPosition, middlePosition);
 
 
-        Debug.Log($"playerid: {playerId}, nudged position: {nudgedPosition}, nudged rotation: {nudgedRotation}");
+        // Debug.Log($"playerid: {playerId}, nudged position: {nudgedPosition}, nudged rotation: {nudgedRotation}");
         
         // Transform startPos = GetStartPosition();
 
@@ -71,7 +71,7 @@ public class WaterballNetworkManager : CITENetworkManager {
 
     private Vector3 calculateCornerPosition(int player_identity, GameObject floor, GameObject player) {
         
-        Debug.Log($"player_identity: {player_identity}");
+        // Debug.Log($"player_identity: {player_identity}");
 
         MeshRenderer renderer = floor.GetComponent<MeshRenderer>(); 
         // Vector3[] corners = new Vector3[8];
@@ -113,7 +113,7 @@ public class WaterballNetworkManager : CITENetworkManager {
 
     private Quaternion calculateCornerRotation(int player_identity) {
 
-        Debug.Log($"inne i calculate corner!!!!!!!! player identity: {player_identity}");
+        // Debug.Log($"inne i calculate corner!!!!!!!! player identity: {player_identity}");
         
         switch (player_identity) {
             case 0:

@@ -20,18 +20,18 @@ public class WaterballParticleStreamPhysicsInteraction : MonoBehaviour {
 
     private void OnParticleCollision(GameObject other) {
         if (!parentNetworkIdentity.hasAuthority) {
-            Debug.Log("hade inte authority");
+            // Debug.Log("hade inte authority");
             return;
         }
 
         if (other.gameObject.layer != LayerMask.NameToLayer("Ball")) {
-            Debug.Log("layermasken var inte Ball");
+            // Debug.Log("layermasken var inte Ball");
             return;
         }
 
         WaterballBall waterballBall = other.GetComponent<WaterballBall>();
         if (waterballBall == null) {
-            Debug.Log("fanns ingen waterball component");
+            // Debug.Log("fanns ingen waterball component");
             return;
         }
 
@@ -39,10 +39,10 @@ public class WaterballParticleStreamPhysicsInteraction : MonoBehaviour {
         int numCollisionEvents = particleSystem.GetCollisionEvents(other, collisionEvents);
 
         if (numCollisionEvents > 0) {
-            Debug.Log("found collisions");
+            // Debug.Log("found collisions");
         }
         else {
-            Debug.Log("fanns inga collisions");
+            // Debug.Log("fanns inga collisions");
         }
 
         foreach (var collision in collisionEvents) {
