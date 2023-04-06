@@ -6,75 +6,72 @@ using UnityEngine.SceneManagement;
 
 namespace DefaultNamespace {
     public class WaterballGameManager : NetworkBehaviour {
-        public GameObject bannerPrefab; 
+        public GameObject bannerPrefab;
 
         public string[] levelNames;
-        
-        private bool isPlayingBanner = false;
-        private GameObject bannerInstance; 
-        
-        
-        [SyncVar] 
-        private int currentLevel = 0;
 
-        [SyncVar] 
-        private GameState currentState = GameState.Warmup; 
+        private bool isPlayingBanner = false;
+        private GameObject bannerInstance;
+
+
+        [SyncVar] private int currentLevel = 0;
+
+        [SyncVar] private GameState currentState = GameState.Warmup;
 
         public enum GameState {
-            Warmup, 
-            BallSpawning, 
-            Playing, 
+            Warmup,
+            BallSpawning,
+            Playing,
             EndingLevel
         }
-        
+
 
         private void Start() {
-            levelNames =  new string[] {"GameScene", "Level 1", "Level 2" };
+            levelNames = new string[] {"GameScene", "Level 1", "Level 2"};
         }
 
         private void Update() {
-
             if (SceneManager.GetActiveScene().name == "Network") {
                 Debug.Log("vi är i network");
-                return; 
+                return;
             }
 
             if (SceneManager.GetActiveScene().name == "LobbyScene") {
                 Debug.Log("vi är i lobby");
-                return; 
+                return;
             }
-            
+
             if (SceneManager.GetActiveScene().name == "ErrorScene") {
                 Debug.Log("vi är i error");
-                return; 
+                return;
             }
 
             if (!isServer) {
                 Debug.Log("vi är inte server");
-                return; 
+                return;
             }
 
             switch (currentState) {
                 case GameState.Warmup:
 
                     if (!isPlayingBanner) {
-                        ShowGetReadyBanner(); 
-                    } 
-                    
+                        ShowGetReadyBanner();
+                    }
+
                     Debug.Log("warmup");
-                    break; 
-                case GameState.BallSpawning: 
+                    break;
+                case GameState.BallSpawning:
                     Debug.Log("ball spawning");
-                    break; 
-                case GameState.Playing: 
+                    break;
+                case GameState.Playing:
                     Debug.Log("ball spawning");
-                    break; 
-                case GameState.EndingLevel: 
+                    break;
+                case GameState.EndingLevel:
                     Debug.Log("ball spawning");
-                    break; 
+                    break;
                 default:
                     Debug.Log("inget state");
-                    break; 
+                    break;
             }
 
             if (Input.GetKeyDown(KeyCode.K)) {
@@ -87,7 +84,7 @@ namespace DefaultNamespace {
                 Debug.Log(levelNames);
                 Debug.Log(levelNames[currentLevel]);
                 GetComponent<CITENetworkManager>().ServerChangeScene(levelNames[currentLevel]);
-                bannerInstance = null; 
+                bannerInstance = null;
             }
         }
 
@@ -108,22 +105,36 @@ namespace DefaultNamespace {
 
         // [ClientRpc]
         private void ShowGetReadyBanner() {
-            isPlayingBanner = true; 
+            if (isPlayingBanner) {
+                return;
+            }
+
+            isPlayingBanner = true;
+            StartCoroutine(SpawnBannerAndDisplay(4f));
+        }
+
+
+        private IEnumerator SpawnBannerAndDisplay(float displayTime) {
+            yield return null;
+
             if (bannerInstance == null) {
                 bannerInstance = Instantiate(bannerPrefab);
                 NetworkServer.Spawn(bannerInstance);
                 Debug.Log(bannerInstance);
+                RpcDisplayBannerForSomeTime(displayTime);
             }
-            RpcDisplayBannerForSomeTime(4f);
-            // StartCoroutine(DisplayBannerForSomeTime(bannerInstance, 4f));
+            
+            RpcDisplayBannerForSomeTime(displayTime);
         }
+
 
         [ClientRpc]
         private void RpcDisplayBannerForSomeTime(float time) {
             if (bannerInstance == null) {
-                return; 
+                return;
             }
-            StartCoroutine(DisplayBannerForSomeTime(bannerInstance, time)); 
+
+            StartCoroutine(DisplayBannerForSomeTime(bannerInstance, time));
         }
 
 
@@ -134,14 +145,10 @@ namespace DefaultNamespace {
             currentState = GameState.BallSpawning;
             banner.SetActive(false);
             Debug.Log(banner);
-            isPlayingBanner = false; 
+            isPlayingBanner = false;
         }
-        
     }
 }
-
-
-
 
 
 // {
@@ -160,4 +167,3 @@ namespace DefaultNamespace {
 //         Debug.Log("PuzzleBehaviour script not found in the scene.");
 //     }
 // }
-
