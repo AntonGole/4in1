@@ -106,7 +106,7 @@ namespace DefaultNamespace {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
-        [Command]
+        // [ClientRpc]
         private void ShowGetReadyBanner() {
             isPlayingBanner = true; 
             if (bannerInstance == null) {
@@ -120,6 +120,9 @@ namespace DefaultNamespace {
 
         [ClientRpc]
         private void RpcDisplayBannerForSomeTime(float time) {
+            if (bannerInstance == null) {
+                return; 
+            }
             StartCoroutine(DisplayBannerForSomeTime(bannerInstance, time)); 
         }
 
