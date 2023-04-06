@@ -303,7 +303,7 @@ namespace Mirror
             }
         }
 
-// #if MIRROR_26_0_OR_NEWER 
+        //#if MIRROR_26_0_OR_NEWER 
         public override void ServerSend(int connectionId, ArraySegment<byte> segment, int channelId)
         {
             if (server == null)
