@@ -246,6 +246,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  bannerPrefab: {fileID: 3515805555055597904, guid: aada65f659f29aa479686afe3e828dcc,
+    type: 3}
   levelNames: []
 --- !u!114 &422158502
 MonoBehaviour:
