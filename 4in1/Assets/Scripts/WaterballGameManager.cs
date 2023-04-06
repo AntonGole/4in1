@@ -121,7 +121,6 @@ namespace DefaultNamespace {
                 bannerInstance = Instantiate(bannerPrefab);
                 NetworkServer.Spawn(bannerInstance);
                 Debug.Log(bannerInstance);
-                RpcDisplayBannerForSomeTime(displayTime);
             }
             
             RpcDisplayBannerForSomeTime(displayTime);
