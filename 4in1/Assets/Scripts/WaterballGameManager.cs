@@ -139,14 +139,14 @@ namespace DefaultNamespace {
 
         private void ShowGetReadyBanner() {
             isPlayingBanner = true; 
-            Debug.Log("före krasch");
+            // Debug.Log("före krasch");
             if (bannerInstance == null) {
-                Debug.Log("entered instantiate igen!!");
+                // Debug.Log("entered instantiate igen!!");
                 bannerInstance = Instantiate(bannerPrefab);
                 Debug.Log(bannerInstance);
             }
             StartCoroutine(DisplayBannerForSomeTime(bannerInstance, 4f));
-            Debug.Log("efter coroutine");
+            // Debug.Log("efter coroutine");
             
             
         }
@@ -154,12 +154,12 @@ namespace DefaultNamespace {
 
         private IEnumerator DisplayBannerForSomeTime(GameObject banner, float time) {
             // GameObject banner = GameObject.FindGameObjectWithTag("Circle Banner"); 
-            Debug.Log("räknar ner");
+            // Debug.Log("räknar ner");
             banner.SetActive(true);
             Debug.Log(banner);
             yield return new WaitForSeconds(time);
             currentState = GameState.BallSpawning;
-            Debug.Log("nu är jag klar!!");
+            // Debug.Log("nu är jag klar!!");
             banner.SetActive(false);
             Debug.Log(banner);
             isPlayingBanner = false; 
