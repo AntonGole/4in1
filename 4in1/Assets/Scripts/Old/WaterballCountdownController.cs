@@ -27,17 +27,17 @@ using UnityEngine.UI;
                 foreach (var numberHolder in numberHolders) {
                     Image numberImage = numberHolder.transform.GetChild(0).GetComponent<Image>();
                     numberImage.sprite = numberSprite;
-                    RectTransform rt = numberImage.GetComponent<RectTransform>();
-                    rt.localPosition = Vector3.zero;
-                    rt.localRotation = Quaternion.identity; 
+                    // RectTransform rt = numberImage.GetComponent<RectTransform>();
+                    // rt.localPosition = Vector3.zero;
+                    // rt.localRotation = Quaternion.identity; 
                 }
                 
                 
 
-                Debug.Log("före vänta");
+                // Debug.Log("före vänta");
                 yield return new WaitForSeconds(displayTime);
 
-                Debug.Log("efter vänta");
+                // Debug.Log("efter vänta");
             }
             
 

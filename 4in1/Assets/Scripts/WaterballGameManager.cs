@@ -7,11 +7,12 @@ using UnityEngine.SceneManagement;
 namespace DefaultNamespace {
     public class WaterballGameManager : NetworkBehaviour {
         public GameObject bannerPrefab;
+        public GameObject ballPrefab; 
 
         public string[] levelNames;
 
         private bool isPlayingBanner = false;
-        private GameObject bannerInstance;
+        // private GameObject bannerInstance;
 
 
         [SyncVar] private int currentLevel = 0;
@@ -55,7 +56,8 @@ namespace DefaultNamespace {
                 case GameState.Warmup:
 
                     if (!isPlayingBanner) {
-                        ShowGetReadyBanner();
+                        // ShowGetReadyBanner();
+                        
                     }
 
                     Debug.Log("warmup");
@@ -84,7 +86,15 @@ namespace DefaultNamespace {
                 Debug.Log(levelNames);
                 Debug.Log(levelNames[currentLevel]);
                 GetComponent<CITENetworkManager>().ServerChangeScene(levelNames[currentLevel]);
-                bannerInstance = null;
+                // bannerInstance = null;
+            }
+
+            if (Input.GetKeyDown(KeyCode.L)) {
+                SpawnBall();
+            }
+            
+            if (Input.GetKeyDown(KeyCode.O)) {
+                SpawnBanner(); 
             }
         }
 
@@ -103,49 +113,69 @@ namespace DefaultNamespace {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
+
+        [Server]
+        public void SpawnBall() {
+            GameObject ballInstance = Instantiate(ballPrefab, new Vector3(0, 2, 0), Quaternion.identity); 
+            NetworkServer.Spawn(ballInstance);
+            Debug.Log("spawning a ball");
+        }
+
+        [Server]
+        public void SpawnBanner() {
+            GameObject bannerInstance = Instantiate(bannerPrefab); 
+            NetworkServer.Spawn(bannerInstance);
+            Debug.Log("spawning a banner");
+        }
+        
+        
+        
+        
+
+
         // [ClientRpc]
-        private void ShowGetReadyBanner() {
-            if (isPlayingBanner) {
-                return;
-            }
-
-            isPlayingBanner = true;
-            StartCoroutine(SpawnBannerAndDisplay(4f));
-        }
-
-
-        private IEnumerator SpawnBannerAndDisplay(float displayTime) {
-            yield return null;
-
-            if (bannerInstance == null) {
-                bannerInstance = Instantiate(bannerPrefab);
-                NetworkServer.Spawn(bannerInstance);
-                Debug.Log(bannerInstance);
-            }
-            
-            RpcDisplayBannerForSomeTime(displayTime);
-        }
-
-
-        [ClientRpc]
-        private void RpcDisplayBannerForSomeTime(float time) {
-            if (bannerInstance == null) {
-                return;
-            }
-
-            StartCoroutine(DisplayBannerForSomeTime(bannerInstance, time));
-        }
-
-
-        private IEnumerator DisplayBannerForSomeTime(GameObject banner, float time) {
-            banner.SetActive(true);
-            Debug.Log(banner);
-            yield return new WaitForSeconds(time);
-            currentState = GameState.BallSpawning;
-            banner.SetActive(false);
-            Debug.Log(banner);
-            isPlayingBanner = false;
-        }
+        // private void ShowGetReadyBanner() {
+        //     if (isPlayingBanner) {
+        //         return;
+        //     }
+        //
+        //     isPlayingBanner = true;
+        //     StartCoroutine(SpawnBannerAndDisplay(4f));
+        // }
+        //
+        //
+        // private IEnumerator SpawnBannerAndDisplay(float displayTime) {
+        //     yield return null;
+        //
+        //     if (bannerInstance == null) {
+        //         bannerInstance = Instantiate(bannerPrefab);
+        //         NetworkServer.Spawn(bannerInstance);
+        //         Debug.Log(bannerInstance);
+        //     }
+        //     
+        //     RpcDisplayBannerForSomeTime(displayTime);
+        // }
+        //
+        //
+        // [ClientRpc]
+        // private void RpcDisplayBannerForSomeTime(float time) {
+        //     if (bannerInstance == null) {
+        //         return;
+        //     }
+        //
+        //     StartCoroutine(DisplayBannerForSomeTime(bannerInstance, time));
+        // }
+        //
+        //
+        // private IEnumerator DisplayBannerForSomeTime(GameObject banner, float time) {
+        //     banner.SetActive(true);
+        //     Debug.Log(banner);
+        //     yield return new WaitForSeconds(time);
+        //     currentState = GameState.BallSpawning;
+        //     banner.SetActive(false);
+        //     Debug.Log(banner);
+        //     isPlayingBanner = false;
+        // }
     }
 }
 

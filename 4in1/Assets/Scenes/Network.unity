@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a863b02c269405cb40e54653d61094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRequirement: 2
+  minRequirement: 1
   initialJoinTimeout: 5
 --- !u!114 &422158499
 MonoBehaviour:
@@ -249,6 +249,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   bannerPrefab: {fileID: 3515805555055597904, guid: aada65f659f29aa479686afe3e828dcc,
+    type: 3}
+  ballPrefab: {fileID: 5101236486699445182, guid: 1eb481ba87876f74da378e8550608792,
     type: 3}
   levelNames: []
 --- !u!114 &422158502
