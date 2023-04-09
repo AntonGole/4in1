@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WaterballParticleStreamPhysicsInteraction : MonoBehaviour {
     public float forceMagnitude = 1;
-    public ParticleSystem particleSystem;
+    public ParticleSystem particleSystem;  // I get error here, add "new"?
     public GameObject parentNetworkObject;
     private NetworkIdentity parentNetworkIdentity; 
 
