@@ -137,7 +137,7 @@ public class WaterballPlayer : CITEPlayer {
             Vector3 currentMousePosition = Input.mousePosition;
             float deltaX = (currentMousePosition.x - initialMousePosition.x) * sensitivity;
             float deltaY = (currentMousePosition.y - initialMousePosition.y) * sensitivity;
-            ClientRotate(-deltaY, deltaX, initialTowerRotation, initialBarrelRotation);
+            ClientRotate(-deltaY, -deltaX, initialTowerRotation, initialBarrelRotation);
         }
     }
 }

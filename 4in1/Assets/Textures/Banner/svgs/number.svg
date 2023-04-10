@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="65mm"
+   height="65mm"
+   viewBox="0 0 65 65"
+   version="1.1"
+   id="svg1096"
+   inkscape:export-filename="3.png"
+   inkscape:export-xdpi="1953.8461"
+   inkscape:export-ydpi="1953.8461"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="number.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1098"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.72693603"
+     inkscape:cx="-240.04863"
+     inkscape:cy="84.601667"
+     inkscape:window-width="1920"
+     inkscape:window-height="996"
+     inkscape:window-x="1912"
+     inkscape:window-y="113"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1093" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Layer 3"
+     transform="translate(-70.32811,-97.209106)">
+    <circle
+       style="fill:#008080;stroke-width:0.192076"
+       id="path1108"
+       cx="102.82811"
+       cy="129.70911"
+       r="32.5" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2"
+     transform="translate(-66.328125,-93.209106)">
+    <circle
+       style="fill:#ececec;stroke-width:0.177301"
+       id="path1108-0"
+       cx="98.828125"
+       cy="125.70911"
+       r="30" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-63.834471,-92.591498)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:50.8px;font-family:Arial;-inkscape-font-specification:'Arial, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#008080;stroke-width:0.264583"
+       x="82.344627"
+       y="143.03769"
+       id="text1106"
+       inkscape:transform-center-x="6.1875"
+       inkscape:transform-center-y="-21.110294"><tspan
+         sodipodi:role="line"
+         id="tspan1189">3</tspan></text>
+  </g>
+</svg>

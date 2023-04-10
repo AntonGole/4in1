@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = System.Random;
 
-public class ParticleCollisionHandler : MonoBehaviour {
+public class WaterballParticleSplashHandler : MonoBehaviour {
     public ParticleSystem normalSubEmitterPrefab;
     public ParticleSystem dramaticSubEmitterPrefab;
 
