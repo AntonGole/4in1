@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6768378192614359934}
   - component: {fileID: 6768378192614359935}
   m_Layer: 0
-  m_Name: NormalSplash
+  m_Name: NormalSplash - Copy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

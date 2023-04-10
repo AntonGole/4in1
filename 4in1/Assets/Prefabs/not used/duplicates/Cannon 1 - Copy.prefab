@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: -5173129791187024878}
   - component: {fileID: 6466282617882263326}
   m_Layer: 0
-  m_Name: Cannon 1
+  m_Name: Cannon 1 - Copy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
