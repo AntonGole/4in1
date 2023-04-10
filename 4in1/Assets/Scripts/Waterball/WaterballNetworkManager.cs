@@ -95,7 +95,7 @@ public class WaterballNetworkManager : CITENetworkManager {
         switch (player_identity) {
             case 0:
                 return corner0;
-                break; 
+                break;    
             case 1:
                 return corner1;
                 break; 

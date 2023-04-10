@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-using System;
+//using System;
 using System.Collections;
-using UnityEngine;
+//using UnityEngine;
 using UnityEngine.UI; 
 
 
