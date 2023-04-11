@@ -21,7 +21,9 @@ namespace DefaultNamespace {
 
         private bool isEndingLevel = false;
 
-        private bool isSpawningBalls = false; 
+        private bool isSpawningBalls = false;
+
+        private bool isLoading = false; 
         // private GameObject bannerInstance;
 
 
@@ -71,9 +73,13 @@ namespace DefaultNamespace {
             }
 
             switch (currentState) {
-                case GameState.Loading: 
-                    
-                
+                case GameState.Loading:
+                    if (!isLoading) {
+                        break; 
+                    }
+
+                    LoadNextLevel(); 
+                    break; 
                 
                 case GameState.Warmup:
 
@@ -112,15 +118,16 @@ namespace DefaultNamespace {
             }
 
             if (Input.GetKeyDown(KeyCode.K)) {
-                currentLevel++;
-                if (currentLevel >= levelNames.Length) {
-                    currentLevel = 0;
-                }
-
-                Debug.Log(currentLevel);
-                Debug.Log(levelNames);
-                Debug.Log(levelNames[currentLevel]);
-                GetComponent<CITENetworkManager>().ServerChangeScene(levelNames[currentLevel]);
+                LoadNextLevel();
+                // currentLevel++;
+                // if (currentLevel >= levelNames.Length) {
+                //     currentLevel = 0;
+                // }
+                //
+                // Debug.Log(currentLevel);
+                // Debug.Log(levelNames);
+                // Debug.Log(levelNames[currentLevel]);
+                // GetComponent<CITENetworkManager>().ServerChangeScene(levelNames[currentLevel]);
                 // bannerInstance = null;
             }
 
@@ -136,6 +143,22 @@ namespace DefaultNamespace {
                 SpawnBalls();
             }
         }
+
+        private void LoadNextLevel() {
+            currentLevel++;
+            if (currentLevel >= levelNames.Length) {
+                currentLevel = 0;
+            }
+
+            Debug.Log(currentLevel);
+            Debug.Log(levelNames);
+            Debug.Log(levelNames[currentLevel]);
+            GetComponent<CITENetworkManager>().ServerChangeScene(levelNames[currentLevel]);
+            
+            
+        }
+
+
 
         [Server]
         private IEnumerator BallSpawningCoroutine() {
@@ -160,6 +183,7 @@ namespace DefaultNamespace {
             float seconds = bannerInstance.GetComponent<WaterballBanner>().totalDisplayTime;
             yield return new WaitForSeconds(seconds);
             isPlayingBanner = false;
+            
             currentState = GameState.BallSpawning;
         }
 
@@ -209,6 +233,7 @@ namespace DefaultNamespace {
             }
 
             StartCoroutine(OnSceneLoadedDelayed(1f)); 
+            
 
         }
 
@@ -230,6 +255,7 @@ namespace DefaultNamespace {
             goalScript.BallExitedGoalEvent += BallExitedGoal;
             Debug.Log("goalscript!!:" + goalScript);
             currentState = GameState.Warmup;
+            isLoading = false; 
         }
 
         private void OnEnable() {
