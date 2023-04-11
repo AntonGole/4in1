@@ -231,6 +231,7 @@ MonoBehaviour:
   spawnPrefabs:
   - {fileID: 5101236486699445182, guid: 1eb481ba87876f74da378e8550608792, type: 3}
   - {fileID: 3515805555055597904, guid: aada65f659f29aa479686afe3e828dcc, type: 3}
+  - {fileID: 3515805555055597904, guid: dc2d50b59126ad943959b3e8925d53b2, type: 3}
   bootstrapSceneBuildIndex: 2
   errorSceneBuildIndex: 1
   floor: {fileID: 4874957317502237515, guid: 20567aa97ef1f3e4a9a601b611447e43, type: 3}
@@ -252,7 +253,8 @@ MonoBehaviour:
     type: 3}
   ballPrefab: {fileID: 5101236486699445182, guid: 1eb481ba87876f74da378e8550608792,
     type: 3}
-  minBallSpawningSpeed: 20.03
+  endingPrefab: {fileID: 3515805555055597904, guid: dc2d50b59126ad943959b3e8925d53b2,
+    type: 3}
   levelNames: []
 --- !u!114 &422158502
 MonoBehaviour:
