@@ -49,6 +49,7 @@ namespace DefaultNamespace {
 
         private void Start() {
             levelNames = new string[] {"GameScene", "Level 1", "Level 2"};
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Update() {
