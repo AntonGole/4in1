@@ -303,7 +303,11 @@ namespace Mirror
             }
         }
 
+<<<<<<< Updated upstream
         //#if MIRROR_26_0_OR_NEWER 
+=======
+//#if MIRROR_26_0_OR_NEWER 
+>>>>>>> Stashed changes
         public override void ServerSend(int connectionId, ArraySegment<byte> segment, int channelId)
         {
             if (server == null)
@@ -315,6 +319,7 @@ namespace Mirror
             DeliveryMethod deliveryMethod = channels[channelId];
             server.SendOne(connectionId, deliveryMethod, segment);
         }
+<<<<<<< Updated upstream
 // #else
         // public override bool ServerSend(System.Collections.Generic.List<int> connectionIds, int channelId, ArraySegment<byte> segment)
         // {
@@ -328,6 +333,21 @@ namespace Mirror
             // return server.Send(connectionIds, deliveryMethod, segment);
         // }
 // #endif
+=======
+//#else
+       // public override bool ServerSend(System.Collections.Generic.List<int> connectionIds, int channelId, ArraySegment<byte> segment)
+       // {
+          //  if (server == null)
+          //  {
+          //      logger.LogWarning("Can't send when Server is not active");
+          //      return false;
+           // }
+
+          //  DeliveryMethod deliveryMethod = channels[channelId];
+          //  return server.Send(connectionIds, deliveryMethod, segment);
+       // }
+//#endif
+>>>>>>> Stashed changes
 
         public override void ServerDisconnect(int connectionId)
         {
