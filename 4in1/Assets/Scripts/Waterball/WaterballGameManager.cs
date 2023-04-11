@@ -10,6 +10,7 @@ namespace DefaultNamespace {
     public class WaterballGameManager : NetworkBehaviour {
         public GameObject bannerPrefab;
         public GameObject ballPrefab;
+        public GameObject endingPrefab;
 
         
 
@@ -17,6 +18,8 @@ namespace DefaultNamespace {
         public string[] levelNames;
 
         private bool isPlayingBanner = false;
+
+        private bool isEndingLevel = false;
 
         private bool isSpawningBalls = false; 
         // private GameObject bannerInstance;
@@ -97,6 +100,10 @@ namespace DefaultNamespace {
                     Playing();
                     break;
                 case GameState.EndingLevel:
+                    if (!isEndingLevel)
+                    {
+                        StartCoroutine(EndingLevel());
+                    }
                     Debug.Log("ending level");
                     break;
                 default:
@@ -175,6 +182,20 @@ namespace DefaultNamespace {
             ballsLeft++; 
             Debug.Log($"ball exited! ballsLeft: {ballsLeft}");
 
+        }
+
+        [Server]
+        private IEnumerator EndingLevel()
+        {
+            isEndingLevel = true;
+            GameObject endingInstance = Instantiate(endingPrefab);
+            NetworkServer.Spawn(endingInstance);
+            Debug.Log("spawning an ending instance prefab");
+            float seconds = endingInstance.GetComponent<WaterballEnding>().totalDisplayTime;
+            yield return new WaitForSeconds(seconds);
+            isEndingLevel = false;
+            ballsLeft = 0;
+            currentState = GameState.Loading;
         }
         
 
