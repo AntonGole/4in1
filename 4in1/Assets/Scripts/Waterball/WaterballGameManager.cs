@@ -36,8 +36,8 @@ namespace DefaultNamespace {
 
         private void Start() {
             levelNames = new string[] {"GameScene", "Level 1", "Level 2"};
-            Debug.Log("destroyar inte");
-            DontDestroyOnLoad(gameObject);
+            // Debug.Log("destroyar inte");
+            // DontDestroyOnLoad(gameObject);
         }
 
         private void Update() {
@@ -139,9 +139,9 @@ namespace DefaultNamespace {
                 currentLevel = 0;
             }
 
-            Debug.Log(currentLevel);
-            Debug.Log(levelNames);
-            Debug.Log(levelNames[currentLevel]);
+            // Debug.Log(currentLevel);
+            // Debug.Log(levelNames);
+            // Debug.Log(levelNames[currentLevel]);
             GetComponent<CITENetworkManager>().ServerChangeScene(levelNames[currentLevel]);
             
             
@@ -168,7 +168,7 @@ namespace DefaultNamespace {
             isPlayingBanner = true;
             GameObject bannerInstance = Instantiate(bannerPrefab);
             NetworkServer.Spawn(bannerInstance);
-            Debug.Log("spawning a banner");
+            // Debug.Log("spawning a banner");
             float seconds = bannerInstance.GetComponent<WaterballBanner>().totalDisplayTime;
             yield return new WaitForSeconds(seconds);
             isPlayingBanner = false;
@@ -187,14 +187,14 @@ namespace DefaultNamespace {
         [Server]
         private void BallEnteredGoal() {
             ballsInGoal++;
-            Debug.Log($"ball entered! ballsLeft: {ballsTotal - ballsTotal}");
+            // Debug.Log($"ball entered! ballsLeft: {ballsTotal - ballsTotal}");
             goal.GetComponent<NewGoal>().setBallRatio((float) ballsInGoal / ballsTotal);
         }
         
         [Server]
         private void BallExitedGoal() {
             ballsInGoal--; 
-            Debug.Log($"ball exited! ballsLeft: {ballsTotal - ballsInGoal}");
+            // Debug.Log($"ball exited! ballsLeft: {ballsTotal - ballsInGoal}");
             goal.GetComponent<NewGoal>().setBallRatio((float) ballsInGoal / ballsTotal);
         }
 
@@ -204,7 +204,7 @@ namespace DefaultNamespace {
             isEndingLevel = true;
             GameObject endingInstance = Instantiate(endingPrefab);
             NetworkServer.Spawn(endingInstance);
-            Debug.Log("spawning an ending instance prefab");
+            // Debug.Log("spawning an ending instance prefab");
             float seconds = endingInstance.GetComponent<WaterballEnding>().totalDisplayTime;
             yield return new WaitForSeconds(seconds);
             isEndingLevel = false;
@@ -245,7 +245,7 @@ namespace DefaultNamespace {
             var goalScript = goal.GetComponent<NewGoal>();
             goalScript.BallEnteredGoalEvent += BallEnteredGoal;
             goalScript.BallExitedGoalEvent += BallExitedGoal;
-            Debug.Log("goalscript!!:" + goalScript);
+            // Debug.Log("goalscript!!:" + goalScript);
             currentState = GameState.Warmup;
             isLoading = false; 
         }

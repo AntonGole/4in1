@@ -63,7 +63,7 @@ public class WaterballPlayer : CITEPlayer {
         WaterballBall ball = ballObject.GetComponent<WaterballBall>();
 
         ball.ApplyForce(impactForce, impactPosition);
-        Debug.Log("inne i waterball player cmd apply force");
+        // Debug.Log("inne i waterball player cmd apply force");
     }
 
     [Client]
