@@ -22,8 +22,8 @@ namespace DefaultNamespace {
         private int ballsTotal = 0; 
         
         private GameObject goal; 
-        [SyncVar] private int currentLevel = 0;
-        [SyncVar] private GameState currentState = GameState.Loading;
+        private int currentLevel = 0;
+        private GameState currentState; 
 
         public enum GameState {
             Loading, 
@@ -36,8 +36,9 @@ namespace DefaultNamespace {
 
         private void Start() {
             levelNames = new string[] {"GameScene", "Level 1", "Level 2"};
-            // Debug.Log("destroyar inte");
-            // DontDestroyOnLoad(gameObject);
+            currentState = GameState.Warmup; 
+            Debug.Log("destroyar inte");
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Update() {
@@ -158,9 +159,10 @@ namespace DefaultNamespace {
             // Debug.Log(currentLevel);
             // Debug.Log(levelNames);
             // Debug.Log(levelNames[currentLevel]);
-            transform.parent.GetComponent<GameObject>().GetComponent<WaterballNetworkManager>().ServerChangeScene(levelNames[currentLevel]);
-            
-            
+            var networkManager = GameObject.Find("Advanced Network Configuration");
+            var script = networkManager.GetComponent<WaterballNetworkManager>(); 
+            script.ServerChangeScene(levelNames[currentLevel]);
+            // transform.parent.GetComponent<GameObject>().GetComponent<WaterballNetworkManager>().ServerChangeScene(levelNames[currentLevel]);
         }
 
 
