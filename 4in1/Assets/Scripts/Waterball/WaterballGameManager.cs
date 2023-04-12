@@ -158,7 +158,7 @@ namespace DefaultNamespace {
             // Debug.Log(currentLevel);
             // Debug.Log(levelNames);
             // Debug.Log(levelNames[currentLevel]);
-            GetComponent<CITENetworkManager>().ServerChangeScene(levelNames[currentLevel]);
+            transform.parent.GetComponent<GameObject>().GetComponent<WaterballNetworkManager>().ServerChangeScene(levelNames[currentLevel]);
             
             
         }
