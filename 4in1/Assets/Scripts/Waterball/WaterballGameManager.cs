@@ -131,6 +131,9 @@ namespace DefaultNamespace {
             if (Input.GetKeyDown(KeyCode.P)) {
                 SpawnBalls();
             }
+
+            Debug.Log($"balls in goal: {ballsInGoal}, balls total: {ballsTotal}, ratio: {ballsInGoal / ballsTotal}");
+            
         }
 
         private void LoadNextLevel() {
