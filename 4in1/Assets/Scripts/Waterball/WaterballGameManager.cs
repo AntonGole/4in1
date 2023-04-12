@@ -23,7 +23,7 @@ namespace DefaultNamespace {
         
         private GameObject goal; 
         private int currentLevel = 0;
-        private GameState currentState; 
+        private GameState currentState = GameState.Loading; 
 
         public enum GameState {
             Loading, 
@@ -36,9 +36,12 @@ namespace DefaultNamespace {
 
         private void Start() {
             levelNames = new string[] {"GameScene", "Level 1", "Level 2"};
-            currentState = GameState.Warmup; 
+            // currentState = GameState.Warmup; 
             Debug.Log("destroyar inte");
             DontDestroyOnLoad(gameObject);
+            var scene = SceneManager.GetActiveScene();
+            var sceneMode = scene.isLoaded ? LoadSceneMode.Additive : LoadSceneMode.Single;
+            OnSceneLoaded(scene, sceneMode); 
         }
 
         private void Update() {
