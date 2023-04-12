@@ -1172,7 +1172,7 @@ PrefabInstance:
     - target: {fileID: 4531120759847274127, guid: bb85f51863d2c9d48ab536733c51b279,
         type: 3}
       propertyPath: numberOfBalls
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4531120759847274127, guid: bb85f51863d2c9d48ab536733c51b279,
         type: 3}
