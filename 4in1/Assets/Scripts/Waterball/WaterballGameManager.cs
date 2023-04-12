@@ -88,7 +88,7 @@ namespace DefaultNamespace {
                     Debug.Log("ball spawning");
 
 
-                    currentState = GameState.Playing;
+                    // currentState = GameState.Playing;
                     break;
                 case GameState.Playing:
                     Debug.Log("playing");
