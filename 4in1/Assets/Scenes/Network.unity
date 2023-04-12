@@ -154,7 +154,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1532152844}
+  - {fileID: 1259755388}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -235,7 +235,7 @@ MonoBehaviour:
   bootstrapSceneBuildIndex: 2
   errorSceneBuildIndex: 1
   floor: {fileID: 4874957317502237515, guid: 20567aa97ef1f3e4a9a601b611447e43, type: 3}
---- !u!1001 &1532152843
+--- !u!1001 &1259755387
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -245,7 +245,12 @@ PrefabInstance:
     - target: {fileID: 3324542485524740976, guid: a22a2a162078cbd4ea5abb1f75a26929,
         type: 3}
       propertyPath: sceneId
-      value: 1898322467
+      value: 2586046818
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324542485524740976, guid: a22a2a162078cbd4ea5abb1f75a26929,
+        type: 3}
+      propertyPath: serverOnly
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3324542485524740977, guid: a22a2a162078cbd4ea5abb1f75a26929,
         type: 3}
@@ -307,28 +312,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 3324542485524740979, guid: a22a2a162078cbd4ea5abb1f75a26929,
-        type: 3}
-      propertyPath: ballPrefab
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3324542485524740979, guid: a22a2a162078cbd4ea5abb1f75a26929,
-        type: 3}
-      propertyPath: bannerPrefab
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3324542485524740979, guid: a22a2a162078cbd4ea5abb1f75a26929,
-        type: 3}
-      propertyPath: endingPrefab
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a22a2a162078cbd4ea5abb1f75a26929, type: 3}
---- !u!4 &1532152844 stripped
+--- !u!4 &1259755388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3324542485524740977, guid: a22a2a162078cbd4ea5abb1f75a26929,
     type: 3}
-  m_PrefabInstance: {fileID: 1532152843}
+  m_PrefabInstance: {fileID: 1259755387}
   m_PrefabAsset: {fileID: 0}
 --- !u!850595691 &2135625231
 LightingSettings:
