@@ -132,8 +132,21 @@ namespace DefaultNamespace {
                 SpawnBalls();
             }
 
-            Debug.Log($"balls in goal: {ballsInGoal}, balls total: {ballsTotal}, ratio: {ballsInGoal / ballsTotal}");
+            Debug.Log($"balls in goal: {ballsInGoal}, balls total: {ballsTotal}, ratio: {calculateBallRatio(ballsInGoal, ballsTotal)}");
             
+        }
+
+
+        private float calculateBallRatio(int ballsInGoal, int ballsTotal) {
+            if (ballsTotal == 0) {
+                return 1f; 
+            }
+
+            if (ballsInGoal >= ballsTotal) {
+                return 1f; 
+            }
+
+            return (float)ballsInGoal / ballsTotal; 
         }
 
         private void LoadNextLevel() {
@@ -191,14 +204,14 @@ namespace DefaultNamespace {
         private void BallEnteredGoal() {
             ballsInGoal++;
             // Debug.Log($"ball entered! ballsLeft: {ballsTotal - ballsTotal}");
-            goal.GetComponent<NewGoal>().setBallRatio((float) ballsInGoal / ballsTotal);
+            goal.GetComponent<NewGoal>().setBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
         }
         
         [Server]
         private void BallExitedGoal() {
             ballsInGoal--; 
             // Debug.Log($"ball exited! ballsLeft: {ballsTotal - ballsInGoal}");
-            goal.GetComponent<NewGoal>().setBallRatio((float) ballsInGoal / ballsTotal);
+            goal.GetComponent<NewGoal>().setBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
         }
 
         [Server]
