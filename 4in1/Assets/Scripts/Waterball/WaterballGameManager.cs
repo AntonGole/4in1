@@ -11,31 +11,18 @@ namespace DefaultNamespace {
         public GameObject bannerPrefab;
         public GameObject ballPrefab;
         public GameObject endingPrefab;
-
-        
-
-
         public string[] levelNames;
-
         private bool isPlayingBanner = false;
-
         private bool isEndingLevel = false;
-
         private bool isSpawningBalls = false;
-
         private bool isLoading = false; 
-        // private GameObject bannerInstance;
-
-
         private GameObject ballSpawner; 
-
         private Random rd = new Random();
-
-        private int ballsLeft = 0;
+        private int ballsInGoal = 0;
+        private int ballsTotal = 0; 
+        
         private GameObject goal; 
-
         [SyncVar] private int currentLevel = 0;
-
         [SyncVar] private GameState currentState = GameState.Loading;
 
         public enum GameState {
@@ -167,7 +154,7 @@ namespace DefaultNamespace {
             var spawnerScript = ballSpawner.GetComponent<WaterballBallSpawner>();
             var spawningTime = spawnerScript.oneWayColliderTimeActive; 
             StartCoroutine(spawnerScript.SpawnBalls());
-            ballsLeft += spawnerScript.numberOfBalls;
+            ballsTotal += spawnerScript.numberOfBalls;
             yield return new WaitForSeconds(spawningTime);
             currentState = GameState.Playing;
             isSpawningBalls = false; 
@@ -191,22 +178,23 @@ namespace DefaultNamespace {
 
         [Server]
         private void Playing() {
-            if (ballsLeft <= 0) {
+            if (ballsTotal - ballsInGoal <= 0) {
                 currentState = GameState.EndingLevel;
             }
         }
 
         [Server]
         private void BallEnteredGoal() {
-            ballsLeft--;
-            Debug.Log($"ball entered! ballsLeft: {ballsLeft}");
+            ballsInGoal++;
+            Debug.Log($"ball entered! ballsLeft: {ballsTotal - ballsTotal}");
+            goal.GetComponent<NewGoal>().setBallRatio((float) ballsInGoal / ballsTotal);
         }
         
         [Server]
         private void BallExitedGoal() {
-            ballsLeft++; 
-            Debug.Log($"ball exited! ballsLeft: {ballsLeft}");
-
+            ballsInGoal--; 
+            Debug.Log($"ball exited! ballsLeft: {ballsTotal - ballsInGoal}");
+            goal.GetComponent<NewGoal>().setBallRatio((float) ballsInGoal / ballsTotal);
         }
 
         [Server]
@@ -219,7 +207,8 @@ namespace DefaultNamespace {
             float seconds = endingInstance.GetComponent<WaterballEnding>().totalDisplayTime;
             yield return new WaitForSeconds(seconds);
             isEndingLevel = false;
-            ballsLeft = 0;
+            ballsInGoal = 0;
+            ballsTotal = 0; 
             currentState = GameState.Loading;
         }
         
@@ -241,17 +230,18 @@ namespace DefaultNamespace {
         private IEnumerator OnSceneLoadedDelayed(float waitingTime) {
             yield return new WaitForSeconds(waitingTime); 
             ballSpawner = GameObject.Find("BallSpawner");
-            ballsLeft = 0;
+            ballsTotal = 0;
+            ballsInGoal = 0; 
             if (ballSpawner == null) {
                 throw new InvalidOperationException("No BallSpawner found");
             }
 
-            goal = GameObject.Find("Goal");
+            goal = GameObject.Find("NewGoal");
             if (goal is null) {
                 throw new InvalidOperationException("No Goal found found");
             }
 
-            var goalScript = goal.GetComponent<WaterballGoal>();
+            var goalScript = goal.GetComponent<NewGoal>();
             goalScript.BallEnteredGoalEvent += BallEnteredGoal;
             goalScript.BallExitedGoalEvent += BallExitedGoal;
             Debug.Log("goalscript!!:" + goalScript);
@@ -294,7 +284,7 @@ namespace DefaultNamespace {
             }
             var spawnerScript = ballSpawner.GetComponent<WaterballBallSpawner>();
             StartCoroutine(spawnerScript.SpawnBalls());
-            ballsLeft += spawnerScript.numberOfBalls;
+            ballsTotal += spawnerScript.numberOfBalls;
         }
     }
     
