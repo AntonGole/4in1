@@ -1,8 +1,8 @@
 Shader "Custom/CheckerboardBlending3Materials" {
     Properties {
-        _MainTex ("Main Texture (White)", 2D) = "white" {}
-        _MainTex2 ("Second Texture (Green)", 2D) = "white" {}
-        _MainTex3 ("Third Texture (Red)", 2D) = "white" {}
+        _MainTex ("Main Texture (Red)", 2D) = "white" {}
+        _MainTex2 ("Second Texture (Orange)", 2D) = "white" {}
+        _MainTex3 ("Third Texture (Green)", 2D) = "white" {}
         _Blend ("Blend Factor", Range(0, 1)) = 0
     }
 
