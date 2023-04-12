@@ -12,7 +12,7 @@ public class NewGoal : NetworkBehaviour {
     // private Material goalMaterial; /* the reference to the CustomCheckerboardBlending material */
 
     [SyncVar(hook = nameof(OnBallRatioChanged))]
-    public float ballRatio;
+    public float ballRatio = 1;
 
 
 
@@ -37,6 +37,7 @@ public class NewGoal : NetworkBehaviour {
         //     goalMaterial = transform.GetChild(0).GetComponent<Renderer>().material;
         //     Debug.Log(goalMaterial);
         AdjustTiling();
+        OnBallRatioChanged(1, 1);
     }
     //
     // private void Update() {
