@@ -36,8 +36,8 @@ namespace DefaultNamespace {
 
         private void Start() {
             levelNames = new string[] {"GameScene", "Level 1", "Level 2"};
-            // Debug.Log("destroyar inte");
-            // DontDestroyOnLoad(gameObject);
+            Debug.Log("destroyar inte");
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Update() {
