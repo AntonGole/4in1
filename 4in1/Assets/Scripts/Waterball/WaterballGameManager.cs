@@ -11,25 +11,25 @@ namespace DefaultNamespace {
         public GameObject bannerPrefab;
         public GameObject ballPrefab;
         public GameObject endingPrefab;
-        public GameObject countdownBanner; 
+        public GameObject countdownBannerPrefab;
         public string[] levelNames;
         private bool isPlayingBanner = false;
         private bool isEndingLevel = false;
         private bool isSpawningBalls = false;
-        private bool isLoading = false; 
-        private GameObject ballSpawner; 
+        private bool isLoading = false;
+        private GameObject ballSpawner;
         private Random rd = new Random();
         private int ballsInGoal = 0;
         private int ballsTotal = 0;
         private WaterballCountdownBanner countdownBannerComponent;
-        private Coroutine countdownCoroutine; 
-        
-        private GameObject goal; 
+        private Coroutine countdownCoroutine;
+
+        private GameObject goal;
         private int currentLevel = 0;
-        private GameState currentState = GameState.Loading; 
+        private GameState currentState = GameState.Loading;
 
         public enum GameState {
-            Loading, 
+            Loading,
             Warmup,
             BallSpawning,
             Playing,
@@ -44,7 +44,7 @@ namespace DefaultNamespace {
             DontDestroyOnLoad(gameObject);
             var scene = SceneManager.GetActiveScene();
             var sceneMode = scene.isLoaded ? LoadSceneMode.Additive : LoadSceneMode.Single;
-            OnSceneLoaded(scene, sceneMode); 
+            OnSceneLoaded(scene, sceneMode);
         }
 
         private void Update() {
@@ -71,12 +71,12 @@ namespace DefaultNamespace {
             switch (currentState) {
                 case GameState.Loading:
                     if (!isLoading) {
-                        break; 
+                        break;
                     }
 
-                    LoadNextLevel(); 
-                    break; 
-                
+                    LoadNextLevel();
+                    break;
+
                 case GameState.Warmup:
 
                     if (!isPlayingBanner) {
@@ -102,10 +102,10 @@ namespace DefaultNamespace {
                     Playing();
                     break;
                 case GameState.EndingLevel:
-                    if (!isEndingLevel)
-                    {
+                    if (!isEndingLevel) {
                         StartCoroutine(EndingLevel());
                     }
+
                     Debug.Log("ending level");
                     break;
                 default:
@@ -138,27 +138,30 @@ namespace DefaultNamespace {
             if (Input.GetKeyDown(KeyCode.P)) {
                 SpawnBalls();
             }
-            
+
             if (Input.GetKeyDown(KeyCode.U)) {
                 MoveBallsToMiddle();
             }
-            
+
             if (Input.GetKeyDown(KeyCode.H)) {
-                RpcStartCountdown();
+                // RpcStartCountdown();
+                RpcSayHello(); 
+
             }
 
             if (Input.GetKeyDown(KeyCode.N)) {
-                RpcStopCountdown();
+                // RpcStopCountdown();
             }
 
             if (Input.GetKeyDown(KeyCode.Y)) {
-                StartCoroutine(EndingLevel()); 
+                StartCoroutine(EndingLevel());
             }
-            
-            
 
-            Debug.Log($"balls in goal: {ballsInGoal}, balls total: {ballsTotal}, ratio: {calculateBallRatio(ballsInGoal, ballsTotal)}");
-            
+
+
+            Debug.Log(
+                $"balls in goal: {ballsInGoal}, balls total: {ballsTotal}, ratio: {calculateBallRatio(ballsInGoal, ballsTotal)}");
+
         }
 
 
@@ -169,7 +172,7 @@ namespace DefaultNamespace {
 
             for (var i = 0; i < objects.Length; i++) {
 
-                var extraHeight = new Vector3(0, i + 2, 0); 
+                var extraHeight = new Vector3(0, i + 2, 0);
                 objects[i].transform.position = Vector3.zero + extraHeight;
             }
         }
@@ -177,14 +180,14 @@ namespace DefaultNamespace {
 
         private float calculateBallRatio(int ballsInGoal, int ballsTotal) {
             if (ballsTotal == 0) {
-                return 1f; 
+                return 1f;
             }
 
             if (ballsInGoal >= ballsTotal) {
-                return 1f; 
+                return 1f;
             }
 
-            return (float)ballsInGoal / ballsTotal; 
+            return (float) ballsInGoal / ballsTotal;
         }
 
         private void LoadNextLevel() {
@@ -197,7 +200,7 @@ namespace DefaultNamespace {
             // Debug.Log(levelNames);
             // Debug.Log(levelNames[currentLevel]);
             var networkManager = GameObject.Find("Advanced Network Configuration");
-            var script = networkManager.GetComponent<WaterballNetworkManager>(); 
+            var script = networkManager.GetComponent<WaterballNetworkManager>();
             script.ServerChangeScene(levelNames[currentLevel]);
             // transform.parent.GetComponent<GameObject>().GetComponent<WaterballNetworkManager>().ServerChangeScene(levelNames[currentLevel]);
         }
@@ -206,14 +209,14 @@ namespace DefaultNamespace {
 
         [Server]
         private IEnumerator BallSpawningCoroutine() {
-            isSpawningBalls = true; 
+            isSpawningBalls = true;
             var spawnerScript = ballSpawner.GetComponent<WaterballBallSpawner>();
-            var spawningTime = spawnerScript.oneWayColliderTimeActive; 
+            var spawningTime = spawnerScript.oneWayColliderTimeActive;
             StartCoroutine(spawnerScript.SpawnBalls());
             ballsTotal += spawnerScript.numberOfBalls;
             yield return new WaitForSeconds(spawningTime);
             currentState = GameState.Playing;
-            isSpawningBalls = false; 
+            isSpawningBalls = false;
         }
 
 
@@ -227,7 +230,7 @@ namespace DefaultNamespace {
             float seconds = bannerInstance.GetComponent<WaterballBanner>().totalDisplayTime;
             yield return new WaitForSeconds(seconds);
             isPlayingBanner = false;
-            
+
             currentState = GameState.BallSpawning;
         }
 
@@ -245,17 +248,16 @@ namespace DefaultNamespace {
             // Debug.Log($"ball entered! ballsLeft: {ballsTotal - ballsTotal}");
             goal.GetComponent<NewGoal>().setBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
         }
-        
+
         [Server]
         private void BallExitedGoal() {
-            ballsInGoal--; 
+            ballsInGoal--;
             // Debug.Log($"ball exited! ballsLeft: {ballsTotal - ballsInGoal}");
             goal.GetComponent<NewGoal>().setBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
         }
 
         [Server]
-        private IEnumerator EndingLevel()
-        {
+        private IEnumerator EndingLevel() {
             isEndingLevel = true;
             GameObject endingInstance = Instantiate(endingPrefab);
             NetworkServer.Spawn(endingInstance);
@@ -264,10 +266,10 @@ namespace DefaultNamespace {
             yield return new WaitForSeconds(seconds);
             isEndingLevel = false;
             ballsInGoal = 0;
-            ballsTotal = 0; 
+            ballsTotal = 0;
             currentState = GameState.Loading;
         }
-        
+
 
 
         // scene loaded hook
@@ -278,16 +280,16 @@ namespace DefaultNamespace {
                 return;
             }
 
-            StartCoroutine(OnSceneLoadedDelayed(1f)); 
-            
+            StartCoroutine(OnSceneLoadedDelayed(1f));
+
 
         }
 
         private IEnumerator OnSceneLoadedDelayed(float waitingTime) {
-            yield return new WaitForSeconds(waitingTime); 
+            yield return new WaitForSeconds(waitingTime);
             ballSpawner = GameObject.Find("BallSpawner");
             ballsTotal = 0;
-            ballsInGoal = 0; 
+            ballsInGoal = 0;
             if (ballSpawner == null) {
                 throw new InvalidOperationException("No BallSpawner found");
             }
@@ -302,7 +304,7 @@ namespace DefaultNamespace {
             goalScript.BallExitedGoalEvent += BallExitedGoal;
             // Debug.Log("goalscript!!:" + goalScript);
             currentState = GameState.Warmup;
-            isLoading = false; 
+            isLoading = false;
         }
 
         private void OnEnable() {
@@ -312,10 +314,10 @@ namespace DefaultNamespace {
         private void OnDisable() {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
-        
-        
 
-        
+
+
+
         // test methods below
 
         [Server]
@@ -338,11 +340,12 @@ namespace DefaultNamespace {
             if (ballSpawner is null) {
                 return;
             }
+
             var spawnerScript = ballSpawner.GetComponent<WaterballBallSpawner>();
             StartCoroutine(spawnerScript.SpawnBalls());
             ballsTotal += spawnerScript.numberOfBalls;
         }
-        
+
         // [Server]
         // public void SpawnCountdown() {
         //     GameObject countdownInstance = Instantiate(countdownBanner);
@@ -368,47 +371,52 @@ namespace DefaultNamespace {
         //         // countdownCoroutine = null;
         //     }
         // }
-        
-        
-        
-        
-        [Server]
-        public void SpawnCountdown()
-        {
-            RpcSpawnCountdown();
-        }
+
+
+
+
+        // [Server]
+        // public void SpawnCountdown()
+        // {
+        //     RpcSpawnCountdown();
+        // }
+        //
+        // [ClientRpc]
+        // public void RpcSpawnCountdown()
+        // {
+        //     GameObject countdownInstance = Instantiate(countdownBannerPrefab);
+        //     countdownBannerComponent = countdownInstance.GetComponent<WaterballCountdownBanner>();
+        //     Debug.Log("spawning a countdown");
+        // }
+        //
+        // [ClientRpc]
+        // public void RpcStartCountdown()
+        // {
+        //     // if (countdownBannerComponent == null)
+        //     // {
+        //         RpcSpawnCountdown();
+        //     // }
+        //     countdownCoroutine = StartCoroutine(countdownBannerComponent.StartTimer());
+        // }
+        //
+        // [ClientRpc]
+        // public void RpcStopCountdown()
+        // {
+        //     if (countdownBannerComponent != null && countdownCoroutine != null)
+        //     {
+        //         countdownBannerComponent.StopTimer();
+        //         // StopCoroutine(countdownCoroutine);
+        //         // countdownCoroutine = null;
+        //     }
+        // }
+
 
         [ClientRpc]
-        public void RpcSpawnCountdown()
-        {
-            GameObject countdownInstance = Instantiate(countdownBanner);
-            countdownBannerComponent = countdownInstance.GetComponent<WaterballCountdownBanner>();
-            Debug.Log("spawning a countdown");
+        private void RpcSayHello() {
+            Debug.Log("hello");
         }
 
-        [ClientRpc]
-        public void RpcStartCountdown()
-        {
-            // if (countdownBannerComponent == null)
-            // {
-                RpcSpawnCountdown();
-            // }
-            countdownCoroutine = StartCoroutine(countdownBannerComponent.StartTimer());
-        }
 
-        [ClientRpc]
-        public void RpcStopCountdown()
-        {
-            if (countdownBannerComponent != null && countdownCoroutine != null)
-            {
-                countdownBannerComponent.StopTimer();
-                // StopCoroutine(countdownCoroutine);
-                // countdownCoroutine = null;
-            }
-        }
-        
-        
-        
     }
     
     
