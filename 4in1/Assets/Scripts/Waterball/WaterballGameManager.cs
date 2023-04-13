@@ -389,10 +389,10 @@ namespace DefaultNamespace {
         [ClientRpc]
         public void RpcStartCountdown()
         {
-            if (countdownBannerComponent == null)
-            {
+            // if (countdownBannerComponent == null)
+            // {
                 RpcSpawnCountdown();
-            }
+            // }
             countdownCoroutine = StartCoroutine(countdownBannerComponent.StartTimer());
         }
 
