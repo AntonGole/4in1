@@ -144,11 +144,11 @@ namespace DefaultNamespace {
             }
             
             if (Input.GetKeyDown(KeyCode.H)) {
-                StartCountdown();
+                StartCountdownRpc();
             }
 
             if (Input.GetKeyDown(KeyCode.N)) {
-                StopCountdown();
+                StopCountdownRpc();
             }
 
             if (Input.GetKeyDown(KeyCode.Y)) {
@@ -352,16 +352,16 @@ namespace DefaultNamespace {
         }
         
         
-        [Server]
-        public void StartCountdown() {
+        [ClientRpc]
+        public void StartCountdownRpc() {
             if (countdownBannerComponent == null) {
                 SpawnCountdown();
             } 
             countdownCoroutine = StartCoroutine(countdownBannerComponent.StartTimer());
         }
 
-        [Server]
-        public void StopCountdown() {
+        [ClientRpc]
+        public void StopCountdownRpc() {
             if (countdownBannerComponent != null && countdownCoroutine != null) {
                 countdownBannerComponent.StopTimer();
                 // StopCoroutine(countdownCoroutine);
