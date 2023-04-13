@@ -44,6 +44,6 @@ public class WaterballParticleSplashHandler : MonoBehaviour {
         subEmitterInstance = Instantiate(emitter, collisionPoint, Quaternion.LookRotation(direction));
         subEmitterInstance.Play();
         Destroy(subEmitterInstance.gameObject, subEmitterInstance.main.startLifetime.constantMax);
-        Debug.Log(subEmitterInstance.main.startLifetime);
+        // Debug.Log(subEmitterInstance.main.startLifetime);
     }
 }

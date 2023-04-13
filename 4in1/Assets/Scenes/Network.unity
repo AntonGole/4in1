@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37099946, g: 0.37852928, b: 0.3574013, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -135,8 +135,6 @@ GameObject:
   - component: {fileID: 422158498}
   - component: {fileID: 422158499}
   - component: {fileID: 422158500}
-  - component: {fileID: 422158502}
-  - component: {fileID: 422158501}
   m_Layer: 0
   m_Name: Advanced Network Configuration
   m_TagString: Untagged
@@ -171,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a863b02c269405cb40e54653d61094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRequirement: 4
+  minRequirement: 2
   initialJoinTimeout: 5
 --- !u!114 &422158499
 MonoBehaviour:
@@ -232,47 +230,11 @@ MonoBehaviour:
   - {fileID: 5101236486699445182, guid: 1eb481ba87876f74da378e8550608792, type: 3}
   - {fileID: 3515805555055597904, guid: aada65f659f29aa479686afe3e828dcc, type: 3}
   - {fileID: 3515805555055597904, guid: dc2d50b59126ad943959b3e8925d53b2, type: 3}
+  - {fileID: 3324542485524740978, guid: a22a2a162078cbd4ea5abb1f75a26929, type: 3}
+  - {fileID: 3515805555055597904, guid: c9a26b2ad08ac3d4ab50485f5a987ffe, type: 3}
   bootstrapSceneBuildIndex: 2
   errorSceneBuildIndex: 1
   floor: {fileID: 4874957317502237515, guid: 20567aa97ef1f3e4a9a601b611447e43, type: 3}
---- !u!114 &422158501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 422158495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c518f8ab28245599b7cea09307159c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  bannerPrefab: {fileID: 3515805555055597904, guid: aada65f659f29aa479686afe3e828dcc,
-    type: 3}
-  ballPrefab: {fileID: 5101236486699445182, guid: 1eb481ba87876f74da378e8550608792,
-    type: 3}
-  endingPrefab: {fileID: 3515805555055597904, guid: dc2d50b59126ad943959b3e8925d53b2,
-    type: 3}
-  levelNames: []
---- !u!114 &422158502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 422158495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 1815155833
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 
-  hasSpawned: 0
 --- !u!850595691 &2135625231
 LightingSettings:
   m_ObjectHideFlags: 0

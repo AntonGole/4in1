@@ -27,7 +27,7 @@ public class WaterballBallSpawner : NetworkBehaviour {
     
     [Server]
     public IEnumerator SpawnBalls() {
-        Debug.Log("script börjar");
+        // Debug.Log("script börjar");
         // oneWaySpawnCollider.GetComponent<Collider>().enabled = true;
         isOneWayColliderActive = true; 
         Vector3 position = new Vector3(0, spawningHeight, 0);
@@ -49,7 +49,7 @@ public class WaterballBallSpawner : NetworkBehaviour {
         // collider.enabled = false; 
         // oneWaySpawnCollider.GetComponent<Collider>().enabled = false;
         isOneWayColliderActive = false; 
-        Debug.Log("script slutar");
+        // Debug.Log("script slutar");
     }
 
     private Vector3 GetNextBallSpawnPosition(Vector3 lastPosition) {
@@ -67,7 +67,7 @@ public class WaterballBallSpawner : NetworkBehaviour {
     private Vector3 GetRandomBallVelocity(float minBaseSpeed, GameObject ballInstance) {
         float forwardRoll = (float) rd.NextDouble();
         Vector3 velocity = ballInstance.transform.forward * (forwardRoll + 1) * minBaseSpeed;
-        Debug.Log(velocity);
+        // Debug.Log(velocity);
         return velocity;
     }
 }
