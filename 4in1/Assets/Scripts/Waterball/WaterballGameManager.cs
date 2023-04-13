@@ -20,7 +20,9 @@ namespace DefaultNamespace {
         private GameObject ballSpawner; 
         private Random rd = new Random();
         private int ballsInGoal = 0;
-        private int ballsTotal = 0; 
+        private int ballsTotal = 0;
+        private WaterballCountdownBanner countdownBannerComponent;
+        private Coroutine countdownCoroutine; 
         
         private GameObject goal; 
         private int currentLevel = 0;
@@ -142,7 +144,15 @@ namespace DefaultNamespace {
             }
             
             if (Input.GetKeyDown(KeyCode.H)) {
-                SpawnCountdown();
+                StartCountdown();
+            }
+
+            if (Input.GetKeyDown(KeyCode.N)) {
+                StopCountdown();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Y)) {
+                StartCoroutine(EndingLevel()); 
             }
             
             
@@ -336,10 +346,28 @@ namespace DefaultNamespace {
         [Server]
         public void SpawnCountdown() {
             GameObject countdownInstance = Instantiate(countdownBanner);
+            countdownBannerComponent = countdownInstance.GetComponent<WaterballCountdownBanner>(); 
             NetworkServer.Spawn(countdownInstance);
             Debug.Log("spawning a countdown");
         }
         
+        
+        [Server]
+        public void StartCountdown() {
+            if (countdownBannerComponent == null) {
+                SpawnCountdown();
+            } 
+            countdownCoroutine = StartCoroutine(countdownBannerComponent.StartTimer());
+        }
+
+        [Server]
+        public void StopCountdown() {
+            if (countdownBannerComponent != null && countdownCoroutine != null) {
+                countdownBannerComponent.StopTimer();
+                // StopCoroutine(countdownCoroutine);
+                // countdownCoroutine = null;
+            }
+        }
         
     }
     

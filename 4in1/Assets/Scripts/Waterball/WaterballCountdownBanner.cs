@@ -15,16 +15,17 @@ public class WaterballCountdownBanner : MonoBehaviour {
     private float fillRate;
     private float totalFilledPercentage = 0.25f;
 
+    private bool stopTimer = false; 
+    
 
     private void Start() {
-        Debug.Log("hello!!");
-        filledGrade = 0;
-        StartCoroutine(ShowCountdown(duration));
-        tStart = Time.time;
-        tEnd = tStart + duration;
+        // Debug.Log("hello!!");
         fillTime = (float) 3 / 5 * duration;
         fillRate = totalFilledPercentage / fillTime;
     }
+    
+    
+    
 
 
     private void Update() {
@@ -32,6 +33,32 @@ public class WaterballCountdownBanner : MonoBehaviour {
         var rate = DetermineFillAmountRateOfChange(currentTime);
         AdjustFilled(filledGrade + rate * Time.deltaTime);
     }
+
+
+    public IEnumerator StartTimer() {
+        stopTimer = false; 
+        filledGrade = 0;
+        tStart = Time.time;
+        tEnd = tStart + duration;
+        bannerHolder.SetActive(true);
+        // StartCoroutine(ShowCountdown(duration));
+
+        while (!stopTimer && Time.time < tEnd) {
+            yield return null; 
+        }
+        bannerHolder.SetActive(false);
+        // yield return new WaitForSeconds(duration);
+        
+        
+    }
+    
+    public void StopTimer() {
+
+        stopTimer = true; 
+        // filledGrade = 0;
+        // bannerHolder.SetActive(false);
+    }
+    
 
     private float DetermineFillAmountRateOfChange(float currentTime) {
         var fraction = (currentTime - tStart) / (tEnd - tStart);
@@ -60,9 +87,11 @@ public class WaterballCountdownBanner : MonoBehaviour {
     }
 
 
-    private IEnumerator ShowCountdown(float duration) {
-        bannerHolder.SetActive(true);
-        yield return new WaitForSeconds(duration);
-        bannerHolder.SetActive(false);
-    }
+    // private IEnumerator ShowCountdown(float duration) {
+        // 
+        
+        // 
+    // }
+
+
 }
