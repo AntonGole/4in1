@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a863b02c269405cb40e54653d61094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRequirement: 2
+  minRequirement: 1
   initialJoinTimeout: 5
 --- !u!114 &422158499
 MonoBehaviour:
@@ -231,6 +231,7 @@ MonoBehaviour:
   - {fileID: 3515805555055597904, guid: aada65f659f29aa479686afe3e828dcc, type: 3}
   - {fileID: 3515805555055597904, guid: dc2d50b59126ad943959b3e8925d53b2, type: 3}
   - {fileID: 3324542485524740978, guid: a22a2a162078cbd4ea5abb1f75a26929, type: 3}
+  - {fileID: 3515805555055597904, guid: c9a26b2ad08ac3d4ab50485f5a987ffe, type: 3}
   bootstrapSceneBuildIndex: 2
   errorSceneBuildIndex: 1
   floor: {fileID: 4874957317502237515, guid: 20567aa97ef1f3e4a9a601b611447e43, type: 3}

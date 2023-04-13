@@ -909,6 +909,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 3324542485524740979, guid: a22a2a162078cbd4ea5abb1f75a26929,
+        type: 3}
+      propertyPath: countdownBanner
+      value: 
+      objectReference: {fileID: 3515805555055597904, guid: c9a26b2ad08ac3d4ab50485f5a987ffe,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a22a2a162078cbd4ea5abb1f75a26929, type: 3}
 --- !u!1 &586760064
@@ -1172,7 +1178,7 @@ PrefabInstance:
     - target: {fileID: 4531120759847274127, guid: bb85f51863d2c9d48ab536733c51b279,
         type: 3}
       propertyPath: numberOfBalls
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4531120759847274127, guid: bb85f51863d2c9d48ab536733c51b279,
         type: 3}
@@ -2889,7 +2895,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1923346112
 GameObject:
@@ -3288,7 +3294,7 @@ PrefabInstance:
     - target: {fileID: 4874957317502237527, guid: 20567aa97ef1f3e4a9a601b611447e43,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4874957317502237527, guid: 20567aa97ef1f3e4a9a601b611447e43,
         type: 3}

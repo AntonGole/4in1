@@ -11,6 +11,7 @@ namespace DefaultNamespace {
         public GameObject bannerPrefab;
         public GameObject ballPrefab;
         public GameObject endingPrefab;
+        public GameObject countdownBanner; 
         public string[] levelNames;
         private bool isPlayingBanner = false;
         private bool isEndingLevel = false;
@@ -135,9 +136,32 @@ namespace DefaultNamespace {
             if (Input.GetKeyDown(KeyCode.P)) {
                 SpawnBalls();
             }
+            
+            if (Input.GetKeyDown(KeyCode.U)) {
+                MoveBallsToMiddle();
+            }
+            
+            if (Input.GetKeyDown(KeyCode.H)) {
+                SpawnCountdown();
+            }
+            
+            
 
             Debug.Log($"balls in goal: {ballsInGoal}, balls total: {ballsTotal}, ratio: {calculateBallRatio(ballsInGoal, ballsTotal)}");
             
+        }
+
+
+        private void MoveBallsToMiddle() {
+
+            var objects = GameObject.FindGameObjectsWithTag("Ball");
+
+
+            for (var i = 0; i < objects.Length; i++) {
+
+                var extraHeight = new Vector3(0, i + 2, 0); 
+                objects[i].transform.position = Vector3.zero + extraHeight;
+            }
         }
 
 
@@ -308,6 +332,15 @@ namespace DefaultNamespace {
             StartCoroutine(spawnerScript.SpawnBalls());
             ballsTotal += spawnerScript.numberOfBalls;
         }
+        
+        [Server]
+        public void SpawnCountdown() {
+            GameObject countdownInstance = Instantiate(countdownBanner);
+            NetworkServer.Spawn(countdownInstance);
+            Debug.Log("spawning a countdown");
+        }
+        
+        
     }
     
     
