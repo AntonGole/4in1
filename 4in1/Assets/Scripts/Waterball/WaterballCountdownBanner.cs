@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Mirror;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -35,6 +36,7 @@ public class WaterballCountdownBanner : MonoBehaviour {
     }
 
 
+    [ClientRpc]
     public IEnumerator StartTimer() {
         stopTimer = false; 
         filledGrade = 0;
@@ -52,6 +54,7 @@ public class WaterballCountdownBanner : MonoBehaviour {
         
     }
     
+    [ClientRpc]
     public void StopTimer() {
 
         stopTimer = true; 

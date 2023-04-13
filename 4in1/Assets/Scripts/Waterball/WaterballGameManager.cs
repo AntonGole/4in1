@@ -145,7 +145,7 @@ namespace DefaultNamespace {
 
             if (Input.GetKeyDown(KeyCode.H)) {
                 // RpcStartCountdown();
-                RpcSayHello(); 
+                SayHello(); 
 
             }
 
@@ -411,11 +411,19 @@ namespace DefaultNamespace {
         // }
 
 
-        [ClientRpc]
-        private void RpcSayHello() {
-            var cube = Instantiate(countdownBannerPrefab); 
+        [Server]
+        private void SayHello() {
+            var countdown = Instantiate(countdownBannerPrefab);
+            NetworkServer.Spawn(countdown);
             Debug.Log("hello");
+            var script = countdown.GetComponent<WaterballCountdownBanner>();
+            StartCoroutine(script.StartTimer()); 
         }
+
+
+        
+        
+        
 
 
     }
