@@ -144,11 +144,11 @@ namespace DefaultNamespace {
             }
             
             if (Input.GetKeyDown(KeyCode.H)) {
-                StartCountdownRpc();
+                RpcStartCountdown();
             }
 
             if (Input.GetKeyDown(KeyCode.N)) {
-                StopCountdownRpc();
+                RpcStopCountdown();
             }
 
             if (Input.GetKeyDown(KeyCode.Y)) {
@@ -343,31 +343,71 @@ namespace DefaultNamespace {
             ballsTotal += spawnerScript.numberOfBalls;
         }
         
+        // [Server]
+        // public void SpawnCountdown() {
+        //     GameObject countdownInstance = Instantiate(countdownBanner);
+        //     countdownBannerComponent = countdownInstance.GetComponent<WaterballCountdownBanner>(); 
+        //     NetworkServer.Spawn(countdownInstance);
+        //     Debug.Log("spawning a countdown");
+        // }
+        //
+        //
+        // [ClientRpc]
+        // public void StartCountdownRpc() {
+        //     if (countdownBannerComponent == null) {
+        //         SpawnCountdown();
+        //     } 
+        //     countdownCoroutine = StartCoroutine(countdownBannerComponent.StartTimer());
+        // }
+        //
+        // [ClientRpc]
+        // public void StopCountdownRpc() {
+        //     if (countdownBannerComponent != null && countdownCoroutine != null) {
+        //         countdownBannerComponent.StopTimer();
+        //         // StopCoroutine(countdownCoroutine);
+        //         // countdownCoroutine = null;
+        //     }
+        // }
+        
+        
+        
+        
         [Server]
-        public void SpawnCountdown() {
+        public void SpawnCountdown()
+        {
+            RpcSpawnCountdown();
+        }
+
+        [ClientRpc]
+        public void RpcSpawnCountdown()
+        {
             GameObject countdownInstance = Instantiate(countdownBanner);
-            countdownBannerComponent = countdownInstance.GetComponent<WaterballCountdownBanner>(); 
-            NetworkServer.Spawn(countdownInstance);
+            countdownBannerComponent = countdownInstance.GetComponent<WaterballCountdownBanner>();
             Debug.Log("spawning a countdown");
         }
-        
-        
+
         [ClientRpc]
-        public void StartCountdownRpc() {
-            if (countdownBannerComponent == null) {
-                SpawnCountdown();
-            } 
+        public void RpcStartCountdown()
+        {
+            if (countdownBannerComponent == null)
+            {
+                RpcSpawnCountdown();
+            }
             countdownCoroutine = StartCoroutine(countdownBannerComponent.StartTimer());
         }
 
         [ClientRpc]
-        public void StopCountdownRpc() {
-            if (countdownBannerComponent != null && countdownCoroutine != null) {
+        public void RpcStopCountdown()
+        {
+            if (countdownBannerComponent != null && countdownCoroutine != null)
+            {
                 countdownBannerComponent.StopTimer();
                 // StopCoroutine(countdownCoroutine);
                 // countdownCoroutine = null;
             }
         }
+        
+        
         
     }
     
