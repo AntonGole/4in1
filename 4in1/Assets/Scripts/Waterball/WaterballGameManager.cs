@@ -413,6 +413,7 @@ namespace DefaultNamespace {
 
         [ClientRpc]
         private void RpcSayHello() {
+            var cube = Instantiate(ballPrefab); 
             Debug.Log("hello");
         }
 
