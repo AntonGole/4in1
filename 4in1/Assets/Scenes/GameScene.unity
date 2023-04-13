@@ -915,6 +915,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3515805555055597904, guid: c9a26b2ad08ac3d4ab50485f5a987ffe,
         type: 3}
+    - target: {fileID: 3324542485524740979, guid: a22a2a162078cbd4ea5abb1f75a26929,
+        type: 3}
+      propertyPath: countdownBannerPrefab
+      value: 
+      objectReference: {fileID: 3515805555055597904, guid: c9a26b2ad08ac3d4ab50485f5a987ffe,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a22a2a162078cbd4ea5abb1f75a26929, type: 3}
 --- !u!1 &586760064
