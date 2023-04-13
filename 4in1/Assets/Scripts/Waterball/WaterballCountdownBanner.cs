@@ -4,7 +4,7 @@ using Mirror;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class WaterballCountdownBanner : MonoBehaviour {
+public class WaterballCountdownBanner : NetworkBehaviour {
     public GameObject bannerHolder;
     public Image[] filleds;
     public float duration = 3f;
@@ -37,7 +37,12 @@ public class WaterballCountdownBanner : MonoBehaviour {
 
 
     [ClientRpc]
-    public IEnumerator StartTimer() {
+    public void StartTimer() {
+        StartCoroutine(StartTimerCoroutine()); 
+    }
+    
+    
+    public IEnumerator StartTimerCoroutine() {
         stopTimer = false; 
         filledGrade = 0;
         tStart = Time.time;

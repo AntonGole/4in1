@@ -417,7 +417,7 @@ namespace DefaultNamespace {
             NetworkServer.Spawn(countdown);
             Debug.Log("hello");
             var script = countdown.GetComponent<WaterballCountdownBanner>();
-            StartCoroutine(script.StartTimer()); 
+            script.StartTimer(); 
         }
 
 
