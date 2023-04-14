@@ -146,7 +146,7 @@ public class WaterballPlayer : CITEPlayer {
         Vector3 touchPositionInWorld = new Vector3(touchPositionInWorldRelativeToCamera.x, cannonPositionInWorld.y, touchPositionInWorldRelativeToCamera.z);
 
         Debug.Log($"cannonPositionInWorld: {cannonPositionInWorld}");
-        Debug.Log($"touchPositionInWorld: {touchPositionInWorld}");
+        // Debug.Log($"touchPositionInWorld: {touchPositionInWorld}");
         
         float distanceToTouch = (touchPositionInWorld - cannonPositionInWorld).magnitude;
         float distanceToCenter = (new Vector3(0, 0, 0) - cannonPositionInWorld).magnitude;
