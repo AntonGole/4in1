@@ -134,6 +134,7 @@ public class WaterballPlayer : CITEPlayer {
         Touch touch = Input.GetTouch(0);
 
 
+        Debug.Log("vi är i den nya touch-metoden!!!");
 
         if (touch.phase is not TouchPhase.Moved and not TouchPhase.Began) {
             return;
