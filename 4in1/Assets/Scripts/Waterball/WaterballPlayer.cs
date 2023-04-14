@@ -153,7 +153,9 @@ public class WaterballPlayer : CITEPlayer {
         float distanceRatio = distanceToTouch / distanceToCenter;
 
         float verticalAngle = CalculateVerticalAngle(distanceRatio); 
-        Quaternion vertical = Quaternion.Euler(-verticalAngle, 0, 0);
+        // Quaternion vertical = Quaternion.Euler(-verticalAngle, 0, 0);
+        Quaternion vertical = Quaternion.Euler(0, 0, 0);
+        
         
         Vector3 touchDirection = (touchPositionInWorld - cannonPositionInWorld).normalized;
 
