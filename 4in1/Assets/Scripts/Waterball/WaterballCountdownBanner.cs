@@ -37,7 +37,7 @@ public class WaterballCountdownBanner : NetworkBehaviour {
 
 
     [ClientRpc]
-    public void StartTimer() {
+    public void StartTimerClientRpc() {
         StartCoroutine(StartTimerCoroutine()); 
     }
     
@@ -60,7 +60,7 @@ public class WaterballCountdownBanner : NetworkBehaviour {
     }
     
     [ClientRpc]
-    public void StopTimer() {
+    public void StopTimerClientRpc() {
 
         stopTimer = true; 
         // filledGrade = 0;

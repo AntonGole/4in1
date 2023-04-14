@@ -348,6 +348,50 @@ namespace DefaultNamespace {
             ballsTotal += spawnerScript.numberOfBalls;
         }
 
+        [Server]
+        private void SpawnCountdownBanner() {
+            var countdown = Instantiate(countdownBannerPrefab);
+            NetworkServer.Spawn(countdown);
+            Debug.Log("hello");
+            countdownBannerComponent = countdown.GetComponent<WaterballCountdownBanner>();
+            // countdownBannerComponent.StartTimer(); 
+        }
+
+
+        [Server]
+        private void StartCountdownTimer() {
+            if (countdownBannerComponent == null) {
+                SpawnCountdownBanner();
+            }
+            
+            countdownBannerComponent.StartTimerClientRpc();
+        }
+
+        
+        [Server]
+        private void StopCountdownTimer() {
+            if (countdownBannerComponent == null) {
+                SpawnCountdownBanner();
+            }
+            
+            countdownBannerComponent.StopTimerClientRpc();
+        }
+        
+
+
+        
+        
+        
+
+
+    }
+    
+    
+    
+}
+
+
+
         // [Server]
         // public void SpawnCountdown() {
         //     GameObject countdownInstance = Instantiate(countdownBanner);
@@ -413,47 +457,8 @@ namespace DefaultNamespace {
         // }
 
 
-        [Server]
-        private void SpawnCountdownBanner() {
-            var countdown = Instantiate(countdownBannerPrefab);
-            NetworkServer.Spawn(countdown);
-            Debug.Log("hello");
-            countdownBannerComponent = countdown.GetComponent<WaterballCountdownBanner>();
-            // countdownBannerComponent.StartTimer(); 
-        }
 
 
-        [Server]
-        private void StartCountdownTimer() {
-            if (countdownBannerComponent == null) {
-                SpawnCountdownBanner();
-            }
-            
-            countdownBannerComponent.StartTimer();
-        }
-
-        
-        [Server]
-        private void StopCountdownTimer() {
-            if (countdownBannerComponent == null) {
-                SpawnCountdownBanner();
-            }
-            
-            countdownBannerComponent.StopTimer();
-        }
-        
-
-
-        
-        
-        
-
-
-    }
-    
-    
-    
-}
 
 
 // [Server]

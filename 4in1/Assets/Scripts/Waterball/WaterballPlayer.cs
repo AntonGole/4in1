@@ -22,6 +22,9 @@ public class WaterballPlayer : CITEPlayer {
     private Quaternion initialBarrelRotation;
 
 
+    public float cutoffMaxRatio = 0.4f; 
+    public float cutoffMinRatio = 0.1f
+
     // Start is called before the first frame update
     public override void OnStartLocalPlayer() {
         Debug.Log("Local GameBehaviour started as player " + playerID);
@@ -67,7 +70,7 @@ public class WaterballPlayer : CITEPlayer {
     }
 
     [Client]
-    public void ClientRotate(float deltaY, float deltaX, Quaternion towerRotation, Quaternion barrelRotation) {
+    public void ClientRotateMouse(float deltaY, float deltaX, Quaternion towerRotation, Quaternion barrelRotation) {
         if (hasAuthority) {
             Quaternion horizontalRotation = Quaternion.Euler(0f, deltaX, 0f);
             Quaternion newTowerRotation = towerRotation * horizontalRotation;
@@ -79,6 +82,11 @@ public class WaterballPlayer : CITEPlayer {
         }
     }
 
+
+    private void ClientRotateTouch() {
+        
+        
+    }
 
     [Command]
     public void CmdSetRotation(Quaternion newTowerRotation, Quaternion newBarrelRotation) {
@@ -98,27 +106,83 @@ public class WaterballPlayer : CITEPlayer {
         handleMouse();
     }
 
+
+    private float CalculateVerticalAngle(float distanceRatio) {
+
+        float maxAngle = 45f;
+        float minAngle = 0f;
+
+        float k = (maxAngle - minAngle) / (cutoffMaxRatio - cutoffMinRatio);
+        float m = -k * cutoffMinRatio; 
+        
+        if (distanceRatio > cutoffMaxRatio) {
+            return maxAngle; 
+        }
+
+        if (distanceRatio <= cutoffMinRatio) {
+            return minAngle; 
+        }
+
+        return m + k * distanceRatio; 
+    }
+
+    
     private void handleTouch() {
         if (Input.touchCount <= 0) {
             return;
         }
-
+        
         Touch touch = Input.GetTouch(0);
 
-        switch (touch.phase) {
-            case TouchPhase.Moved:
-                float deltaX = touch.deltaPosition.x * sensitivity;
-                float deltaY = touch.deltaPosition.y * sensitivity;
-                var inputTowerRotation = towerPart.transform.localRotation;
-                var inputBarrelRotation = barrelPart.transform.localRotation;
-                ClientRotate(deltaY, -deltaX, inputTowerRotation, inputBarrelRotation);
-                break;
 
-            case TouchPhase.Began:
-            case TouchPhase.Ended:
-            case TouchPhase.Canceled:
-                break;
+
+        if (touch.phase is not TouchPhase.Moved and not TouchPhase.Began) {
+            return;
         }
+
+        Vector3 touchPositionInWorldRelativeToCamera =
+            Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, Camera.main.nearClipPlane));
+        Vector3 cannonPositionInWorld = barrelPart.transform.position;
+
+        Vector3 touchPositionInWorld = new Vector3(touchPositionInWorldRelativeToCamera.x, cannonPositionInWorld.y, touchPositionInWorldRelativeToCamera.z);
+
+        float distanceToTouch = (touchPositionInWorld - cannonPositionInWorld).magnitude;
+        float distanceToCenter = (new Vector3(0, 0, 0) - cannonPositionInWorld).magnitude;
+        float distanceRatio = distanceToTouch / distanceToCenter;
+
+        float verticalAngle = CalculateVerticalAngle(distanceRatio); 
+        Quaternion vertical = Quaternion.Euler(-verticalAngle, 0, 0);
+        
+        Vector3 touchDirection = (touchPositionInWorld - cannonPositionInWorld).normalized;
+        Quaternion horizontal = Quaternion.LookRotation(touchDirection);
+        
+        CmdSetRotation(horizontal, vertical);
+        
+        
+
+
+
+
+
+
+
+        //
+        // Touch touch = Input.GetTouch(0);
+        //
+        // switch (touch.phase) {
+        //     case TouchPhase.Moved:
+        //         float deltaX = touch.deltaPosition.x * sensitivity;
+        //         float deltaY = touch.deltaPosition.y * sensitivity;
+        //         var inputTowerRotation = towerPart.transform.localRotation;
+        //         var inputBarrelRotation = barrelPart.transform.localRotation;
+        //         ClientRotateMouse(deltaY, -deltaX, inputTowerRotation, inputBarrelRotation);
+        //         break;
+        //
+        //     case TouchPhase.Began:
+        //     case TouchPhase.Ended:
+        //     case TouchPhase.Canceled:
+        //         break;
+        // }
     }
 
     private void handleMouse() {
@@ -137,11 +201,38 @@ public class WaterballPlayer : CITEPlayer {
             Vector3 currentMousePosition = Input.mousePosition;
             float deltaX = (currentMousePosition.x - initialMousePosition.x) * sensitivity;
             float deltaY = (currentMousePosition.y - initialMousePosition.y) * sensitivity;
-            ClientRotate(-deltaY, -deltaX, initialTowerRotation, initialBarrelRotation);
+            ClientRotateMouse(-deltaY, -deltaX, initialTowerRotation, initialBarrelRotation);
         }
     }
 }
 
+
+    //
+    // private void handleTouch() {
+    //     if (Input.touchCount <= 0) {
+    //         return;
+    //     }
+    //
+    //     Touch touch = Input.GetTouch(0);
+    //
+    //     switch (touch.phase) {
+    //         case TouchPhase.Moved:
+    //             float deltaX = touch.deltaPosition.x * sensitivity;
+    //             float deltaY = touch.deltaPosition.y * sensitivity;
+    //             var inputTowerRotation = towerPart.transform.localRotation;
+    //             var inputBarrelRotation = barrelPart.transform.localRotation;
+    //             ClientRotate(deltaY, -deltaX, inputTowerRotation, inputBarrelRotation);
+    //             break;
+    //
+    //         case TouchPhase.Began:
+    //         case TouchPhase.Ended:
+    //         case TouchPhase.Canceled:
+    //             break;
+    //     }
+    // }
+
+
+    
 
 // public void Update() {
 // if (hasAuthority) {
