@@ -143,9 +143,11 @@ public class WaterballPlayer : CITEPlayer {
         Vector3 touchPositionInWorldRelativeToCamera =
             Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, Camera.main.nearClipPlane));
         Vector3 cannonPositionInWorld = barrelPart.transform.position;
-
         Vector3 touchPositionInWorld = new Vector3(touchPositionInWorldRelativeToCamera.x, cannonPositionInWorld.y, touchPositionInWorldRelativeToCamera.z);
 
+        Debug.Log($"cannonPositionInWorld: {cannonPositionInWorld}");
+        Debug.Log($"touchPositionInWorld: {touchPositionInWorld}");
+        
         float distanceToTouch = (touchPositionInWorld - cannonPositionInWorld).magnitude;
         float distanceToCenter = (new Vector3(0, 0, 0) - cannonPositionInWorld).magnitude;
         float distanceRatio = distanceToTouch / distanceToCenter;
@@ -157,32 +159,7 @@ public class WaterballPlayer : CITEPlayer {
         Quaternion horizontal = Quaternion.LookRotation(touchDirection);
         
         CmdSetRotation(horizontal, vertical);
-        
-        
 
-
-
-
-
-
-
-        //
-        // Touch touch = Input.GetTouch(0);
-        //
-        // switch (touch.phase) {
-        //     case TouchPhase.Moved:
-        //         float deltaX = touch.deltaPosition.x * sensitivity;
-        //         float deltaY = touch.deltaPosition.y * sensitivity;
-        //         var inputTowerRotation = towerPart.transform.localRotation;
-        //         var inputBarrelRotation = barrelPart.transform.localRotation;
-        //         ClientRotateMouse(deltaY, -deltaX, inputTowerRotation, inputBarrelRotation);
-        //         break;
-        //
-        //     case TouchPhase.Began:
-        //     case TouchPhase.Ended:
-        //     case TouchPhase.Canceled:
-        //         break;
-        // }
     }
 
     private void handleMouse() {
