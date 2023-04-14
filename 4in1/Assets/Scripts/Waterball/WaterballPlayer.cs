@@ -145,7 +145,7 @@ public class WaterballPlayer : CITEPlayer {
         Vector3 cannonPositionInWorld = barrelPart.transform.position;
         Vector3 touchPositionInWorld = new Vector3(touchPositionInWorldRelativeToCamera.x, cannonPositionInWorld.y, touchPositionInWorldRelativeToCamera.z);
 
-        Debug.Log($"cannonPositionInWorld: {cannonPositionInWorld}");
+        // Debug.Log($"cannonPositionInWorld: {cannonPositionInWorld}");
         // Debug.Log($"touchPositionInWorld: {touchPositionInWorld}");
         
         float distanceToTouch = (touchPositionInWorld - cannonPositionInWorld).magnitude;
@@ -156,6 +156,10 @@ public class WaterballPlayer : CITEPlayer {
         Quaternion vertical = Quaternion.Euler(-verticalAngle, 0, 0);
         
         Vector3 touchDirection = (touchPositionInWorld - cannonPositionInWorld).normalized;
+
+        Debug.Log($"touchDirection: {touchDirection}");
+
+        
         Quaternion horizontal = Quaternion.LookRotation(touchDirection);
         
         CmdSetRotation(horizontal, vertical);
