@@ -22,9 +22,8 @@ public class WaterballPlayer : CITEPlayer {
     private Quaternion initialBarrelRotation;
 
 
-    public float cutoffMaxRatio = 0.4f; 
-    public float cutoffMinRatio = 0.1f
-
+    public float cutoffMaxRatio = 0.4f;
+    public float cutoffMinRatio = 0.1f;
     // Start is called before the first frame update
     public override void OnStartLocalPlayer() {
         Debug.Log("Local GameBehaviour started as player " + playerID);
