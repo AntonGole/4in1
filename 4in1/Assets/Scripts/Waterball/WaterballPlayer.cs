@@ -90,10 +90,10 @@ public class WaterballPlayer : CITEPlayer {
     [Command]
     public void CmdSetRotation(Quaternion newTowerRotation, Quaternion newBarrelRotation) {
         horizontalRotation = newTowerRotation;
-        towerPart.transform.localRotation = newTowerRotation;
+        towerPart.transform.rotation = newTowerRotation;
 
         verticalRotation = newBarrelRotation;
-        barrelPart.transform.localRotation = newBarrelRotation;
+        barrelPart.transform.rotation = newBarrelRotation;
     }
 
 
