@@ -26,8 +26,8 @@
             
             
             Quaternion looking = Quaternion.LookRotation(new Vector3(x_direction, 0, z_direciton));
-            
-            // transform.
-            
+
+            transform.rotation = looking; 
+
         }
     }

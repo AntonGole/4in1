@@ -45,7 +45,7 @@ public class WaterballPlayer : CITEPlayer {
     }
 
     private void OnHorizontalRotationChanged(Quaternion oldRotation, Quaternion newRotation) {
-        towerPart.transform.localRotation = newRotation;
+        towerPart.transform.rotation = newRotation;
     }
 
     private void OnVerticalRotationChanged(Quaternion oldRotation, Quaternion newRotation) {
@@ -93,7 +93,7 @@ public class WaterballPlayer : CITEPlayer {
         towerPart.transform.rotation = newTowerRotation;
 
         verticalRotation = newBarrelRotation;
-        barrelPart.transform.rotation = newBarrelRotation;
+        barrelPart.transform.localRotation = newBarrelRotation;
     }
 
 
