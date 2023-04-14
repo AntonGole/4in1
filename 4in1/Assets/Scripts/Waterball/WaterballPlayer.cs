@@ -102,7 +102,7 @@ public class WaterballPlayer : CITEPlayer {
             return;
         }
         handleTouch();
-        handleMouse();
+        // handleMouse();
     }
 
 
