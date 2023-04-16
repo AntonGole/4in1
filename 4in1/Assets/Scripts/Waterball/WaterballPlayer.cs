@@ -146,7 +146,7 @@ public class WaterballPlayer : CITEPlayer {
         Vector3 touchPositionWorldProjected = new Vector3(touchPositionWorld.x, cannonPosition.y, touchPositionWorld.z);
 
         Quaternion horizontal = CalculateHorizontalRotation(touchPositionWorldProjected, cannonPosition);
-        Quaternion vertical = Quaternion.Euler(-20, 0, 0);
+        Quaternion vertical = Quaternion.Euler(-4, 0, 0);
 
         CmdSetRotation(horizontal, vertical);
 
