@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class WaterballCountdownBanner : NetworkBehaviour {
-    public GameObject bannerHolder;
+    public GameObject canvas;
     public Image[] filleds;
     public float duration = 3f;
 
@@ -42,18 +42,19 @@ public class WaterballCountdownBanner : NetworkBehaviour {
     }
     
     
-    public IEnumerator StartTimerCoroutine() {
+    private IEnumerator StartTimerCoroutine() {
         stopTimer = false; 
         filledGrade = 0;
         tStart = Time.time;
         tEnd = tStart + duration;
-        bannerHolder.SetActive(true);
+        canvas.SetActive(true);
         // StartCoroutine(ShowCountdown(duration));
 
-        while (!stopTimer && Time.time < tEnd) {
-            yield return null; 
+        while (!stopTimer && Time.time < tEnd + 0.5f) {
+            yield return null;
         }
-        bannerHolder.SetActive(false);
+
+        canvas.SetActive(false);
         // yield return new WaitForSeconds(duration);
         
         

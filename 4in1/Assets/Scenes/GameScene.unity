@@ -1184,7 +1184,7 @@ PrefabInstance:
     - target: {fileID: 4531120759847274127, guid: bb85f51863d2c9d48ab536733c51b279,
         type: 3}
       propertyPath: numberOfBalls
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4531120759847274127, guid: bb85f51863d2c9d48ab536733c51b279,
         type: 3}
@@ -1198,6 +1198,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb85f51863d2c9d48ab536733c51b279, type: 3}
+--- !u!1 &730465394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2402351627454028058, guid: bb85f51863d2c9d48ab536733c51b279,
+    type: 3}
+  m_PrefabInstance: {fileID: 730465393}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &735060563
 GameObject:
   m_ObjectHideFlags: 0
@@ -3000,6 +3006,85 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1923346112}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1929110811
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1929110814}
+  - component: {fileID: 1929110813}
+  - component: {fileID: 1929110812}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1929110812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929110811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44a11d36f0614ecea0a6ef972caa1056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  getReadyBannerPrefab: {fileID: 3515805555055597904, guid: aada65f659f29aa479686afe3e828dcc,
+    type: 3}
+  countdownBannerPrefab: {fileID: 3515805555055597904, guid: c9a26b2ad08ac3d4ab50485f5a987ffe,
+    type: 3}
+  endingBannerPrefab: {fileID: 3515805555055597904, guid: dc2d50b59126ad943959b3e8925d53b2,
+    type: 3}
+  ballPrefab: {fileID: 5101236486699445182, guid: 1eb481ba87876f74da378e8550608792,
+    type: 3}
+  ballSpawner: {fileID: 730465394}
+  goal: {fileID: 1513583330}
+  isPlayingGetReady: 0
+  isPlayingCountdown: 0
+  isPlayingEnding: 0
+  isBallSpawning: 0
+  isWon: 0
+--- !u!114 &1929110813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929110811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1856977918
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
+--- !u!4 &1929110814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929110811}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.1437902, y: -10.494728, z: 6.5014744}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1964272627
 GameObject:
   m_ObjectHideFlags: 0
