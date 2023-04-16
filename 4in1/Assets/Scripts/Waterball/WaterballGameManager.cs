@@ -47,7 +47,7 @@ namespace DefaultNamespace {
             }
 
             if (!isServer) {
-                Debug.Log("vi är inte server");
+                // Debug.Log("vi är inte server");
                 return;
             }
 
