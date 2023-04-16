@@ -144,6 +144,7 @@ public class WaterballPlayer : CITEPlayer {
         // Vector3 touchPositionWorld = mainCamera.ScreenToWorldPoint(touchPosition);
         Vector3 touchPositionWorld =
             mainCamera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane));
+        Debug.Log(touchPositionWorld);
         Vector3 cannonPosition = barrelPart.transform.position;
         Vector3 touchPositionWorldProjected = new Vector3(touchPositionWorld.x, cannonPosition.y, touchPositionWorld.z);
 
@@ -168,7 +169,7 @@ public class WaterballPlayer : CITEPlayer {
     private Quaternion CalculateHorizontalRotation(Vector3 touch, Vector3 cannon) {
         Vector3 touchDirection = (touch - cannon).normalized;
         Quaternion horizontal = Quaternion.LookRotation(touchDirection);
-        Debug.Log(touchDirection);
+        // Debug.Log(touchDirection);
         return horizontal; 
     }
 
