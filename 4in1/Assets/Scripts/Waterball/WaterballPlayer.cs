@@ -150,6 +150,7 @@ public class WaterballPlayer : CITEPlayer {
         Quaternion horizontal = CalculateHorizontalRotation(touchPositionWorldProjected, cannonPosition);
         Quaternion vertical = Quaternion.Euler(-4, 0, 0);
 
+        
         CmdSetRotation(horizontal, vertical);
 
     }
@@ -167,6 +168,7 @@ public class WaterballPlayer : CITEPlayer {
     private Quaternion CalculateHorizontalRotation(Vector3 touch, Vector3 cannon) {
         Vector3 touchDirection = (touch - cannon).normalized;
         Quaternion horizontal = Quaternion.LookRotation(touchDirection);
+        Debug.Log(touchDirection);
         return horizontal; 
     }
 
