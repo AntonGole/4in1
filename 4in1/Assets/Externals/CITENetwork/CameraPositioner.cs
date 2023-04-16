@@ -60,18 +60,6 @@ public class CameraPositioner : MonoBehaviour {
 
         }
 
-        // foreach (Camera child in GetComponentsInChildren<Camera>(true))
-        // {
-        //     // STUB: Also handle orthogonal projection cameras
-        //     float heightAtDistance = 2.0f * distance * Mathf.Tan(child.fieldOfView * 0.5f * Mathf.Deg2Rad);
-        //     float widthAtDistance = heightAtDistance * child.aspect;
-        //
-        //     //Debug.Log("placing "+placementIndex+" at "+placementArray[placementIndex,0]+","+placementArray[placementIndex,1]);
-        //     child.transform.localRotation = Quaternion.identity;
-        //     child.transform.localPosition = new Vector3(placementArray[placementIndex, 0] * widthAtDistance * spacing * (1f - frustumSharing), placementArray[placementIndex, 1] * heightAtDistance * spacing * (1f - frustumSharing), 0);
-        //     child.lensShift = new Vector2(placementArray[placementIndex, 0] * frustumSharing * spacing, placementArray[placementIndex, 1] * frustumSharing * spacing);
-        //     placementIndex++;
-        // }
     }
 
 
@@ -94,12 +82,6 @@ public class CameraPositioner : MonoBehaviour {
         float relativeScreenX = (delta_x * 2 / totalX * screenX);
         float relativeScreenZ = (delta_z * 2 / totalZ * screenZ);
 
-
-        //         Vector3 corner0 = bounds.center + new Vector3(-delta_x, delta_y, delta_z);
-//         Vector3 corner1 = bounds.center + new Vector3(delta_x, delta_y, delta_z);
-//         Vector3 corner2 = bounds.center + new Vector3(-delta_x, delta_y, -delta_z);
-//         Vector3 corner3 = bounds.center + new Vector3(delta_x, delta_y, -delta_z);
-//         Vector3 default_position = bounds.center + new Vector3(0, delta_y, 0);
 
         Vector3 corner, cameraPosition;
 
@@ -135,6 +117,55 @@ public class CameraPositioner : MonoBehaviour {
         camera.orthographicSize = cameraHeight; 
 
     }
+
+
+    
+    
+
+    public void setView(int viewID)
+    {
+        int placementIndex = 0;
+        foreach (Camera child in GetComponentsInChildren<Camera>(true))
+        {
+            if(placementIndex == viewID)
+            {
+                child.enabled = true;
+            } else
+            {
+                child.enabled = false;
+            }
+
+
+            placementIndex++;
+        }
+    }
+}
+
+
+
+
+// foreach (Camera child in GetComponentsInChildren<Camera>(true))
+// {
+//     // STUB: Also handle orthogonal projection cameras
+//     float heightAtDistance = 2.0f * distance * Mathf.Tan(child.fieldOfView * 0.5f * Mathf.Deg2Rad);
+//     float widthAtDistance = heightAtDistance * child.aspect;
+//
+//     //Debug.Log("placing "+placementIndex+" at "+placementArray[placementIndex,0]+","+placementArray[placementIndex,1]);
+//     child.transform.localRotation = Quaternion.identity;
+//     child.transform.localPosition = new Vector3(placementArray[placementIndex, 0] * widthAtDistance * spacing * (1f - frustumSharing), placementArray[placementIndex, 1] * heightAtDistance * spacing * (1f - frustumSharing), 0);
+//     child.lensShift = new Vector2(placementArray[placementIndex, 0] * frustumSharing * spacing, placementArray[placementIndex, 1] * frustumSharing * spacing);
+//     placementIndex++;
+// }
+
+
+
+
+
+//         Vector3 corner0 = bounds.center + new Vector3(-delta_x, delta_y, delta_z);
+//         Vector3 corner1 = bounds.center + new Vector3(delta_x, delta_y, delta_z);
+//         Vector3 corner2 = bounds.center + new Vector3(-delta_x, delta_y, -delta_z);
+//         Vector3 corner3 = bounds.center + new Vector3(delta_x, delta_y, -delta_z);
+//         Vector3 default_position = bounds.center + new Vector3(0, delta_y, 0);
 
 
 
@@ -187,24 +218,5 @@ public class CameraPositioner : MonoBehaviour {
 //                 return default_position; 
 //     
     
+
     
-    
-
-    public void setView(int viewID)
-    {
-        int placementIndex = 0;
-        foreach (Camera child in GetComponentsInChildren<Camera>(true))
-        {
-            if(placementIndex == viewID)
-            {
-                child.enabled = true;
-            } else
-            {
-                child.enabled = false;
-            }
-
-
-            placementIndex++;
-        }
-    }
-}
