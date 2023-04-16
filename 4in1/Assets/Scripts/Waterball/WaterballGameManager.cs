@@ -72,7 +72,7 @@ namespace DefaultNamespace {
                     return;
                 case GameState.BallSpawning:
                     // Debug.Log("vi är i ball spawning");
-                    StartCoroutine(BallSpawning(script)); 
+                    StartCoroutine(BallSpawning(script));
                     return;
                 case GameState.Playing:
                     // Debug.Log("vi är i playing");
@@ -80,7 +80,7 @@ namespace DefaultNamespace {
                     return;
                 case GameState.EndingLevel:
                     // Debug.Log("vi är i ending");
-                    StartCoroutine(Ending(script)); 
+                    StartCoroutine(Ending(script));
                     return;
                 default:
                     return;
@@ -88,17 +88,27 @@ namespace DefaultNamespace {
         }
 
 
-        private IEnumerator Ending(WaterballLevelManager script) {
-            if (script.isPlayingEnding) {
+        [Server]
+        private IEnumerator Warmup(WaterballLevelManager script) {
+            if (script.isPlayingGetReady) {
                 yield break;
             }
-
-            yield return StartCoroutine(script.StartEndingBanner());
-            LoadNextLevel();
-            currentState = GameState.Loading;
+            yield return StartCoroutine(script.StartGetReadyBannerCoroutine());
+            currentState = GameState.BallSpawning; 
         }
 
         
+        [Server]
+        private IEnumerator BallSpawning(WaterballLevelManager script) {
+            if (script.isBallSpawning) {
+                yield break; 
+            }
+            yield return StartCoroutine(script.SpawnBallsCoroutine());
+            currentState = GameState.Playing; 
+        }
+        
+        
+        [Server]
         private void Playing(WaterballLevelManager script) {
             if (script.IsWinConditionMet()) {
                 if (script.isWon) {
@@ -119,27 +129,19 @@ namespace DefaultNamespace {
         }
         
         
-
-
-        private IEnumerator Warmup(WaterballLevelManager script) {
-            if (script.isPlayingGetReady) {
+        [Server]
+        private IEnumerator Ending(WaterballLevelManager script) {
+            if (script.isPlayingEnding) {
                 yield break;
             }
-            yield return StartCoroutine(script.StartGetReadyBannerCoroutine());
-            currentState = GameState.BallSpawning; 
-        }
 
-        private IEnumerator BallSpawning(WaterballLevelManager script) {
-            if (script.isBallSpawning) {
-                yield break; 
-            }
-            yield return StartCoroutine(script.SpawnBallsCoroutine());
-            currentState = GameState.Playing; 
+            yield return StartCoroutine(script.StartEndingBanner());
+            LoadNextLevel();
+            currentState = GameState.Loading;
         }
         
-        
 
-        
+        [Server]
         private void CheckHotkeys() {
             if (levelManager == null) {
                 return; 
@@ -175,7 +177,7 @@ namespace DefaultNamespace {
             }
         }
 
-
+        [Server]
         private void LoadNextLevel() {
             currentLevel++;
             if (currentLevel >= levelNames.Length) {
@@ -192,58 +194,9 @@ namespace DefaultNamespace {
         }
 
 
-        // [Server]
-        // private IEnumerator BallSpawningCoroutine() {
-        //     isSpawningBalls = true;
-        //     var spawnerScript = ballSpawner.GetComponent<WaterballBallSpawner>();
-        //     var spawningTime = spawnerScript.oneWayColliderTimeActive;
-        //     StartCoroutine(spawnerScript.SpawnBalls());
-        //     ballsTotal += spawnerScript.numberOfBalls;
-        //     yield return new WaitForSeconds(spawningTime);
-        //     currentState = GameState.Playing;
-        //     isSpawningBalls = false;
-        // }
-
-
-        // [Server]
-        // private IEnumerator ShowGetReadyBanner() {
-        //     isPlayingBanner = true;
-        //     GameObject bannerInstance = Instantiate(bannerPrefab);
-        //     NetworkServer.Spawn(bannerInstance);
-        //     // Debug.Log("spawning a banner");
-        //     float seconds = bannerInstance.GetComponent<WaterballBanner>().totalDisplayTime;
-        //     yield return new WaitForSeconds(seconds);
-        //     isPlayingBanner = false;
-        //
-        //     currentState = GameState.BallSpawning;
-        // }
-
-
-        // [Server]
-        // private void Playing() {
-        //     if (ballsTotal - ballsInGoal <= 0) {
-        //         currentState = GameState.EndingLevel;
-        //     }
-        // }
-
-
-        // [Server]
-        // private IEnumerator EndingLevel() {
-        //     isEndingLevel = true;
-        //     GameObject endingInstance = Instantiate(endingPrefab);
-        //     NetworkServer.Spawn(endingInstance);
-        //     // Debug.Log("spawning an ending instance prefab");
-        //     float seconds = endingInstance.GetComponent<WaterballEnding>().totalDisplayTime;
-        //     yield return new WaitForSeconds(seconds);
-        //     isEndingLevel = false;
-        //     ballsInGoal = 0;
-        //     ballsTotal = 0;
-        //     currentState = GameState.Loading;
-        // }
-
-
         // scene loaded hook
 
+        [Server]
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
             Debug.Log("New scene loaded: " + scene.name);
             if (scene.name is "Network" or "LobbyScene" or "ErrorScene") {
@@ -253,9 +206,11 @@ namespace DefaultNamespace {
             StartCoroutine(OnSceneLoadedDelayed(1f));
         }
 
+        [Server]
         private IEnumerator OnSceneLoadedDelayed(float waitingTime) {
             yield return new WaitForSeconds(waitingTime);
             levelManager = GameObject.Find("LevelManager");
+            SubToEveryoneReady(); 
             currentState = GameState.Warmup;
             isLoading = false;
         }
@@ -268,9 +223,80 @@ namespace DefaultNamespace {
         private void OnDisable() {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
+
+
+        private void SubToEveryoneReady() {
+            var players = GameObject.FindGameObjectsWithTag("Player");
+            foreach (var player in players) {
+                player.GetComponent<PuzzleBehaviour>().everyoneReadyEvent += ReactOnEveryoneReady; 
+            }
+        }
+            
+            
+        private void ReactOnEveryoneReady() {
+            var sceneName = SceneManager.GetActiveScene().name;
+            if (sceneName is not "GameScene") {
+                return; 
+            }
+            
+            LoadNextLevel();
+        }
+        
+        
     }
 }
 
+
+
+
+// [Server]
+// private IEnumerator BallSpawningCoroutine() {
+//     isSpawningBalls = true;
+//     var spawnerScript = ballSpawner.GetComponent<WaterballBallSpawner>();
+//     var spawningTime = spawnerScript.oneWayColliderTimeActive;
+//     StartCoroutine(spawnerScript.SpawnBalls());
+//     ballsTotal += spawnerScript.numberOfBalls;
+//     yield return new WaitForSeconds(spawningTime);
+//     currentState = GameState.Playing;
+//     isSpawningBalls = false;
+// }
+
+
+// [Server]
+// private IEnumerator ShowGetReadyBanner() {
+//     isPlayingBanner = true;
+//     GameObject bannerInstance = Instantiate(bannerPrefab);
+//     NetworkServer.Spawn(bannerInstance);
+//     // Debug.Log("spawning a banner");
+//     float seconds = bannerInstance.GetComponent<WaterballBanner>().totalDisplayTime;
+//     yield return new WaitForSeconds(seconds);
+//     isPlayingBanner = false;
+//
+//     currentState = GameState.BallSpawning;
+// }
+
+
+// [Server]
+// private void Playing() {
+//     if (ballsTotal - ballsInGoal <= 0) {
+//         currentState = GameState.EndingLevel;
+//     }
+// }
+
+
+// [Server]
+// private IEnumerator EndingLevel() {
+//     isEndingLevel = true;
+//     GameObject endingInstance = Instantiate(endingPrefab);
+//     NetworkServer.Spawn(endingInstance);
+//     // Debug.Log("spawning an ending instance prefab");
+//     float seconds = endingInstance.GetComponent<WaterballEnding>().totalDisplayTime;
+//     yield return new WaitForSeconds(seconds);
+//     isEndingLevel = false;
+//     ballsInGoal = 0;
+//     ballsTotal = 0;
+//     currentState = GameState.Loading;
+// }
 
 
 

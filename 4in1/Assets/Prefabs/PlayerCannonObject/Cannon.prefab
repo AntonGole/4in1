@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 6466282617882263326}
   m_Layer: 0
   m_Name: Cannon
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,6 +271,8 @@ MonoBehaviour:
   barrelPart: {fileID: 1194714952341941709}
   towerPart: {fileID: 373196664381607419}
   sensitivity: 0.1
+  cutoffMaxRatio: 0.4
+  cutoffMinRatio: 0.1
 --- !u!114 &-5173129791187024878
 MonoBehaviour:
   m_ObjectHideFlags: 0

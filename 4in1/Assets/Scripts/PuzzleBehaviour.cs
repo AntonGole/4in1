@@ -1,15 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.SceneManagement;
 
 public class PuzzleBehaviour : NetworkBehaviour {
     public int puzzleSegment;
     private bool wasReady;
 
+    public event Action everyoneReadyEvent; 
+    
+    
     // Start is called before the first frame update
     void Start(){
         wasReady = false;
+        var sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName is not "GameScene") {
+            enabled = false; 
+        }
     }
 
     // Tell all the views in the scene about us
@@ -47,6 +56,7 @@ public class PuzzleBehaviour : NetworkBehaviour {
             foreach (PuzzleBehaviour participant in FindObjectsOfType<PuzzleBehaviour>()){
                 participant.RpcOnEveryoneReady();
             }
+            everyoneReadyEvent?.Invoke();
         }
     }
 
