@@ -106,7 +106,7 @@ public class WaterballPlayer : CITEPlayer {
             return;
         }
         handleTouch();
-        // handleMouse();
+        handleMouse();
     }
 
 
@@ -141,11 +141,11 @@ public class WaterballPlayer : CITEPlayer {
             return;
         }
         
-        // Vector3 touchPosition = new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane);
-        // Vector3 touchPositionWorld = mainCamera.ScreenToWorldPoint(touchPosition);
-        Vector3 touchPositionWorld =
-            mainCamera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane));
-        Debug.Log(touchPositionWorld);
+        Vector3 touchPosition = new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane);
+        Vector3 touchPositionWorld = mainCamera.ScreenToWorldPoint(touchPosition);
+        // Vector3 touchPositionWorld =
+            // mainCamera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane));
+        // Debug.Log(touchPositionWorld);
         Vector3 cannonPosition = barrelPart.transform.position;
         Vector3 touchPositionWorldProjected = new Vector3(touchPositionWorld.x, cannonPosition.y, touchPositionWorld.z);
 

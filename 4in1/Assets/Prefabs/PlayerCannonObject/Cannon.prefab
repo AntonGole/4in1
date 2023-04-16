@@ -365,7 +365,7 @@ PrefabInstance:
     - target: {fileID: 971626108236142684, guid: 724a0f749cc03894fb02df368fecb008,
         type: 3}
       propertyPath: InitialModule.gravityModifier.scalar
-      value: 0.55
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3284413708040194436, guid: 724a0f749cc03894fb02df368fecb008,
         type: 3}
@@ -455,7 +455,7 @@ PrefabInstance:
     - target: {fileID: 3747972665522545857, guid: 724a0f749cc03894fb02df368fecb008,
         type: 3}
       propertyPath: InitialModule.gravityModifier.scalar
-      value: 0.55
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4855435834572996800, guid: 724a0f749cc03894fb02df368fecb008,
         type: 3}

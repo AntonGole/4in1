@@ -10,12 +10,19 @@ using Random = System.Random;
 namespace DefaultNamespace {
     public class WaterballGameManager : NetworkBehaviour {
         public string[] levelNames;
-        private bool isPlayingBanner = false;
-        private bool isEndingLevel = false;
-        private bool isSpawningBalls = false;
-        private bool isLoading = false;
+        // private bool isPlayingGetReady = false;
+        // private bool isEndingLevel = false;
+        // private bool isSpawningBalls = false;
+        // private bool isLoading = false;
 
-        private Random rd = new Random();
+        private Coroutine warmupCoroutine; 
+        private Coroutine ballSpawningCoroutine; 
+        private Coroutine endingCoroutine; 
+        
+        
+        
+        
+
         private GameObject levelManager;
 
         private int currentLevel = 0;
@@ -31,7 +38,7 @@ namespace DefaultNamespace {
 
 
         private void Start() {
-            levelNames = new string[] {"GameScene", "Level 1", "Level 2"};
+            levelNames = new string[] {"GameScene", "Level 8", "Level 9"};
             // currentState = GameState.Warmup; 
             Debug.Log("destroyar inte");
             DontDestroyOnLoad(gameObject);
@@ -67,19 +74,19 @@ namespace DefaultNamespace {
                 case GameState.Loading:
                     return;
                 case GameState.Warmup:
-                    // Debug.Log("vi är i warmup");
+                    Debug.Log("vi är i warmup");
                     StartCoroutine(Warmup(script)); 
                     return;
                 case GameState.BallSpawning:
-                    // Debug.Log("vi är i ball spawning");
+                    Debug.Log("vi är i ball spawning");
                     StartCoroutine(BallSpawning(script));
                     return;
                 case GameState.Playing:
-                    // Debug.Log("vi är i playing");
+                    Debug.Log("vi är i playing");
                     Playing(script);
                     return;
                 case GameState.EndingLevel:
-                    // Debug.Log("vi är i ending");
+                    Debug.Log("vi är i ending");
                     StartCoroutine(Ending(script));
                     return;
                 default:
@@ -93,7 +100,12 @@ namespace DefaultNamespace {
             if (script.isPlayingGetReady) {
                 yield break;
             }
-            yield return StartCoroutine(script.StartGetReadyBannerCoroutine());
+
+            Debug.Log("startar get ready coroutine");
+            warmupCoroutine = StartCoroutine(script.StartGetReadyBannerCoroutine());
+            yield return warmupCoroutine;
+            warmupCoroutine = null; 
+            Debug.Log("get ready coroutine klar");
             currentState = GameState.BallSpawning; 
         }
 
@@ -103,7 +115,12 @@ namespace DefaultNamespace {
             if (script.isBallSpawning) {
                 yield break; 
             }
-            yield return StartCoroutine(script.SpawnBallsCoroutine());
+
+            Debug.Log("startar ball spawning coroutine");
+            ballSpawningCoroutine = StartCoroutine(script.SpawnBallsCoroutine());
+            yield return ballSpawningCoroutine;
+            ballSpawningCoroutine = null; 
+            Debug.Log("ball spawning coroutine klar");
             currentState = GameState.Playing; 
         }
         
@@ -135,10 +152,31 @@ namespace DefaultNamespace {
                 yield break;
             }
 
-            yield return StartCoroutine(script.StartEndingBanner());
+            endingCoroutine = StartCoroutine(script.StartEndingBanner());
+            yield return endingCoroutine;
+            endingCoroutine = null; 
             LoadNextLevel();
             currentState = GameState.Loading;
         }
+        
+        
+        private void StopAllGameCoroutines() {
+            if (warmupCoroutine != null) {
+                StopCoroutine(warmupCoroutine);
+                warmupCoroutine = null;
+            }
+
+            if (ballSpawningCoroutine != null) {
+                StopCoroutine(ballSpawningCoroutine);
+                ballSpawningCoroutine = null;
+            }
+
+            if (endingCoroutine != null) {
+                StopCoroutine(endingCoroutine);
+                endingCoroutine = null;
+            }
+        }
+        
         
 
         [Server]
@@ -179,6 +217,7 @@ namespace DefaultNamespace {
 
         [Server]
         private void LoadNextLevel() {
+            currentState = GameState.Loading; 
             currentLevel++;
             if (currentLevel >= levelNames.Length) {
                 currentLevel = 0;
@@ -187,9 +226,11 @@ namespace DefaultNamespace {
             // Debug.Log(currentLevel);
             // Debug.Log(levelNames);
             // Debug.Log(levelNames[currentLevel]);
+            StopAllGameCoroutines(); 
             var networkManager = GameObject.Find("Advanced Network Configuration");
             var script = networkManager.GetComponent<WaterballNetworkManager>();
             script.ServerChangeScene(levelNames[currentLevel]);
+            
             // transform.parent.GetComponent<GameObject>().GetComponent<WaterballNetworkManager>().ServerChangeScene(levelNames[currentLevel]);
         }
 
@@ -212,7 +253,7 @@ namespace DefaultNamespace {
             levelManager = GameObject.Find("LevelManager");
             SubToEveryoneReady(); 
             currentState = GameState.Warmup;
-            isLoading = false;
+            // isLoading = false;
         }
 
 

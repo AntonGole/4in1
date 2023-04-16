@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 using UnityEngine;
 
 public class ConveyorBelt_script : MonoBehaviour
@@ -17,10 +18,37 @@ public class ConveyorBelt_script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i <= onBelt.Count - 1; i++)
-        {
-            onBelt[i].GetComponent<Rigidbody>().velocity = speed * direction;
+        // for (int i = 0; i <= onBelt.Count - 1; i++)
+        // {
+            // var initialVelocity = onBelt
+            // onBelt[i].GetComponent<Rigidbody>().velocity = speed * direction;
+        // }
+
+
+        foreach (var thing in onBelt) {
+            var force = direction * speed * Time.deltaTime; 
+            var rb = thing.GetComponent<Rigidbody>(); 
+            rb.MovePosition(rb.position + force);
+                
+                
+                
+                // .AddForce(force, ForceMode.Impulse);
+            
+            
+            
+
+
+            // var oldPosition = thing.transform.position;
+            // var delta = speed * direction * Time.deltaTime; 
+            // thing.transform.position = oldPosition + delta; 
+
+
+            // var initialVelocity = thing.GetComponent<Rigidbody>().velocity;
+            // var newVelocity = initialVelocity + speed * direction;
+            // thing.GetComponent<Rigidbody>().velocity = newVelocity; 
+            // }
         }
+        
     }
 
     // When something collides with the belt

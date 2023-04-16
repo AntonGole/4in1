@@ -42,8 +42,9 @@ public class WaterballBallSpawner : NetworkBehaviour {
             counter--;
         }
 
+        Debug.Log("Spawned balls!");
         yield return new WaitForSeconds(oneWayColliderTimeActive);
-
+        Debug.Log("Removing invisible walls!");
         // var collider = oneWaySpawnCollider.GetComponent<Collider>();
         // Debug.Log(collider);
         // collider.enabled = false; 

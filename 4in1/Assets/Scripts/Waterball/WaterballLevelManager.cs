@@ -63,23 +63,23 @@ public class WaterballLevelManager : NetworkBehaviour {
     private void Start() {
         ballsTotal = 0;
         ballsInGoal = 0; 
-        var goalScript = goal.GetComponent<NewGoal>();
+        var goalScript = goal.GetComponent<WaterballGoal>();
         goalScript.BallEnteredGoalEvent += BallEnteredGoal;
         goalScript.BallExitedGoalEvent += BallExitedGoal;
     }
     
 
     private void BallEnteredGoal() {
-        Debug.Log($"ballsInGoal: {ballsInGoal}");
         ballsInGoal++; 
-        goal.GetComponent<NewGoal>().setBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
+        Debug.Log($"ballsInGoal: {ballsInGoal}");
+        goal.GetComponent<WaterballGoal>().SetBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
     }
 
 
     private void BallExitedGoal() {
-        Debug.Log($"ballsInGoal: {ballsInGoal}");
         ballsInGoal--; 
-        goal.GetComponent<NewGoal>().setBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
+        Debug.Log($"ballsInGoal: {ballsInGoal}");
+        goal.GetComponent<WaterballGoal>().SetBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
     }
     
 
@@ -152,7 +152,7 @@ public class WaterballLevelManager : NetworkBehaviour {
         countdownBannerComponent.StartTimerClientRpc();
         yield return new WaitForSeconds(duration);
 
-        Debug.Log($"current: {currentRun}, count: {countdownRuns}");
+        // Debug.Log($"current: {currentRun}, count: {countdownRuns}");
         
         if (currentRun == countdownRuns) {
             isWon = true; 
