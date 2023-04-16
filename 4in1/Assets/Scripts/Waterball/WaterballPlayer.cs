@@ -21,6 +21,8 @@ public class WaterballPlayer : CITEPlayer {
     private Quaternion initialTowerRotation;
     private Quaternion initialBarrelRotation;
 
+    private Camera mainCamera;  
+
 
     public float cutoffMaxRatio = 0.4f;
     public float cutoffMinRatio = 0.1f;
@@ -37,6 +39,7 @@ public class WaterballPlayer : CITEPlayer {
     }
 
     public override void OnStartClient() {
+        mainCamera = Camera.main;
         // if (!hasAuthority) {
         // transform.rotation = horizontalRotation;
         // }
@@ -133,39 +136,36 @@ public class WaterballPlayer : CITEPlayer {
         
         Touch touch = Input.GetTouch(0);
 
-
-        Debug.Log("vi är i den nya touch-metoden!!!");
-
         if (touch.phase is not TouchPhase.Moved and not TouchPhase.Began) {
             return;
         }
-
-        Vector3 touchPositionInWorldRelativeToCamera =
-            Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, Camera.main.nearClipPlane));
-        Vector3 cannonPositionInWorld = barrelPart.transform.position;
-        Vector3 touchPositionInWorld = new Vector3(touchPositionInWorldRelativeToCamera.x, cannonPositionInWorld.y, touchPositionInWorldRelativeToCamera.z);
-
-        // Debug.Log($"cannonPositionInWorld: {cannonPositionInWorld}");
-        // Debug.Log($"touchPositionInWorld: {touchPositionInWorld}");
         
-        float distanceToTouch = (touchPositionInWorld - cannonPositionInWorld).magnitude;
-        float distanceToCenter = (new Vector3(0, 0, 0) - cannonPositionInWorld).magnitude;
-        float distanceRatio = distanceToTouch / distanceToCenter;
+        Vector3 touchPosition = new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane);
+        Vector3 touchPositionWorld = mainCamera.ScreenToWorldPoint(touchPosition);
+        Vector3 cannonPosition = barrelPart.transform.position;
+        Vector3 touchPositionWorldProjected = new Vector3(touchPositionWorld.x, cannonPosition.y, touchPositionWorld.z);
 
-        float verticalAngle = CalculateVerticalAngle(distanceRatio); 
-        Quaternion vertical = Quaternion.Euler(-verticalAngle, 0, 0);
-        // Quaternion vertical = Quaternion.Euler(0, 0, 0);
-        
-        
-        Vector3 touchDirection = (touchPositionInWorld - cannonPositionInWorld).normalized;
+        Quaternion horizontal = CalculateHorizontalRotation(touchPositionWorldProjected, cannonPosition);
+        Quaternion vertical = Quaternion.Euler(-20, 0, 0);
 
-        Debug.Log($"touchDirection: {touchDirection}");
-
-        
-        Quaternion horizontal = Quaternion.LookRotation(touchDirection);
-        
         CmdSetRotation(horizontal, vertical);
 
+    }
+
+
+    private Quaternion CalculateVerticalRotation(Vector3 touch, Vector3 cannon) {
+        float distanceToTouch = (touch - cannon).magnitude;
+        float distanceToCenter = (new Vector3(0, 0, 0) - cannon).magnitude;
+        float distanceRatio = distanceToTouch / distanceToCenter;
+        float verticalAngle = CalculateVerticalAngle(distanceRatio); 
+        Quaternion vertical = Quaternion.Euler(-verticalAngle, 0, 0);
+        return vertical; 
+    }
+
+    private Quaternion CalculateHorizontalRotation(Vector3 touch, Vector3 cannon) {
+        Vector3 touchDirection = (touch - cannon).normalized;
+        Quaternion horizontal = Quaternion.LookRotation(touchDirection);
+        return horizontal; 
     }
 
     private void handleMouse() {
