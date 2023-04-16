@@ -21,7 +21,7 @@ public class WaterballPlayer : CITEPlayer {
     private Quaternion initialTowerRotation;
     private Quaternion initialBarrelRotation;
 
-    // private Camera playerCamera;  
+    private Camera mainCamera;  
 
 
     public float cutoffMaxRatio = 0.4f;
@@ -33,13 +33,14 @@ public class WaterballPlayer : CITEPlayer {
         // Find camera helpers and let them know who we are
         foreach (CameraPositioner helper in FindObjectsOfType<CameraPositioner>()) {
             helper.setView(playerID);
+            mainCamera = Camera.main;
         }
 
         isRotating = false;
     }
 
     public override void OnStartClient() {
-        // playerCamera = Camera.main;
+        
         // if (!hasAuthority) {
         // transform.rotation = horizontalRotation;
         // }
@@ -143,7 +144,7 @@ public class WaterballPlayer : CITEPlayer {
         // Vector3 touchPosition = new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane);
         // Vector3 touchPositionWorld = mainCamera.ScreenToWorldPoint(touchPosition);
         Vector3 touchPositionWorld =
-            Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, Camera.main.nearClipPlane));
+            mainCamera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane));
         Debug.Log(touchPositionWorld);
         Vector3 cannonPosition = barrelPart.transform.position;
         Vector3 touchPositionWorldProjected = new Vector3(touchPositionWorld.x, cannonPosition.y, touchPositionWorld.z);
