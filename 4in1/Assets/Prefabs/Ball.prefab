@@ -148,8 +148,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.01
-  dragCoefficient: 0.8
-  rollingResistanceCoefficient: 0.3
+  dragCoefficient: 0.3
+  rollingResistanceCoefficient: 0.1
   spinResistanceCoefficient: 0.08
 --- !u!114 &6781650066048177453
 MonoBehaviour:
