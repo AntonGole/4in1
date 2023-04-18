@@ -38,7 +38,7 @@ namespace DefaultNamespace {
 
 
         private void Start() {
-            levelNames = new string[] {"GameScene", "Level 8", "Level 9"};
+            levelNames = new string[] {"GameScene", "Ball Tester", "Level 9"};
             // currentState = GameState.Warmup; 
             Debug.Log("destroyar inte");
             DontDestroyOnLoad(gameObject);
