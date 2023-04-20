@@ -14,8 +14,8 @@ public class WaterballParticleSplashHandler : MonoBehaviour {
 
     private void OnParticleCollision(GameObject other) {
         
-        var audioManager = WaterballAudioManager.Instance; 
-        audioManager.PlaySoundEffect(audioManager.splash, 0.05f);
+        // var audioManager = WaterballAudioManager.Instance; 
+        // audioManager.PlaySoundEffect(audioManager.splash, 0.05f);
         
         
         var collisionEvents = new List<ParticleCollisionEvent>();

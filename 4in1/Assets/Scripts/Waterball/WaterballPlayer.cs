@@ -47,6 +47,17 @@ public class WaterballPlayer : CITEPlayer {
 
         // initialRotation = transform.rotation;
     }
+    
+    
+    private void Update() {
+        if (!hasAuthority) {
+            return;
+        }
+        handleTouch();
+        // handleMouse();
+    }
+    
+    
 
     private void OnHorizontalRotationChanged(Quaternion oldRotation, Quaternion newRotation) {
         towerPart.transform.rotation = newRotation;
@@ -101,13 +112,6 @@ public class WaterballPlayer : CITEPlayer {
     }
 
 
-    private void Update() {
-        if (!hasAuthority) {
-            return;
-        }
-        handleTouch();
-        handleMouse();
-    }
 
 
     private float CalculateVerticalAngle(float distanceRatio) {
