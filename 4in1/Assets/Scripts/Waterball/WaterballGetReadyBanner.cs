@@ -28,7 +28,16 @@ public class WaterballGetReadyBanner : NetworkBehaviour {
     private float tEnd;
 
 
+    public AudioClip[] countdownSounds = new AudioClip[4]; 
+    
+    private bool[] hasPlayed = new bool[4]; 
+
+
     private void Start() {
+
+        for (var i = 0; i < hasPlayed.Length; i++) {
+            hasPlayed[i] = false; 
+        }
     }
 
     private void Update() {
@@ -39,6 +48,11 @@ public class WaterballGetReadyBanner : NetworkBehaviour {
         RotateBanner();
         UpdateNumbers();
     }
+    
+    
+    
+
+
 
     [ClientRpc]
     public void StartBannerClientRpc() {
@@ -58,6 +72,7 @@ public class WaterballGetReadyBanner : NetworkBehaviour {
             yield return null;
         }
 
+        PlaySound(3);
         canvas.SetActive(false);
     }
 
@@ -84,10 +99,37 @@ public class WaterballGetReadyBanner : NetworkBehaviour {
                 Image numberImage = numberHolder.transform.GetChild(0).GetComponent<Image>();
                 numberImage.sprite = numberSprites[index];
             }
+
+            PlaySound(index); 
+
+
         }
     }
 
 
+    private void PlaySound(int index) {
+
+        if (!NetworkServer.active) {
+            return;
+        }
+
+        if (index == -1) {
+            return; 
+        }
+        
+        if (hasPlayed[index]) {
+            return; 
+        }
+
+        var audioManager = WaterballAudioManager.Instance; 
+        audioManager.PlaySoundEffect(countdownSounds[index], 0.3f);
+        hasPlayed[index] = true; 
+
+
+
+    }
+    
+    
     private int DetermineCurrentNumberIndex(float timeRatio) {
         switch (timeRatio) {
             case <= 0.25f:

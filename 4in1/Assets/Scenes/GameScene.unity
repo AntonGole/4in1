@@ -1939,10 +1939,12 @@ MonoBehaviour:
   two: {fileID: 8300000, guid: bccc4dda03b2fc64c87053d76294c887, type: 3}
   one: {fileID: 8300000, guid: b1308cc202186a5409b7085b4833bd83, type: 3}
   jump: {fileID: 8300000, guid: 9840670dc36a2b349990384bc032b588, type: 3}
-  thud: {fileID: 8300000, guid: 04ccfc2e313a3ec4b88979f5045e3efc, type: 3}
-  thud2: {fileID: 8300000, guid: 04ccfc2e313a3ec4b88979f5045e3efc, type: 3}
+  thud: {fileID: 8300000, guid: 034be51bc35a3ee4dba219c70d98ed0f, type: 3}
+  thud2: {fileID: 8300000, guid: 034be51bc35a3ee4dba219c70d98ed0f, type: 3}
   pop: {fileID: 8300000, guid: 1cd24d45dde7cd24ca685c28687deee4, type: 3}
+  splash: {fileID: 8300000, guid: c8428e7497e5acd4fbd81a36bbca2f61, type: 3}
   audioSource: {fileID: 1451245036}
+  isMuted: 1
 --- !u!4 &1451245038
 Transform:
   m_ObjectHideFlags: 0

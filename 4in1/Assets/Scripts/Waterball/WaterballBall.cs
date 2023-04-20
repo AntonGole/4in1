@@ -55,11 +55,12 @@ public class WaterballBall : NetworkBehaviour {
 
 
     private void OnCollisionEnter(Collision collision) {
+
+        // if (rb.velocity.magnitude < 3f) {
+            // return; 
+        // }
+        
         if (thudsOn == (thudsOn | (1 << collision.gameObject.layer))) {
-            
-            
-            
-            
             var audioManager = WaterballAudioManager.Instance;
             audioManager.PlaySoundEffect(audioManager.thud, rb.velocity.magnitude/15f);
         }

@@ -309,7 +309,6 @@ MonoBehaviour:
   syncInterval: 0.1
   canvas: {fileID: 3515805554843862088}
   circularBanner: {fileID: 3515805555467691435}
-  countdownNumbers: {fileID: 5054499445781379586}
   numberHolders:
   - {fileID: 464876986522829936}
   - {fileID: 4903316201111914723}
@@ -320,9 +319,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f57773f71f35e484a9023c653fa7754f, type: 3}
   - {fileID: 21300000, guid: 08cfd0a0de5a42845a6c1cfef9284d15, type: 3}
   circularBannerRotationSpeed: 30
-  totalDisplayTime: 4
   isRunning: 0
   duration: 4
+  countdownSounds:
+  - {fileID: 8300000, guid: 692970000222fbc4b9b69e4f68717ff9, type: 3}
+  - {fileID: 8300000, guid: bccc4dda03b2fc64c87053d76294c887, type: 3}
+  - {fileID: 8300000, guid: b1308cc202186a5409b7085b4833bd83, type: 3}
+  - {fileID: 8300000, guid: 9840670dc36a2b349990384bc032b588, type: 3}
 --- !u!1 &3515805555467691435
 GameObject:
   m_ObjectHideFlags: 0

@@ -45,6 +45,12 @@ namespace DefaultNamespace {
             levelNames.Add("GameScene"); 
             levelNames.Add("Level 8"); 
             levelNames.Add("Level 9"); 
+            levelNames.Add("Level 8"); 
+            levelNames.Add("Level 9"); 
+            levelNames.Add("Level 8"); 
+            levelNames.Add("Level 9"); 
+            levelNames.Add("Level 8"); 
+            levelNames.Add("Level 9"); 
             // levelNames = new string[] {"GameScene", "Ball Tester", "Level 9"};
             // currentState = GameState.Warmup; 
             Debug.Log("destroyar inte");
@@ -252,12 +258,18 @@ namespace DefaultNamespace {
             }
 
             StartCoroutine(OnSceneLoadedDelayed(1f));
+
+            if (scene.name is "GameScene") {
+                return; 
+            }
+            WaterballAudioManager.Instance.isMuted = false; 
         }
 
         [Server]
         private IEnumerator OnSceneLoadedDelayed(float waitingTime) {
             yield return new WaitForSeconds(waitingTime);
             levelManager = GameObject.Find("LevelManager");
+      
             SubToEveryoneReady(); 
             currentState = GameState.Warmup;
             // isLoading = false;

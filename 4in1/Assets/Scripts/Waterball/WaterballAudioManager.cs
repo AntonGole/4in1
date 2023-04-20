@@ -16,11 +16,12 @@ public class WaterballAudioManager : NetworkBehaviour {
     public AudioClip jump; 
     public AudioClip thud;
     public AudioClip thud2;
-    public AudioClip pop; 
+    public AudioClip pop;
+    public AudioClip splash; 
 
+    public AudioSource audioSource;
 
-    public AudioSource audioSource; 
-    
+    public bool isMuted = true;  
     
     
 
@@ -40,12 +41,19 @@ public class WaterballAudioManager : NetworkBehaviour {
 
     [Server] 
     public void PlaySoundEffect(AudioClip clip, float volume)  {
+        if (isMuted) {
+            return; 
+        }
         // Debug.Log("vi är inne i playsoundeffect");
         Debug.Log(clip);
         audioSource.PlayOneShot(clip, volume);
         
     }
-    
+
+
+    // public void Mute() {
+        
+    // }
     
     
 }

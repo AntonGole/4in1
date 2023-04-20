@@ -204,6 +204,7 @@ public class WaterballLevelManager : NetworkBehaviour {
         endingBannerComponent.StartBannerClientRpc();
         var audioManager = WaterballAudioManager.Instance; 
         audioManager.PlaySoundEffect(audioManager.yay, 1);
+        audioManager.isMuted = true; 
         yield return new WaitForSeconds(duration); 
         isPlayingEnding = false; 
     }
