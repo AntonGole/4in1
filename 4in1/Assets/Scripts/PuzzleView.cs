@@ -28,6 +28,6 @@ public class PuzzleView : MonoBehaviour {
      */
     public void OnPuzzleEnded(PuzzleBehaviour unused){
         // Hide the puzzle view
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
     }
 }

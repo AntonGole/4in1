@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a863b02c269405cb40e54653d61094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRequirement: 2
+  minRequirement: 4
   initialJoinTimeout: 5
 --- !u!114 &422158499
 MonoBehaviour:

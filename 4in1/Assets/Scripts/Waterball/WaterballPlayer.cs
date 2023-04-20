@@ -21,7 +21,11 @@ public class WaterballPlayer : CITEPlayer {
     private Quaternion initialTowerRotation;
     private Quaternion initialBarrelRotation;
 
+    private Camera mainCamera;  
 
+
+    public float cutoffMaxRatio = 0.4f;
+    public float cutoffMinRatio = 0.1f;
     // Start is called before the first frame update
     public override void OnStartLocalPlayer() {
         Debug.Log("Local GameBehaviour started as player " + playerID);
@@ -29,21 +33,34 @@ public class WaterballPlayer : CITEPlayer {
         // Find camera helpers and let them know who we are
         foreach (CameraPositioner helper in FindObjectsOfType<CameraPositioner>()) {
             helper.setView(playerID);
+            mainCamera = Camera.main;
         }
 
         isRotating = false;
     }
 
     public override void OnStartClient() {
+        
         // if (!hasAuthority) {
         // transform.rotation = horizontalRotation;
         // }
 
         // initialRotation = transform.rotation;
     }
+    
+    
+    private void Update() {
+        if (!hasAuthority) {
+            return;
+        }
+        handleTouch();
+        // handleMouse();
+    }
+    
+    
 
     private void OnHorizontalRotationChanged(Quaternion oldRotation, Quaternion newRotation) {
-        towerPart.transform.localRotation = newRotation;
+        towerPart.transform.rotation = newRotation;
     }
 
     private void OnVerticalRotationChanged(Quaternion oldRotation, Quaternion newRotation) {
@@ -67,7 +84,7 @@ public class WaterballPlayer : CITEPlayer {
     }
 
     [Client]
-    public void ClientRotate(float deltaY, float deltaX, Quaternion towerRotation, Quaternion barrelRotation) {
+    public void ClientRotateMouse(float deltaY, float deltaX, Quaternion towerRotation, Quaternion barrelRotation) {
         if (hasAuthority) {
             Quaternion horizontalRotation = Quaternion.Euler(0f, deltaX, 0f);
             Quaternion newTowerRotation = towerRotation * horizontalRotation;
@@ -80,45 +97,85 @@ public class WaterballPlayer : CITEPlayer {
     }
 
 
+    private void ClientRotateTouch() {
+        
+        
+    }
+
     [Command]
     public void CmdSetRotation(Quaternion newTowerRotation, Quaternion newBarrelRotation) {
         horizontalRotation = newTowerRotation;
-        towerPart.transform.localRotation = newTowerRotation;
+        towerPart.transform.rotation = newTowerRotation;
 
         verticalRotation = newBarrelRotation;
         barrelPart.transform.localRotation = newBarrelRotation;
     }
 
 
-    private void Update() {
-        if (!hasAuthority) {
-            return;
+
+
+    private float CalculateVerticalAngle(float distanceRatio) {
+
+        float maxAngle = 45f;
+        float minAngle = 0f;
+
+        float k = (maxAngle - minAngle) / (cutoffMaxRatio - cutoffMinRatio);
+        float m = -k * cutoffMinRatio; 
+        
+        if (distanceRatio > cutoffMaxRatio) {
+            return maxAngle; 
         }
-        handleTouch();
-        handleMouse();
+
+        if (distanceRatio <= cutoffMinRatio) {
+            return minAngle; 
+        }
+
+        return m + k * distanceRatio; 
     }
 
+    
     private void handleTouch() {
         if (Input.touchCount <= 0) {
             return;
         }
-
+        
         Touch touch = Input.GetTouch(0);
 
-        switch (touch.phase) {
-            case TouchPhase.Moved:
-                float deltaX = touch.deltaPosition.x * sensitivity;
-                float deltaY = touch.deltaPosition.y * sensitivity;
-                var inputTowerRotation = towerPart.transform.localRotation;
-                var inputBarrelRotation = barrelPart.transform.localRotation;
-                ClientRotate(deltaY, -deltaX, inputTowerRotation, inputBarrelRotation);
-                break;
-
-            case TouchPhase.Began:
-            case TouchPhase.Ended:
-            case TouchPhase.Canceled:
-                break;
+        if (touch.phase is not TouchPhase.Moved and not TouchPhase.Began) {
+            return;
         }
+        
+        Vector3 touchPosition = new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane);
+        Vector3 touchPositionWorld = mainCamera.ScreenToWorldPoint(touchPosition);
+        // Vector3 touchPositionWorld =
+            // mainCamera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane));
+        // Debug.Log(touchPositionWorld);
+        Vector3 cannonPosition = barrelPart.transform.position;
+        Vector3 touchPositionWorldProjected = new Vector3(touchPositionWorld.x, cannonPosition.y, touchPositionWorld.z);
+
+        Quaternion horizontal = CalculateHorizontalRotation(touchPositionWorldProjected, cannonPosition);
+        Quaternion vertical = Quaternion.Euler(-4, 0, 0);
+
+        
+        CmdSetRotation(horizontal, vertical);
+
+    }
+
+
+    private Quaternion CalculateVerticalRotation(Vector3 touch, Vector3 cannon) {
+        float distanceToTouch = (touch - cannon).magnitude;
+        float distanceToCenter = (new Vector3(0, 0, 0) - cannon).magnitude;
+        float distanceRatio = distanceToTouch / distanceToCenter;
+        float verticalAngle = CalculateVerticalAngle(distanceRatio); 
+        Quaternion vertical = Quaternion.Euler(-verticalAngle, 0, 0);
+        return vertical; 
+    }
+
+    private Quaternion CalculateHorizontalRotation(Vector3 touch, Vector3 cannon) {
+        Vector3 touchDirection = (touch - cannon).normalized;
+        Quaternion horizontal = Quaternion.LookRotation(touchDirection);
+        // Debug.Log(touchDirection);
+        return horizontal; 
     }
 
     private void handleMouse() {
@@ -137,11 +194,38 @@ public class WaterballPlayer : CITEPlayer {
             Vector3 currentMousePosition = Input.mousePosition;
             float deltaX = (currentMousePosition.x - initialMousePosition.x) * sensitivity;
             float deltaY = (currentMousePosition.y - initialMousePosition.y) * sensitivity;
-            ClientRotate(-deltaY, -deltaX, initialTowerRotation, initialBarrelRotation);
+            ClientRotateMouse(-deltaY, -deltaX, initialTowerRotation, initialBarrelRotation);
         }
     }
 }
 
+
+    //
+    // private void handleTouch() {
+    //     if (Input.touchCount <= 0) {
+    //         return;
+    //     }
+    //
+    //     Touch touch = Input.GetTouch(0);
+    //
+    //     switch (touch.phase) {
+    //         case TouchPhase.Moved:
+    //             float deltaX = touch.deltaPosition.x * sensitivity;
+    //             float deltaY = touch.deltaPosition.y * sensitivity;
+    //             var inputTowerRotation = towerPart.transform.localRotation;
+    //             var inputBarrelRotation = barrelPart.transform.localRotation;
+    //             ClientRotate(deltaY, -deltaX, inputTowerRotation, inputBarrelRotation);
+    //             break;
+    //
+    //         case TouchPhase.Began:
+    //         case TouchPhase.Ended:
+    //         case TouchPhase.Canceled:
+    //             break;
+    //     }
+    // }
+
+
+    
 
 // public void Update() {
 // if (hasAuthority) {

@@ -48,7 +48,7 @@ public class WaterballParticleStreamPhysicsInteraction : MonoBehaviour {
         foreach (var collision in collisionEvents) {
             var collisionVelocity = collision.velocity;
             var collisionIntersection = collision.intersection;
-            var forceApplied = collisionVelocity * forceMagnitude; 
+            var forceApplied = collisionVelocity.normalized * forceMagnitude; 
             parentNetworkObject.GetComponent<WaterballPlayer>()
                 .ApplyForceOnBall(other.GetComponent<NetworkIdentity>(), forceApplied, collisionIntersection);
         }

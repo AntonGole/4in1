@@ -13,6 +13,11 @@ public class WaterballParticleSplashHandler : MonoBehaviour {
     private Random rnd = new Random();
 
     private void OnParticleCollision(GameObject other) {
+        
+        // var audioManager = WaterballAudioManager.Instance; 
+        // audioManager.PlaySoundEffect(audioManager.splash, 0.05f);
+        
+        
         var collisionEvents = new List<ParticleCollisionEvent>();
         int numCollisionEvents = GetComponent<ParticleSystem>().GetCollisionEvents(other, collisionEvents);
 
@@ -43,6 +48,7 @@ public class WaterballParticleSplashHandler : MonoBehaviour {
 
         subEmitterInstance = Instantiate(emitter, collisionPoint, Quaternion.LookRotation(direction));
         subEmitterInstance.Play();
+
         Destroy(subEmitterInstance.gameObject, subEmitterInstance.main.startLifetime.constantMax);
         // Debug.Log(subEmitterInstance.main.startLifetime);
     }
