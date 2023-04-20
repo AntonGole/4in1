@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Mirror;
+using UnityEditor.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -16,7 +17,8 @@ public class WaterballCountdownBanner : NetworkBehaviour {
     private float fillRate;
     private float totalFilledPercentage = 0.25f;
 
-    private bool stopTimer = false; 
+    private bool stopTimer = false;
+    private bool hasPlayedSound = false; 
     
 
     private void Start() {
@@ -32,7 +34,57 @@ public class WaterballCountdownBanner : NetworkBehaviour {
     private void Update() {
         var currentTime = Time.time;
         var rate = DetermineFillAmountRateOfChange(currentTime);
+        var previousFilledGrade = filledGrade; 
         AdjustFilled(filledGrade + rate * Time.deltaTime);
+
+        Debug.Log("filledGrade: " + filledGrade);
+        
+        // if (!isServer) {
+        //     return; 
+        // }
+        //
+        // if (filledGrade > previousFilledGrade) {
+        //     hasPlayedSound = false; 
+        //     return;
+        // }
+        //
+        // if (filledGrade <= 0) {
+        //     return; 
+        // }
+        //
+        // if (hasPlayedSound) {
+        //     return; 
+        // }
+        //
+        // if (filledGrade >= 0.25) {
+        //     return; 
+        // }
+        //
+        // if (stopTimer) {
+        //     hasPlayedSound = false; 
+        //     return; 
+        // }
+        //
+        // PlaySound();
+        // hasPlayedSound = true; 
+
+
+
+        // if (filledGrade <= previousFilledGrade && filledGrade > 0 && isServer && filledGrade < 0.25) {
+        //     PlaySound();
+        //     hasPlayedSound = true; 
+        // }
+        // else {
+        //     hasPlayedSound = false; 
+        // }
+
+    }
+
+
+    [Server]
+    private void PlaySound() {
+        var audioManager = WaterballAudioManager.Instance; 
+        audioManager.PlaySoundEffect(audioManager.pop, 1);
     }
 
 
@@ -104,3 +156,10 @@ public class WaterballCountdownBanner : NetworkBehaviour {
 
 
 }
+
+
+
+
+        
+
+        

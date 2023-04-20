@@ -72,14 +72,28 @@ public class WaterballLevelManager : NetworkBehaviour {
     private void BallEnteredGoal() {
         ballsInGoal++; 
         Debug.Log($"ballsInGoal: {ballsInGoal}");
+        if (isBallSpawning) {
+            return;
+        }
+
+        Debug.Log("vi ska spela positive sound");
         goal.GetComponent<WaterballGoal>().SetBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
+        var clip = WaterballAudioManager.Instance.positiveBlip; 
+        WaterballAudioManager.Instance.PlaySoundEffect(clip, 1);
     }
 
 
     private void BallExitedGoal() {
         ballsInGoal--; 
         Debug.Log($"ballsInGoal: {ballsInGoal}");
+        if (isBallSpawning) {
+            return;
+        }
+        
+        Debug.Log("vi ska spela negative sound");
         goal.GetComponent<WaterballGoal>().SetBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
+        var clip = WaterballAudioManager.Instance.negativeBlip; 
+        WaterballAudioManager.Instance.PlaySoundEffect(clip, 1);
     }
     
 
@@ -88,12 +102,13 @@ public class WaterballLevelManager : NetworkBehaviour {
     public void MoveBallsToMiddle() {
         var objects = GameObject.FindGameObjectsWithTag("Ball");
         for (var i = 0; i < objects.Length; i++) {
-
-            var extraHeight = new Vector3(0, i + 2, 0);
-            objects[i].transform.position = Vector3.zero + extraHeight;
+            var ballHeight = ballPrefab.GetComponent<Renderer>().bounds.size.y;
+            var extraHeight = new Vector3(0, ballHeight + 0.1f, 0);
+            var baseHeight = new Vector3(0, 2, 0);
+            objects[i].transform.position = Vector3.zero + baseHeight + extraHeight * i;
         }
     }
-    
+
     [Server]
     public IEnumerator SpawnBallsCoroutine() {
         var spawnerScript = ballSpawner.GetComponent<WaterballBallSpawner>();
@@ -187,6 +202,8 @@ public class WaterballLevelManager : NetworkBehaviour {
         isPlayingEnding = true;
         var duration = endingBannerComponent.duration; 
         endingBannerComponent.StartBannerClientRpc();
+        var audioManager = WaterballAudioManager.Instance; 
+        audioManager.PlaySoundEffect(audioManager.yay, 1);
         yield return new WaitForSeconds(duration); 
         isPlayingEnding = false; 
     }

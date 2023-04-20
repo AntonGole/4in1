@@ -755,6 +755,11 @@ PrefabInstance:
       propertyPath: oneWaySpawnCollider
       value: 
       objectReference: {fileID: 1010596538}
+    - target: {fileID: 4531120759847274127, guid: bb85f51863d2c9d48ab536733c51b279,
+        type: 3}
+      propertyPath: minBallSpawningSpeed
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 7991271210433631324, guid: bb85f51863d2c9d48ab536733c51b279,
         type: 3}
       propertyPath: sceneId

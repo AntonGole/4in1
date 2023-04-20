@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: -4403596591182836040}
   - component: {fileID: -5173129791187024878}
   - component: {fileID: 6466282617882263326}
+  - component: {fileID: 4520475625845204674}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Player
@@ -330,6 +331,14 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!81 &4520475625845204674
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6165147063460364115}
+  m_Enabled: 1
 --- !u!1001 &2574997855994567176
 PrefabInstance:
   m_ObjectHideFlags: 0

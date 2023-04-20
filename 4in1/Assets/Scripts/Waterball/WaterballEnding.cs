@@ -39,6 +39,7 @@ public class WaterballEnding : NetworkBehaviour {
     [ClientRpc]
     public void StartBannerClientRpc() {
         StartCoroutine(StartBannerCoroutine());
+        
     }
     
     

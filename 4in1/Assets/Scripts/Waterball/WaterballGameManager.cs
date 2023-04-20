@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 using Mirror;
 using UnityEngine;
@@ -9,11 +10,13 @@ using Random = System.Random;
 
 namespace DefaultNamespace {
     public class WaterballGameManager : NetworkBehaviour {
-        public string[] levelNames;
+        // public string[] levelNames;
         // private bool isPlayingGetReady = false;
         // private bool isEndingLevel = false;
         // private bool isSpawningBalls = false;
         // private bool isLoading = false;
+
+        public List<string> levelNames; 
 
         private Coroutine warmupCoroutine; 
         private Coroutine ballSpawningCoroutine; 
@@ -38,7 +41,11 @@ namespace DefaultNamespace {
 
 
         private void Start() {
-            levelNames = new string[] {"GameScene", "Ball Tester", "Level 9"};
+            levelNames = new List<string>();
+            levelNames.Add("GameScene"); 
+            levelNames.Add("Level 8"); 
+            levelNames.Add("Level 9"); 
+            // levelNames = new string[] {"GameScene", "Ball Tester", "Level 9"};
             // currentState = GameState.Warmup; 
             Debug.Log("destroyar inte");
             DontDestroyOnLoad(gameObject);
@@ -219,7 +226,7 @@ namespace DefaultNamespace {
         private void LoadNextLevel() {
             currentState = GameState.Loading; 
             currentLevel++;
-            if (currentLevel >= levelNames.Length) {
+            if (currentLevel >= levelNames.Count) {
                 currentLevel = 0;
             }
 
