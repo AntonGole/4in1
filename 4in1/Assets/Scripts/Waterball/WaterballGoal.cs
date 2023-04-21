@@ -19,12 +19,13 @@ public class WaterballGoal : NetworkBehaviour {
     public event Action BallEnteredGoalEvent;
     public event Action BallExitedGoalEvent;
 
+    [ClientRpc]
     public void SetBallRatio(float newRatio) {
         ballRatio = newRatio; 
     }
 
 
-    [ClientRpc]
+    // [ClientRpc]
     private void OnBallRatioChanged(float oldRatio, float newRatio) {
         Debug.Log("got a color update: " + newRatio);
         foreach (var surface in goalSurfaces) {

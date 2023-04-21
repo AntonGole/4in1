@@ -81,6 +81,7 @@ public class WaterballLevelManager : NetworkBehaviour {
     }
     
 
+    [Server]
     private void BallEnteredGoal() {
         ballsInGoal++; 
         Debug.Log($"ballsInGoal: {ballsInGoal}");
@@ -95,7 +96,8 @@ public class WaterballLevelManager : NetworkBehaviour {
         WaterballAudioManager.Instance.PlaySoundEffect(clip, 1);
     }
 
-
+    
+    [Server]
     private void BallExitedGoal() {
         ballsInGoal--; 
         Debug.Log($"ballsInGoal: {ballsInGoal}");
