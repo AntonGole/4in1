@@ -89,7 +89,8 @@ public class WaterballLevelManager : NetworkBehaviour {
         }
 
         Debug.Log("vi ska spela positive sound");
-        goal.GetComponent<WaterballGoal>().SetBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
+        var ballRatio = calculateBallRatio(ballsInGoal, ballsTotal); 
+        goal.GetComponent<WaterballGoal>().SetBallRatio(ballRatio);
         var clip = WaterballAudioManager.Instance.positiveBlip; 
         WaterballAudioManager.Instance.PlaySoundEffect(clip, 1);
     }
@@ -103,7 +104,8 @@ public class WaterballLevelManager : NetworkBehaviour {
         }
         
         Debug.Log("vi ska spela negative sound");
-        goal.GetComponent<WaterballGoal>().SetBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
+        var ballRatio = calculateBallRatio(ballsInGoal, ballsTotal); 
+        goal.GetComponent<WaterballGoal>().SetBallRatio(ballRatio);
         var clip = WaterballAudioManager.Instance.negativeBlip; 
         WaterballAudioManager.Instance.PlaySoundEffect(clip, 1);
     }

@@ -37,7 +37,7 @@ public class WaterballCountdownBanner : NetworkBehaviour {
         var previousFilledGrade = filledGrade; 
         AdjustFilled(filledGrade + rate * Time.deltaTime);
 
-        Debug.Log("filledGrade: " + filledGrade);
+        // Debug.Log("filledGrade: " + filledGrade);
         
         // if (!isServer) {
         //     return; 

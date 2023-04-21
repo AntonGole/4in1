@@ -87,19 +87,19 @@ namespace DefaultNamespace {
                 case GameState.Loading:
                     return;
                 case GameState.Warmup:
-                    Debug.Log("vi är i warmup");
+                    // Debug.Log("vi är i warmup");
                     StartCoroutine(Warmup(script)); 
                     return;
                 case GameState.BallSpawning:
-                    Debug.Log("vi är i ball spawning");
+                    // Debug.Log("vi är i ball spawning");
                     StartCoroutine(BallSpawning(script));
                     return;
                 case GameState.Playing:
-                    Debug.Log("vi är i playing");
+                    // Debug.Log("vi är i playing");
                     Playing(script);
                     return;
                 case GameState.EndingLevel:
-                    Debug.Log("vi är i ending");
+                    // Debug.Log("vi är i ending");
                     StartCoroutine(Ending(script));
                     return;
                 default:

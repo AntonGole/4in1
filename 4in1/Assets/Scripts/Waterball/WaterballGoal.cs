@@ -25,6 +25,7 @@ public class WaterballGoal : NetworkBehaviour {
 
 
     private void OnBallRatioChanged(float oldRatio, float newRatio) {
+        Debug.Log("got a color update: " + newRatio);
         foreach (var surface in goalSurfaces) {
             var goalMaterial = surface.GetComponent<Renderer>().material; 
             goalMaterial.SetFloat("_Blend", ballRatio);
