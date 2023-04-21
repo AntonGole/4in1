@@ -45,7 +45,7 @@ public class WaterballAudioManager : NetworkBehaviour {
             return; 
         }
         // Debug.Log("vi är inne i playsoundeffect");
-        Debug.Log(clip);
+        // Debug.Log(clip);
         audioSource.PlayOneShot(clip, volume);
         
     }

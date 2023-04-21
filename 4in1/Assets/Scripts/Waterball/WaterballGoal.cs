@@ -19,15 +19,18 @@ public class WaterballGoal : NetworkBehaviour {
     public event Action BallEnteredGoalEvent;
     public event Action BallExitedGoalEvent;
 
-    [ClientRpc]
+    // [ClientRpc]
+    [Server]
     public void SetBallRatio(float newRatio) {
-        ballRatio = newRatio; 
+        
+        ballRatio = newRatio;
+        Debug.Log("set new ballradio: " + newRatio);
     }
 
 
     // [ClientRpc]
     private void OnBallRatioChanged(float oldRatio, float newRatio) {
-        Debug.Log("got a color update: " + newRatio);
+        Debug.Log("got a new ball ratio!: " + newRatio);
         foreach (var surface in goalSurfaces) {
             var goalMaterial = surface.GetComponent<Renderer>().material; 
             goalMaterial.SetFloat("_Blend", ballRatio);
