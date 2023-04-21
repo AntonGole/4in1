@@ -543,7 +543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9968537bb5584292b21dd47842ab10d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceMagnitude: 0.05
+  forceMagnitude: 0.1
   particleSystem: {fileID: 3370893898642342484}
   parentNetworkObject: {fileID: 6165147063460364115}
 --- !u!198 &6979950238213593800 stripped
