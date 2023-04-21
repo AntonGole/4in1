@@ -64,8 +64,20 @@ public class WaterballLevelManager : NetworkBehaviour {
         ballsTotal = 0;
         ballsInGoal = 0; 
         var goalScript = goal.GetComponent<WaterballGoal>();
-        goalScript.BallEnteredGoalEvent += BallEnteredGoal;
-        goalScript.BallExitedGoalEvent += BallExitedGoal;
+
+        if (isServer) {
+            goalScript.BallEnteredGoalEvent += BallEnteredGoal;
+            goalScript.BallExitedGoalEvent += BallExitedGoal;
+            Debug.Log("server subbed");
+        } else if (isClient) {
+            goalScript.BallEnteredGoalEvent += BallEnteredGoal;
+            goalScript.BallExitedGoalEvent += BallExitedGoal;
+            Debug.Log("client subbed");
+        }
+        
+        
+        
+
     }
     
 
