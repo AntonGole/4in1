@@ -29,8 +29,8 @@ public class WaterballParticleStreamPhysicsInteraction : MonoBehaviour {
             return;
         }
 
-        WaterballBall waterballBall = other.GetComponent<WaterballBall>();
-        if (waterballBall == null) {
+        WaterballBallPhysics waterballBallPhysics = other.GetComponent<WaterballBallPhysics>();
+        if (waterballBallPhysics == null) {
             // Debug.Log("fanns ingen waterball component");
             return;
         }

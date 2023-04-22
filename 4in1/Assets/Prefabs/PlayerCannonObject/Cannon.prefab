@@ -376,6 +376,11 @@ PrefabInstance:
       propertyPath: InitialModule.gravityModifier.scalar
       value: 0.45
       objectReference: {fileID: 0}
+    - target: {fileID: 2617926336202180196, guid: 724a0f749cc03894fb02df368fecb008,
+        type: 3}
+      propertyPath: threshold
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 3284413708040194436, guid: 724a0f749cc03894fb02df368fecb008,
         type: 3}
       propertyPath: m_Name
@@ -470,6 +475,21 @@ PrefabInstance:
         type: 3}
       propertyPath: cullingMode
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855435834572996800, guid: 724a0f749cc03894fb02df368fecb008,
+        type: 3}
+      propertyPath: TriggerModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855435834572996800, guid: 724a0f749cc03894fb02df368fecb008,
+        type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855435834572996800, guid: 724a0f749cc03894fb02df368fecb008,
+        type: 3}
+      propertyPath: CollisionModule.m_EnergyLossOnCollision.scalar
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6502780475805936015, guid: 724a0f749cc03894fb02df368fecb008,
         type: 3}

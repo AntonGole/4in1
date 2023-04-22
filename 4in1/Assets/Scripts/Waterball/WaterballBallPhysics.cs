@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class WaterballBall : NetworkBehaviour {
+public class WaterballBallPhysics : NetworkBehaviour {
 
 
     public float dragCoefficient = 0;
