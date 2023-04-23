@@ -1,7 +1,7 @@
 using Mirror;
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
+// using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using System;
 using Mirror.SimpleWeb;
 
 public class WaterballNetworkManager : CITENetworkManager {
-    private Dictionary<NetworkConnection,int> connectedIDs;
+    private System.Collections.Generic.Dictionary<NetworkConnection, int> connectedIDs;
     public GameObject floor; 
     
     public override void OnServerAddPlayer(NetworkConnectionToClient conn) {
