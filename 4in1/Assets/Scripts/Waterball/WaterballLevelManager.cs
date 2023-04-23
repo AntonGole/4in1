@@ -64,34 +64,50 @@ public class WaterballLevelManager : NetworkBehaviour {
         ballsTotal = 0;
         ballsInGoal = 0; 
         var goalScript = goal.GetComponent<WaterballGoal>();
-        goalScript.BallEnteredGoalEvent += BallEnteredGoal;
-        goalScript.BallExitedGoalEvent += BallExitedGoal;
+
+        if (isServer) {
+            goalScript.BallEnteredGoalEvent += BallEnteredGoal;
+            goalScript.BallExitedGoalEvent += BallExitedGoal;
+            Debug.Log("server subbed");
+        } else if (isClient) {
+            goalScript.BallEnteredGoalEvent += BallEnteredGoal;
+            goalScript.BallExitedGoalEvent += BallExitedGoal;
+            Debug.Log("client subbed");
+        }
+        
+        
+        
+
     }
     
 
+    [Server]
     private void BallEnteredGoal() {
         ballsInGoal++; 
-        Debug.Log($"ballsInGoal: {ballsInGoal}");
+        // Debug.Log($"ballsInGoal: {ballsInGoal}");
         if (isBallSpawning) {
             return;
         }
 
-        Debug.Log("vi ska spela positive sound");
-        goal.GetComponent<WaterballGoal>().SetBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
+        // Debug.Log("vi ska spela positive sound");
+        var ballRatio = calculateBallRatio(ballsInGoal, ballsTotal); 
+        goal.GetComponent<WaterballGoal>().SetBallRatio(ballRatio);
         var clip = WaterballAudioManager.Instance.positiveBlip; 
         WaterballAudioManager.Instance.PlaySoundEffect(clip, 1);
     }
 
-
+    
+    [Server]
     private void BallExitedGoal() {
         ballsInGoal--; 
-        Debug.Log($"ballsInGoal: {ballsInGoal}");
+        // Debug.Log($"ballsInGoal: {ballsInGoal}");
         if (isBallSpawning) {
             return;
         }
         
-        Debug.Log("vi ska spela negative sound");
-        goal.GetComponent<WaterballGoal>().SetBallRatio(calculateBallRatio(ballsInGoal, ballsTotal));
+        // Debug.Log("vi ska spela negative sound");
+        var ballRatio = calculateBallRatio(ballsInGoal, ballsTotal); 
+        goal.GetComponent<WaterballGoal>().SetBallRatio(ballRatio);
         var clip = WaterballAudioManager.Instance.negativeBlip; 
         WaterballAudioManager.Instance.PlaySoundEffect(clip, 1);
     }

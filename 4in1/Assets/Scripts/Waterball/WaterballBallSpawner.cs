@@ -54,7 +54,8 @@ public class WaterballBallSpawner : NetworkBehaviour {
     }
 
     private Vector3 GetNextBallSpawnPosition(Vector3 lastPosition) {
-        return lastPosition + Vector3.up;
+        var ballHeight = ballPrefab.GetComponent<Renderer>().bounds.size.y; 
+        return lastPosition + Vector3.up * (ballHeight + 0.1f);
     }
 
     private Quaternion GetRandomBallDirection() {

@@ -54,7 +54,7 @@ public class WaterballPlayer : CITEPlayer {
             return;
         }
         handleTouch();
-        // handleMouse();
+        handleMouse();
     }
     
     
@@ -77,9 +77,9 @@ public class WaterballPlayer : CITEPlayer {
     [Command]
     private void CmdApplyForceOnBall(uint ballNetId, Vector3 impactForce, Vector3 impactPosition) {
         GameObject ballObject = NetworkServer.spawned[ballNetId].gameObject;
-        WaterballBall ball = ballObject.GetComponent<WaterballBall>();
+        WaterballBallPhysics ballPhysics = ballObject.GetComponent<WaterballBallPhysics>();
 
-        ball.ApplyForce(impactForce, impactPosition);
+        ballPhysics.ApplyForce(impactForce, impactPosition);
         // Debug.Log("inne i waterball player cmd apply force");
     }
 
