@@ -48,7 +48,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: bb85f51863d2c9d48ab536733c51b279
   hasSpawned: 0
 --- !u!114 &4531120759847274127
 MonoBehaviour:
@@ -71,3 +71,4 @@ MonoBehaviour:
   minBallSpawningSpeed: 15
   numberOfBalls: 1
   spawningHeight: 4
+  isOneWayColliderActive: 0

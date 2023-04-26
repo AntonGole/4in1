@@ -42,7 +42,8 @@ namespace DefaultNamespace {
 
         private void Start() {
             levelNames = new List<string>();
-            levelNames.Add("GameScene"); 
+            levelNames.Add("GameScene");
+            levelNames.Add("Level 10");
             levelNames.Add("Ball Tester"); 
             levelNames.Add("Level 8"); 
             levelNames.Add("Level 9"); 

@@ -232,6 +232,7 @@ MonoBehaviour:
   - {fileID: 3515805555055597904, guid: dc2d50b59126ad943959b3e8925d53b2, type: 3}
   - {fileID: 3324542485524740978, guid: a22a2a162078cbd4ea5abb1f75a26929, type: 3}
   - {fileID: 3515805555055597904, guid: c9a26b2ad08ac3d4ab50485f5a987ffe, type: 3}
+  - {fileID: 1296655613287696, guid: 513a3e4362e119f4fa20501d86f960e2, type: 3}
   bootstrapSceneBuildIndex: 2
   errorSceneBuildIndex: 1
   floor: {fileID: 4874957317502237515, guid: 20567aa97ef1f3e4a9a601b611447e43, type: 3}
