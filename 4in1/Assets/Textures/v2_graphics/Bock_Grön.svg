@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ready_" data-name="Ready?" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1046.07 1045.09">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        stroke: #3d7523;
+        stroke-miterlimit: 10;
+        stroke-width: 15.72px;
+      }
+
+      .cls-2 {
+        fill: #5f9e46;
+      }
+
+      .cls-3 {
+        filter: url(#drop-shadow-11);
+      }
+
+      .cls-4 {
+        fill: url(#radial-gradient);
+      }
+    </style>
+    <radialGradient id="radial-gradient" cx="523.03" cy="522.55" fx="523.03" fy="522.55" r="725.41" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5f9e46"/>
+      <stop offset=".17" stop-color="#66a94b"/>
+      <stop offset=".46" stop-color="#78c858"/>
+      <stop offset=".58" stop-color="#81d65f"/>
+    </radialGradient>
+    <filter id="drop-shadow-11" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="10"/>
+      <feGaussianBlur result="blur" stdDeviation="0"/>
+      <feFlood flood-color="#1c6b09" flood-opacity="1"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Ready">
+    <g id="Bock">
+      <circle class="cls-4" cx="523.03" cy="522.55" r="432"/>
+      <g id="Krans">
+        <path class="cls-2" d="m523.03,90.55c238.59,0,432,193.41,432,432s-193.41,432-432,432S91.03,761.13,91.03,522.55,284.45,90.55,523.03,90.55m0-20c-61.01,0-120.21,11.95-175.95,35.53-53.83,22.77-102.16,55.35-143.67,96.86s-74.09,89.84-96.86,143.67c-23.57,55.74-35.53,114.93-35.53,175.94s11.95,120.21,35.53,175.94c22.77,53.83,55.35,102.16,96.86,143.67s89.84,74.09,143.67,96.86c55.74,23.58,114.93,35.53,175.95,35.53s120.21-11.95,175.94-35.53c53.83-22.77,102.16-55.35,143.67-96.86,41.5-41.5,74.09-89.84,96.86-143.67,23.57-55.74,35.53-114.93,35.53-175.94s-11.95-120.21-35.53-175.94c-22.77-53.83-55.35-102.16-96.86-143.67-41.5-41.5-89.84-74.09-143.67-96.86-55.74-23.58-114.93-35.53-175.94-35.53h0Z"/>
+      </g>
+      <g class="cls-3">
+        <path class="cls-1" d="m652.99,381.25c-68.27,128.45-111.09,304.22-111.54,305.56-4.49,18.86-21.56,31.44-39.97,31.44-3.14,0-6.29-.45-9.43-.9-42.27-5.99-70.99-109.78-91.69-154.5-5.66-12.22-11.61-24.43-12.1-37.88-.79-21.25,7.42-37.68,22.01-44.67,20.72-9.92,43.49-5.04,56.52,38.07,8.53,26.05,16.57,42.81,22.86,60.78,9.88-21.56,78.92-214.07,90.59-236.53,10.78-19.76,35.48-27.4,55.69-16.62,20.21,10.33,27.85,35.48,17.07,55.24Z"/>
+      </g>
+    </g>
+  </g>
+</svg>
