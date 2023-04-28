@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_2048x2048" data-name="2048x2048" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2048 2048">
+  <defs>
+    <style>
+      .cls-1 {
+        filter: url(#drop-shadow-13);
+      }
+
+      .cls-1, .cls-2 {
+        fill: #67dbd2;
+        stroke: #1f7569;
+        stroke-miterlimit: 10;
+        stroke-width: 3.6px;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        font-family: Jungle-Hope, 'Jungle Hope';
+        font-size: 130px;
+      }
+
+      .cls-3, .cls-4 {
+        fill: #78b5b5;
+      }
+
+      .cls-4 {
+        filter: url(#drop-shadow-12);
+      }
+    </style>
+    <filter id="drop-shadow-12" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="10.8"/>
+      <feGaussianBlur result="blur" stdDeviation="0"/>
+      <feFlood flood-color="#000" flood-opacity="1"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="drop-shadow-13" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="10.72"/>
+      <feGaussianBlur result="blur-2" stdDeviation="0"/>
+      <feFlood flood-color="#000" flood-opacity="1"/>
+      <feComposite in2="blur-2" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Waterball_copy_2" data-name="Waterball copy 2">
+    <text class="cls-4" transform="translate(1917.95 1336.51) rotate(-74.06)"><tspan x="0" y="0">W</tspan></text>
+    <text class="cls-3" transform="translate(1918.76 716.58) rotate(-111.23)"><tspan x="0" y="0">a</tspan></text>
+    <text class="cls-3" transform="translate(1562.81 246.05) rotate(-147.62)"><tspan x="0" y="0">t</tspan></text>
+    <text class="cls-3" transform="translate(988.39 78.27) rotate(175.44)"><tspan x="0" y="0">e</tspan></text>
+    <text class="cls-3" transform="translate(425.65 291.03) rotate(138.64)"><tspan x="0" y="0">r</tspan></text>
+    <text class="cls-3" transform="translate(106.16 793.98) rotate(101.8)"><tspan x="0" y="0">b</tspan></text>
+    <text class="cls-3" transform="translate(152.94 1393.22) rotate(64.78)"><tspan x="0" y="0">a</tspan></text>
+    <text class="cls-3" transform="translate(545.93 1840.54) rotate(28.08)"><tspan x="0" y="0">l</tspan></text>
+    <text class="cls-3" transform="translate(1128.69 1964.44) rotate(-8.6)"><tspan x="0" y="0">l</tspan></text>
+    <text class="cls-3" transform="translate(1668.95 1715.68) rotate(-44.01)"><tspan x="0" y="0">!</tspan></text>
+    <text class="cls-1" transform="translate(1911.12 1334.03) rotate(-74.09)"><tspan x="0" y="0">W</tspan></text>
+    <text class="cls-2" transform="translate(1911.54 717.93) rotate(-111.32)"><tspan x="0" y="0">a</tspan></text>
+    <text class="cls-2" transform="translate(1557.15 250.99) rotate(-147.75)"><tspan x="0" y="0">t</tspan></text>
+    <text class="cls-2" transform="translate(985.42 85.69) rotate(175.23)"><tspan x="0" y="0">e</tspan></text>
+    <text class="cls-2" transform="translate(427.09 299.29) rotate(138.37)"><tspan x="0" y="0">r</tspan></text>
+    <text class="cls-2" transform="translate(112.18 800.03) rotate(101.51)"><tspan x="0" y="0">b</tspan></text>
+    <text class="cls-2" transform="translate(161.75 1395.25) rotate(64.44)"><tspan x="0" y="0">a</tspan></text>
+    <text class="cls-2" transform="translate(554.94 1837.34) rotate(27.69)"><tspan x="0" y="0">l</tspan></text>
+    <text class="cls-2" transform="translate(1135.28 1956.35) rotate(-9.07)"><tspan x="0" y="0">l</tspan></text>
+    <text class="cls-2" transform="translate(1669.99 1704.72) rotate(-44.53)"><tspan x="0" y="0">!</tspan></text>
+  </g>
+</svg>
