@@ -111,8 +111,10 @@ public class CameraPositioner : MonoBehaviour {
         
 
         var cameraHeight = relativeScreenZ / 2;
-        camera.transform.localRotation = Quaternion.identity;
-        camera.transform.position = cameraPosition + new Vector3(0, 10, 0);
+        var cameraTransform = camera.transform; 
+        
+        cameraTransform.localRotation = Quaternion.identity;
+        cameraTransform.position = cameraPosition + new Vector3(0, 10, 0);
         camera.orthographic = true;
         camera.orthographicSize = cameraHeight; 
 

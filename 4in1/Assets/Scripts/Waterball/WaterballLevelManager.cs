@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 using Random = System.Random;
 
 
-public class WaterballLevelManager : NetworkBehaviour {
+public class WaterballLevelManager : NetworkBehaviour, ILevelManager {
     public GameObject getReadyBannerPrefab;
     public GameObject countdownBannerPrefab;
     public GameObject endingBannerPrefab;
@@ -22,11 +22,11 @@ public class WaterballLevelManager : NetworkBehaviour {
     private int ballsInGoal = 0;
     private int ballsTotal = 0;
 
-    public bool isPlayingGetReady = false;
-    public bool isPlayingCountdown = false;
-    public bool isPlayingEnding = false;
-    public bool isBallSpawning = false;
-    public bool isWon = false;
+    private bool isPlayingGetReady = false;
+    private bool isPlayingCountdown = false;
+    private bool isPlayingEnding = false;
+    private bool isBallSpawning = false;
+    private bool isWon = false;
     // public bool countdownAborted = false;
     private int countdownRuns = 0;
 
