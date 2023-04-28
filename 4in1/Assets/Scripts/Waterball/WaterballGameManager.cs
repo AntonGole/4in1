@@ -144,7 +144,7 @@ namespace DefaultNamespace {
         [Server]
         private void Playing(WaterballLevelManager script) {
             if (script.IsWinConditionMet()) {
-                if (script.isWon) {
+                if (script.IsWon()) {
                     currentState = GameState.EndingLevel;
                     return;
                 }
