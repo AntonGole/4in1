@@ -8,308 +8,320 @@ using UnityEngine.SceneManagement;
 using Random = System.Random;
 
 
-namespace DefaultNamespace {
-    public class WaterballGameManager : NetworkBehaviour {
-        // public string[] levelNames;
-        // private bool isPlayingGetReady = false;
-        // private bool isEndingLevel = false;
-        // private bool isSpawningBalls = false;
-        // private bool isLoading = false;
+public class WaterballGameManager : NetworkBehaviour {
 
-        public List<string> levelNames; 
+    public static WaterballGameManager Instance; 
+    // public string[] levelNames;
+    // private bool isPlayingGetReady = false;
+    // private bool isEndingLevel = false;
+    // private bool isSpawningBalls = false;
+    // private bool isLoading = false;
 
-        private Coroutine warmupCoroutine; 
-        private Coroutine ballSpawningCoroutine; 
-        private Coroutine endingCoroutine; 
-        
-        
-        
-        
+    public List<string> levelNames;
 
-        private GameObject levelManager;
-
-        private int currentLevel = 0;
-        private GameState currentState = GameState.Loading;
-
-        public enum GameState {
-            Loading,
-            Warmup,
-            BallSpawning,
-            Playing,
-            EndingLevel
-        }
+    private Coroutine warmupCoroutine;
+    private Coroutine ballSpawningCoroutine;
+    private Coroutine endingCoroutine;
+    private Coroutine countdownCoroutine;
 
 
-        private void Start() {
-            levelNames = new List<string>();
-            levelNames.Add("GameScene");
-            levelNames.Add("Level 13");
-            levelNames.Add("Level 10");
-            levelNames.Add("Ball Tester"); 
-            levelNames.Add("Level 8"); 
-            levelNames.Add("Level 9"); 
-            levelNames.Add("Level 8"); 
-            levelNames.Add("Level 9"); 
-            levelNames.Add("Level 8"); 
-            levelNames.Add("Level 9"); 
-            levelNames.Add("Level 8"); 
-            levelNames.Add("Level 9"); 
-            // levelNames = new string[] {"GameScene", "Ball Tester", "Level 9"};
-            // currentState = GameState.Warmup; 
-            Debug.Log("destroyar inte");
+    private GameObject levelManager;
+
+    private int currentLevel = 0;
+    private GameState currentState = GameState.Loading;
+
+    public enum GameState {
+        Loading,
+        Warmup,
+        BallSpawning,
+        Playing,
+        EndingLevel
+    }
+
+    private void Awake() {
+        if (Instance == null) {
+            Instance = this; 
             DontDestroyOnLoad(gameObject);
-            var scene = SceneManager.GetActiveScene();
-            var sceneMode = scene.isLoaded ? LoadSceneMode.Additive : LoadSceneMode.Single;
-            OnSceneLoaded(scene, sceneMode);
         }
 
-        private void Update() {
-            var sceneName = SceneManager.GetActiveScene().name;
-            if (sceneName is "Network" or "LobbyScene" or "ErrorScene") {
-                return;
-            }
-
-            if (!isServer) {
-                // Debug.Log("vi är inte server");
-                return;
-            }
-
-            CheckStates(currentState);
-            CheckHotkeys();
-        }
-
-
-        private void CheckStates(GameState currentStateInput) {
-            if (levelManager == null) {
-                return; 
-            }
-            
-            var script = levelManager.GetComponent<WaterballLevelManager>(); 
-            
-            switch (currentStateInput) {
-                case GameState.Loading:
-                    return;
-                case GameState.Warmup:
-                    // Debug.Log("vi är i warmup");
-                    StartCoroutine(Warmup(script)); 
-                    return;
-                case GameState.BallSpawning:
-                    // Debug.Log("vi är i ball spawning");
-                    StartCoroutine(BallSpawning(script));
-                    return;
-                case GameState.Playing:
-                    // Debug.Log("vi är i playing");
-                    Playing(script);
-                    return;
-                case GameState.EndingLevel:
-                    // Debug.Log("vi är i ending");
-                    StartCoroutine(Ending(script));
-                    return;
-                default:
-                    return;
+        else {
+            if (Instance != this) {
+                Destroy(gameObject);
             }
         }
-
-
-        [Server]
-        private IEnumerator Warmup(WaterballLevelManager script) {
-            if (script.isPlayingGetReady) {
-                yield break;
-            }
-
-            Debug.Log("startar get ready coroutine");
-            warmupCoroutine = StartCoroutine(script.StartGetReadyBannerCoroutine());
-            yield return warmupCoroutine;
-            warmupCoroutine = null; 
-            Debug.Log("get ready coroutine klar");
-            currentState = GameState.BallSpawning; 
-        }
-
-        
-        [Server]
-        private IEnumerator BallSpawning(WaterballLevelManager script) {
-            if (script.isBallSpawning) {
-                yield break; 
-            }
-
-            Debug.Log("startar ball spawning coroutine");
-            ballSpawningCoroutine = StartCoroutine(script.SpawnBallsCoroutine());
-            yield return ballSpawningCoroutine;
-            ballSpawningCoroutine = null; 
-            Debug.Log("ball spawning coroutine klar");
-            currentState = GameState.Playing; 
-        }
-        
-        
-        [Server]
-        private void Playing(WaterballLevelManager script) {
-            if (script.IsWinConditionMet()) {
-                if (script.IsWon()) {
-                    currentState = GameState.EndingLevel;
-                    return;
-                }
-
-                if (!script.isPlayingCountdown) {
-                    StartCoroutine(script.StartCountdownBannerCoroutine());
-                }
-            }
-            else {
-
-                if (script.isPlayingCountdown) {
-                    script.StopCountdownBanner();
-                }
-            }
-        }
-        
-        
-        [Server]
-        private IEnumerator Ending(WaterballLevelManager script) {
-            if (script.isPlayingEnding) {
-                yield break;
-            }
-
-            endingCoroutine = StartCoroutine(script.StartEndingBanner());
-            yield return endingCoroutine;
-            endingCoroutine = null; 
-            LoadNextLevel();
-            currentState = GameState.Loading;
-        }
-        
-        
-        private void StopAllGameCoroutines() {
-            if (warmupCoroutine != null) {
-                StopCoroutine(warmupCoroutine);
-                warmupCoroutine = null;
-            }
-
-            if (ballSpawningCoroutine != null) {
-                StopCoroutine(ballSpawningCoroutine);
-                ballSpawningCoroutine = null;
-            }
-
-            if (endingCoroutine != null) {
-                StopCoroutine(endingCoroutine);
-                endingCoroutine = null;
-            }
-        }
-        
-        
-
-        [Server]
-        private void CheckHotkeys() {
-            if (levelManager == null) {
-                return; 
-            }
-            var script = levelManager.GetComponent<WaterballLevelManager>();
-
-            if (Input.GetKeyDown(KeyCode.K)) {
-                LoadNextLevel();
-            }
-
-            if (Input.GetKeyDown(KeyCode.O)) {
-                StartCoroutine(script.StartGetReadyBannerCoroutine()); 
-            }
-
-            if (Input.GetKeyDown(KeyCode.P)) {
-                StartCoroutine(script.SpawnBallsCoroutine()); 
-            }
-
-            if (Input.GetKeyDown(KeyCode.U)) {
-                script.MoveBallsToMiddle();
-            }
-
-            if (Input.GetKeyDown(KeyCode.H)) {
-                StartCoroutine(script.StartCountdownBannerCoroutine());
-            }
-
-            if (Input.GetKeyDown(KeyCode.N)) {
-                script.StopCountdownBanner();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Y)) {
-                StartCoroutine(script.StartEndingBanner());
-            }
-        }
-
-        [Server]
-        private void LoadNextLevel() {
-            currentState = GameState.Loading; 
-            currentLevel++;
-            if (currentLevel >= levelNames.Count) {
-                currentLevel = 0;
-            }
-
-            // Debug.Log(currentLevel);
-            // Debug.Log(levelNames);
-            // Debug.Log(levelNames[currentLevel]);
-            StopAllGameCoroutines(); 
-            var networkManager = GameObject.Find("Advanced Network Configuration");
-            var script = networkManager.GetComponent<WaterballNetworkManager>();
-            script.ServerChangeScene(levelNames[currentLevel]);
-            
-            // transform.parent.GetComponent<GameObject>().GetComponent<WaterballNetworkManager>().ServerChangeScene(levelNames[currentLevel]);
-        }
-
-
-        // scene loaded hook
-
-        [Server]
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-            Debug.Log("New scene loaded: " + scene.name);
-            if (scene.name is "Network" or "LobbyScene" or "ErrorScene") {
-                return;
-            }
-
-            StartCoroutine(OnSceneLoadedDelayed(1f));
-
-            if (scene.name is "GameScene") {
-                return; 
-            }
-            WaterballAudioManager.Instance.isMuted = false; 
-        }
-
-        [Server]
-        private IEnumerator OnSceneLoadedDelayed(float waitingTime) {
-            yield return new WaitForSeconds(waitingTime);
-            levelManager = GameObject.Find("LevelManager");
-      
-            SubToEveryoneReady(); 
-            currentState = GameState.Warmup;
-            // isLoading = false;
-        }
-
-
-        private void OnEnable() {
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-
-        private void OnDisable() {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
-
-
-        private void SubToEveryoneReady() {
-            var players = GameObject.FindGameObjectsWithTag("Player");
-            foreach (var player in players) {
-                player.GetComponent<PuzzleBehaviour>().everyoneReadyEvent += ReactOnEveryoneReady; 
-            }
-        }
-            
-            
-        private void ReactOnEveryoneReady() {
-            var sceneName = SceneManager.GetActiveScene().name;
-            if (sceneName is not "GameScene") {
-                return; 
-            }
-            
-            LoadNextLevel();
-        }
-        
         
     }
+    
+
+    private void Start() {
+        levelNames = new List<string>();
+        levelNames.Add("GameScene");
+        levelNames.Add("Level 13");
+        levelNames.Add("Level 10");
+        levelNames.Add("Ball Tester");
+        // levelNames.Add("Level 8");
+        // levelNames.Add("Level 9");
+        // levelNames.Add("Level 8");
+        // levelNames.Add("Level 9");
+        // levelNames.Add("Level 8");
+        // levelNames.Add("Level 9");
+        // levelNames.Add("Level 8");
+        // levelNames.Add("Level 9");
+        // levelNames = new string[] {"GameScene", "Ball Tester", "Level 9"};
+        // currentState = GameState.Warmup; 
+        Debug.Log("destroyar inte");
+        DontDestroyOnLoad(gameObject);
+        var scene = SceneManager.GetActiveScene();
+        var sceneMode = scene.isLoaded ? LoadSceneMode.Additive : LoadSceneMode.Single;
+        OnSceneLoaded(scene, sceneMode);
+    }
+
+    private void Update() {
+        var sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName is "Network" or "LobbyScene" or "ErrorScene") {
+            return;
+        }
+
+        if (!isServer) {
+            // Debug.Log("vi är inte server");
+            return;
+        }
+
+        CheckStates(currentState);
+        CheckHotkeys();
+    }
+
+
+    private void CheckStates(GameState currentStateInput) {
+        if (levelManager == null) {
+            return;
+        }
+
+        var script = levelManager.GetComponent<ILevelManager>();
+
+        switch (currentStateInput) {
+            case GameState.Loading:
+                return;
+            case GameState.Warmup:
+                // Debug.Log("vi är i warmup");
+                StartCoroutine(Warmup(script));
+                return;
+            case GameState.BallSpawning:
+                // Debug.Log("vi är i ball spawning");
+                StartCoroutine(BallSpawning(script));
+                return;
+            case GameState.Playing:
+                // Debug.Log("vi är i playing");
+                StartCoroutine(Playing(script));
+                return;
+            case GameState.EndingLevel:
+                // Debug.Log("vi är i ending");
+                StartCoroutine(Ending(script));
+                return;
+            default:
+                return;
+        }
+    }
+
+
+    [Server]
+    private IEnumerator Warmup(ILevelManager script) {
+        if (warmupCoroutine != null) {
+            yield break;
+        }
+
+        Debug.Log("startar get ready coroutine");
+        warmupCoroutine = StartCoroutine(script.StartGetReadyBannerCoroutine());
+        yield return warmupCoroutine;
+        warmupCoroutine = null;
+        Debug.Log("get ready coroutine klar");
+        currentState = GameState.BallSpawning;
+    }
+
+
+    [Server]
+    private IEnumerator BallSpawning(ILevelManager script) {
+        if (ballSpawningCoroutine != null) {
+            yield break;
+        }
+
+        Debug.Log("startar ball spawning coroutine");
+        ballSpawningCoroutine = StartCoroutine(script.SpawnBallsCoroutine());
+        yield return ballSpawningCoroutine;
+        ballSpawningCoroutine = null;
+        Debug.Log("ball spawning coroutine klar");
+        currentState = GameState.Playing;
+    }
+
+
+    [Server]
+    private IEnumerator Playing(ILevelManager script) {
+        if (script.IsWinConditionMet()) {
+            if (script.IsWon()) {
+                currentState = GameState.EndingLevel;
+                yield break;
+            }
+
+            if (countdownCoroutine == null) {
+                countdownCoroutine = StartCoroutine(script.StartCountdownBannerCoroutine());
+                StartCoroutine(script.StartCountdownBannerCoroutine());
+                yield return countdownCoroutine;
+                countdownCoroutine = null;
+            }
+        }
+        else {
+            if (countdownCoroutine != null) {
+                script.StopCountdownBanner();
+                countdownCoroutine = null;
+            }
+        }
+    }
+
+
+    [Server]
+    private IEnumerator Ending(ILevelManager script) {
+        if (endingCoroutine != null) {
+            yield break;
+        }
+
+        endingCoroutine = StartCoroutine(script.StartEndingBanner());
+        yield return endingCoroutine;
+        endingCoroutine = null;
+        LoadNextLevel();
+        currentState = GameState.Loading;
+    }
+
+
+    private void StopAllGameCoroutines() {
+        if (warmupCoroutine != null) {
+            StopCoroutine(warmupCoroutine);
+            warmupCoroutine = null;
+        }
+
+        if (ballSpawningCoroutine != null) {
+            StopCoroutine(ballSpawningCoroutine);
+            ballSpawningCoroutine = null;
+        }
+
+        if (endingCoroutine != null) {
+            StopCoroutine(endingCoroutine);
+            endingCoroutine = null;
+        }
+    }
+
+
+    [Server]
+    private void CheckHotkeys() {
+        if (levelManager == null) {
+            return;
+        }
+
+        var script = levelManager.GetComponent<ILevelManager>();
+
+        if (Input.GetKeyDown(KeyCode.K)) {
+            LoadNextLevel();
+        }
+
+        if (Input.GetKeyDown(KeyCode.O)) {
+            StartCoroutine(script.StartGetReadyBannerCoroutine());
+        }
+
+        if (Input.GetKeyDown(KeyCode.P)) {
+            StartCoroutine(script.SpawnBallsCoroutine());
+        }
+
+        if (Input.GetKeyDown(KeyCode.U)) {
+            script.MoveBallsToMiddle();
+        }
+
+        if (Input.GetKeyDown(KeyCode.H)) {
+            StartCoroutine(script.StartCountdownBannerCoroutine());
+        }
+
+        if (Input.GetKeyDown(KeyCode.N)) {
+            script.StopCountdownBanner();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Y)) {
+            StartCoroutine(script.StartEndingBanner());
+        }
+    }
+
+    [Server]
+    private void LoadNextLevel() {
+        currentState = GameState.Loading;
+        currentLevel++;
+        if (currentLevel >= levelNames.Count) {
+            currentLevel = 0;
+        }
+
+        // Debug.Log(currentLevel);
+        // Debug.Log(levelNames);
+        // Debug.Log(levelNames[currentLevel]);
+        StopAllGameCoroutines();
+        var networkManager = GameObject.Find("Advanced Network Configuration");
+        var script = networkManager.GetComponent<WaterballNetworkManager>();
+        script.ServerChangeScene(levelNames[currentLevel]);
+
+        // transform.parent.GetComponent<GameObject>().GetComponent<WaterballNetworkManager>().ServerChangeScene(levelNames[currentLevel]);
+    }
+
+
+    // scene loaded hook
+
+    [Server]
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        Debug.Log("New scene loaded: " + scene.name);
+        if (scene.name is "Network" or "LobbyScene" or "ErrorScene") {
+            return;
+        }
+
+        StartCoroutine(OnSceneLoadedDelayed(1f));
+
+        if (scene.name is "GameScene") {
+            return;
+        }
+
+        WaterballAudioManager.Instance.isMuted = false;
+    }
+
+    [Server]
+    private IEnumerator OnSceneLoadedDelayed(float waitingTime) {
+        yield return new WaitForSeconds(waitingTime);
+        levelManager = GameObject.Find("LevelManager");
+
+        SubToEveryoneReady();
+        currentState = GameState.Warmup;
+        // isLoading = false;
+    }
+
+
+    private void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+
+    private void SubToEveryoneReady() {
+        var players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (var player in players) {
+            player.GetComponent<PuzzleBehaviour>().everyoneReadyEvent += ReactOnEveryoneReady;
+        }
+    }
+
+
+    private void ReactOnEveryoneReady() {
+        var sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName is not "GameScene") {
+            return;
+        }
+
+        LoadNextLevel();
+    }
 }
-
-
 
 
 // [Server]
@@ -362,7 +374,6 @@ namespace DefaultNamespace {
 // }
 
 
-
 // switch (currentStateInput) {
 //     case GameState.Loading:
 //         if (!isLoading) {
@@ -407,7 +418,6 @@ namespace DefaultNamespace {
 //         Debug.Log("inget state");
 //         break;
 // }
-
 
 
 // [Server]

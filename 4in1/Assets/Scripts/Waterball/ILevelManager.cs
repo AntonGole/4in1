@@ -6,6 +6,7 @@ using System.Collections;
 
 public interface ILevelManager {
 
+    public IEnumerator SpawnBallsCoroutine();
 
     public IEnumerator StartGetReadyBannerCoroutine();
 
