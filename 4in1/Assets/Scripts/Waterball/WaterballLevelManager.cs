@@ -29,7 +29,11 @@ public class WaterballLevelManager : NetworkBehaviour {
     public bool isWon = false;
     // public bool countdownAborted = false;
     private int countdownRuns = 0;
-    
+
+
+    public bool IsWon() {
+        return isWon; 
+    }
     
     private float calculateBallRatio(int ballsInGoal, int ballsTotal) {
         if (ballsTotal == 0) {
