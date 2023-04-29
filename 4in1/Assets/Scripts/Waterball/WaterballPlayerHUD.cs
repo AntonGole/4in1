@@ -27,7 +27,7 @@ public class WaterballPlayerHUD : MonoBehaviour {
         switch (scene) {
             case "Title Screen":
                 Debug.Log("hello!!!! this is in loadSceneUI for title screen");
-                ShowTitleScreenUI(playerID);
+                // ShowTitleScreenUI(playerID);
                 return;
             default:
                 HideCanvas();
