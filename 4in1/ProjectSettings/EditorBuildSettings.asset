@@ -17,16 +17,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 7ca918d90dc174a9bbef856d8f3ed64c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/old Level 1.unity
     guid: cebf560ba1f822c4c90772f2ae8dcc48
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/old Level 2.unity
     guid: 3c83b4e1e8e24bd47a481885cdb66439
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level 1.unity
     guid: 6e40509e78b2856409bf385259593174
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level 2.unity
     guid: aae259c26f4b97f4e8b2ad7e06499bb9
   - enabled: 1
@@ -35,7 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 9.unity
     guid: 76ad9993c53556c41b7982814942a8a0
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Ball Tester.unity
     guid: 09bfd327f1c60aa40a439adaedc86105
   - enabled: 1
