@@ -67,14 +67,17 @@ public class WaterballGameManager : NetworkBehaviour {
 
     private void Start() {
         levelNames = new List<string>();
-        levelNames.Add("GameScene");
+        // levelNames.Add("GameScene");
         levelNames.Add("Title Screen");
-        levelNames.Add("Ball Tester");
-        
-        levelNames.Add("Level 13");
+        levelNames.Add("Level 8");
+        levelNames.Add("Level 9");
         levelNames.Add("Level 10");
-        // levelNames.Add("Level 8");
-        // levelNames.Add("Level 9");
+        levelNames.Add("Level 13");
+        
+        
+        
+        
+        // levelNames.Add("Ball Tester");
         // levelNames.Add("Level 8");
         // levelNames.Add("Level 9");
         // levelNames.Add("Level 8");
@@ -363,7 +366,12 @@ public class WaterballGameManager : NetworkBehaviour {
     [Server]
     private void LoadNextLevel() {
         currentState = GameState.Loading;
-        currentLevel++;
+
+        var scene = SceneManager.GetActiveScene().name;
+        if (scene != "GameScene") {
+            currentLevel++;
+        }
+
         if (currentLevel >= levelNames.Count) {
             currentLevel = 0;
         }
