@@ -42,6 +42,7 @@ public class WaterballPlayerHUD : MonoBehaviour {
     
     
     private void ShowTitleScreenUI(int playerID) {
+        Debug.Log("nu ska vi sätta active");
         gameObject.SetActive(true);
         var position = calculateButtonPosition(playerID);
         var rotation = calculateButtonRotation(playerID);
@@ -100,7 +101,8 @@ public class WaterballPlayerHUD : MonoBehaviour {
     }
     
     private void HideCanvas() {
-        gameObject.SetActive(false); 
+        gameObject.SetActive(false);
+        Debug.Log("här gick vi in i hide igen");
     }
 
     
