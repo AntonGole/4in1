@@ -22,7 +22,7 @@ public class WaterballDramaticSplash : MonoBehaviour {
     private void OnParticleCollision(GameObject other) {
 
 
-        Debug.Log("vi är inne i sub emitterns SPAWN");
+        // Debug.Log("vi är inne i sub emitterns SPAWN");
 
         var collisionEvents = new List<ParticleCollisionEvent>();
         int numCollisionEvents = GetComponent<ParticleSystem>().GetCollisionEvents(other, collisionEvents); 

@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using Mirror;
+using UnityEngine.SceneManagement;
+
 
 public class WaterballPlayer : CITEPlayer {
     [SyncVar(hook = nameof(OnHorizontalRotationChanged))]
@@ -37,6 +39,14 @@ public class WaterballPlayer : CITEPlayer {
         }
 
         isRotating = false;
+        WaterballCanvasManager.Instance.LoadSceneUI(playerID);
+        var scene = SceneManager.GetActiveScene().name;
+        if (scene == "Title Screen") {
+            barrelPart.SetActive(false);
+        }
+        else {
+            barrelPart.SetActive(true); 
+        }
     }
 
     public override void OnStartClient() {
@@ -56,6 +66,20 @@ public class WaterballPlayer : CITEPlayer {
         handleTouch();
         handleMouse();
     }
+    
+    
+    
+    
+    // private void OnEnable() {
+    //     SceneManager.sceneLoaded += OnSceneLoaded;
+    // }
+    //
+    // private void OnDisable() {
+    //     SceneManager.sceneLoaded -= OnSceneLoaded;
+    // }
+    
+    
+    
     
     
 

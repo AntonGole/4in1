@@ -72,11 +72,11 @@ public class WaterballLevelManager : NetworkBehaviour, ILevelManager {
         if (isServer) {
             goalScript.BallEnteredGoalEvent += BallEnteredGoal;
             goalScript.BallExitedGoalEvent += BallExitedGoal;
-            Debug.Log("server subbed");
+            // Debug.Log("server subbed");
         } else if (isClient) {
             goalScript.BallEnteredGoalEvent += BallEnteredGoal;
             goalScript.BallExitedGoalEvent += BallExitedGoal;
-            Debug.Log("client subbed");
+            // Debug.Log("client subbed");
         }
         
         
