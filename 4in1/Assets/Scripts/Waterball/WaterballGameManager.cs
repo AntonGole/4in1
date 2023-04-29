@@ -4,6 +4,7 @@ using System.Collections.Generic;
 // using System.Runtime.Remoting.Messaging;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using Random = System.Random;
 
@@ -27,9 +28,9 @@ public class WaterballGameManager : NetworkBehaviour {
     
     private GameObject networkManager;
     private WaterballNetworkManager networkManagerScript;
-    private CITERoomManager roomManagerScript; 
-        
+    private CITERoomManager roomManagerScript;
 
+    public float endScreenWaitingTime = 5f;  
 
 
     private GameObject levelManager;
@@ -37,7 +38,9 @@ public class WaterballGameManager : NetworkBehaviour {
     private int currentLevel = 0;
     private GameState currentState = GameState.Loading;
     private bool levelLoadedDueToEvent = false;
-    
+
+
+    private bool isPlayingEndingScreen = false; 
     
     private int readyPlayers = 0; 
 
@@ -47,7 +50,8 @@ public class WaterballGameManager : NetworkBehaviour {
         Warmup,
         BallSpawning,
         Playing,
-        EndingLevel
+        EndingLevel, 
+        EndingScreen
     }
 
     private void Awake() {
@@ -73,7 +77,7 @@ public class WaterballGameManager : NetworkBehaviour {
         levelNames.Add("Level 9");
         levelNames.Add("Level 10");
         levelNames.Add("Level 13");
-        
+        levelNames.Add("Ending Screen");
         
         
         
@@ -196,20 +200,24 @@ public class WaterballGameManager : NetworkBehaviour {
                 StartCoroutine(TitleScreen(script)); 
                 return;
             case GameState.Warmup:
-                // Debug.Log("vi är i warmup");
+                Debug.Log("vi är i warmup");
                 StartCoroutine(Warmup(script));
                 return;
             case GameState.BallSpawning:
-                // Debug.Log("vi är i ball spawning");
+                Debug.Log("vi är i ball spawning");
                 StartCoroutine(BallSpawning(script));
                 return;
             case GameState.Playing:
-                // Debug.Log("vi är i playing");
+                Debug.Log("vi är i playing");
                 StartCoroutine(Playing(script));
                 return;
             case GameState.EndingLevel:
-                // Debug.Log("vi är i ending");
+                Debug.Log("vi är i ending");
                 StartCoroutine(Ending(script));
+                return;
+            case GameState.EndingScreen:
+                Debug.Log("vi är i ending screen");
+                StartCoroutine(EndingScreen(script));
                 return;
             default:
                 return;
@@ -217,6 +225,24 @@ public class WaterballGameManager : NetworkBehaviour {
     }
 
 
+
+    private IEnumerator EndingScreen(ILevelManager script) {
+        if (isPlayingEndingScreen) {
+            yield break; 
+        }
+
+        isPlayingEndingScreen = true; 
+        
+        
+        
+        yield return new WaitForSeconds(endScreenWaitingTime);
+
+        
+        LoadNextLevel();
+        
+
+
+    }
 
     private IEnumerator TitleScreen(ILevelManager script) {
         // if (titleScreenCoroutine != null) {
@@ -366,7 +392,7 @@ public class WaterballGameManager : NetworkBehaviour {
     [Server]
     private void LoadNextLevel() {
         currentState = GameState.Loading;
-
+        isPlayingEndingScreen = false; 
         var scene = SceneManager.GetActiveScene().name;
         if (scene != "GameScene") {
             currentLevel++;
@@ -413,12 +439,24 @@ public class WaterballGameManager : NetworkBehaviour {
 
         SubToEveryoneReady();
 
-        if (scene.name == "Title Screen") {
-            currentState = GameState.TitleScreen; 
+
+        switch (scene.name) {
+            case "Title Screen":
+                currentState = GameState.TitleScreen; 
+                break;
+            case "Ending Screen":
+                currentState = GameState.EndingScreen;
+                break; 
+            default:
+                currentState = GameState.Warmup;
+                break;
         }
-        else {
-            currentState = GameState.Warmup;
-        }
+        // if (scene.name == "Title Screen") {
+            // currentState = GameState.TitleScreen; 
+        // }
+        // else {
+            // currentState = GameState.Warmup;
+        // }
         
         levelLoadedDueToEvent = false; 
         // isLoading = false;

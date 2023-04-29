@@ -12,6 +12,7 @@ public class WaterballPlayerHUD : MonoBehaviour {
 
     public GameObject readyButton;
 
+    // public GameObject endingScreen; 
     public Canvas canvas; 
 
     public GameObject parentNetworkObject; 
@@ -21,7 +22,8 @@ public class WaterballPlayerHUD : MonoBehaviour {
 
     private void Start() {
         playerID = parentNetworkObject.GetComponent<WaterballPlayer>().playerID;
-        canvas.enabled = false;
+        HideAll();
+
         // Debug.Log("start method satte false");
     }
 
@@ -34,22 +36,22 @@ public class WaterballPlayerHUD : MonoBehaviour {
                 // Debug.Log("hello!!!! this is in loadSceneUI for title screen");
                 ShowTitleScreenUI(playerID);
                 yield break;
+            // case "Ending Screen": 
+                // ShowEndingScreen();
+                // yield break;
             default:
-                HideCanvas();
+                HideAll();
                 // Debug.Log("just hide canvas");
                 yield break; 
         }
-        
-        
-        
     }
     
     
     private void ShowTitleScreenUI(int playerID) {
-        Debug.Log("nu ska vi sätta active");
+        // Debug.Log("nu ska vi sätta active");
         // parentNetworkObject.SetActive(true);
         canvas.enabled = true; 
-        
+        readyButton.SetActive(true);
         
         var position = calculateButtonPosition(playerID);
         var rotation = calculateButtonRotation(playerID);
@@ -63,11 +65,28 @@ public class WaterballPlayerHUD : MonoBehaviour {
         // var script = readyButton.GetComponent<WaterballReadyButton>();
         // script.setPlayerID(playerID);
     }
+
+
+    // private void ShowEndingScreen() {
+    //     canvas.enabled = true; 
+    //     endingScreen.SetActive(true);
+    // }
+    //
+    //
+    private void HideAll() {
+        canvas.enabled = false; 
+        readyButton.SetActive(false);
+        // endingScreen.SetActive(false);
+    }
     
     
     
-    
-    
+    private void HideCanvas() {
+        // gameObject.SetActive(false);
+        canvas.enabled = false; 
+        // Debug.Log("här gick vi in i hide igen");
+    }
+
     
         
     private Vector3 calculateButtonPosition(int playerID) {
@@ -107,12 +126,6 @@ public class WaterballPlayerHUD : MonoBehaviour {
         }
     }
     
-    private void HideCanvas() {
-        // gameObject.SetActive(false);
-        canvas.enabled = false; 
-        Debug.Log("här gick vi in i hide igen");
-    }
-
     
     
     
