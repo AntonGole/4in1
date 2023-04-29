@@ -814,7 +814,8 @@ PrefabInstance:
       propertyPath: parentNetworkObject
       value: 
       objectReference: {fileID: 6165147063460364115}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4070888046512156052, guid: 86ae68675d5bb684588cf8c7377f22d2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 86ae68675d5bb684588cf8c7377f22d2, type: 3}
 --- !u!224 &5079853480599046819 stripped
 RectTransform:
