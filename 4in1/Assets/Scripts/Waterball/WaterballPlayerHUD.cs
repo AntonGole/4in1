@@ -18,7 +18,8 @@ public class WaterballPlayerHUD : MonoBehaviour {
 
 
     private void Start() {
-        playerID = parentNetworkObject.GetComponent<WaterballPlayer>().playerID; 
+        playerID = parentNetworkObject.GetComponent<WaterballPlayer>().playerID;
+        gameObject.SetActive(false); 
     }
 
 
