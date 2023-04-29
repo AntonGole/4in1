@@ -42,7 +42,8 @@ public class WaterballPlayer : CITEPlayer {
 
         isRotating = false;
         // WaterballCanvasManager.Instance.LoadSceneUI(playerID);
-        playerHUD.GetComponent<WaterballPlayerHUD>().LoadSceneUI();
+        
+        // playerHUD.GetComponent<WaterballPlayerHUD>().LoadSceneUI();
         var scene = SceneManager.GetActiveScene().name;
         if (scene == "Title Screen") {
             barrelPart.SetActive(false);
