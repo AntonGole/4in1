@@ -4052,11 +4052,6 @@ MonoBehaviour:
   ballPrefab: {fileID: 1296655613287696, guid: 513a3e4362e119f4fa20501d86f960e2, type: 3}
   ballSpawner: {fileID: 730465394}
   goal: {fileID: 1513583330}
-  isPlayingGetReady: 0
-  isPlayingCountdown: 0
-  isPlayingEnding: 0
-  isBallSpawning: 0
-  isWon: 0
 --- !u!114 &1929110813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4473,7 +4468,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ccc2ad2f96711974b9e822e00362804b, type: 2}
+      objectReference: {fileID: 2100000, guid: b5d3158da4615d844b5d5f2486cc519a, type: 2}
     - target: {fileID: 4874957317502237527, guid: 20567aa97ef1f3e4a9a601b611447e43,
         type: 3}
       propertyPath: m_RootOrder
