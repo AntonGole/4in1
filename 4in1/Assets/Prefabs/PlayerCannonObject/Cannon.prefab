@@ -447,6 +447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   readyButton: {fileID: 5460135322798337213}
+  canvas: {fileID: 1378492000851606445}
   parentNetworkObject: {fileID: 6165147063460364115}
 --- !u!1001 &2574997855994567176
 PrefabInstance:

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,7 +12,7 @@ public class WaterballPlayerHUD : MonoBehaviour {
 
     public GameObject readyButton;
 
-
+    public Canvas canvas; 
 
     public GameObject parentNetworkObject; 
     
@@ -20,21 +21,23 @@ public class WaterballPlayerHUD : MonoBehaviour {
 
     private void Start() {
         playerID = parentNetworkObject.GetComponent<WaterballPlayer>().playerID;
-        gameObject.SetActive(false); 
+        canvas.enabled = false;
+        Debug.Log("start method satte false");
     }
 
 
-    public void LoadSceneUI() {
+    public IEnumerator LoadSceneUI() {
+        yield return new WaitForSeconds(0.3f); 
         var scene = SceneManager.GetActiveScene().name;
         switch (scene) {
             case "Title Screen":
                 Debug.Log("hello!!!! this is in loadSceneUI for title screen");
                 ShowTitleScreenUI(playerID);
-                return;
+                yield break;
             default:
                 HideCanvas();
                 Debug.Log("just hide canvas");
-                return; 
+                yield break; 
         }
         
         
@@ -43,12 +46,11 @@ public class WaterballPlayerHUD : MonoBehaviour {
     
     
     private void ShowTitleScreenUI(int playerID) {
-        if (!parentNetworkObject.GetComponent<WaterballPlayer>().isLocalPlayer) {
-            Debug.Log("jag var inte local player");
-            return; 
-        }
         Debug.Log("nu ska vi sätta active");
-        gameObject.SetActive(true);
+        // parentNetworkObject.SetActive(true);
+        canvas.enabled = true; 
+        
+        
         var position = calculateButtonPosition(playerID);
         var rotation = calculateButtonRotation(playerID);
         var scale = new Vector3(1, 1, 1);
@@ -106,7 +108,8 @@ public class WaterballPlayerHUD : MonoBehaviour {
     }
     
     private void HideCanvas() {
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
+        canvas.enabled = false; 
         Debug.Log("här gick vi in i hide igen");
     }
 
