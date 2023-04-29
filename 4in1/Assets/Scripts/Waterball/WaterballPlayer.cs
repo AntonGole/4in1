@@ -23,7 +23,9 @@ public class WaterballPlayer : CITEPlayer {
     private Quaternion initialTowerRotation;
     private Quaternion initialBarrelRotation;
 
-    private Camera mainCamera;  
+    private Camera mainCamera;
+
+    public GameObject playerHUD; 
 
 
     public float cutoffMaxRatio = 0.4f;
@@ -39,7 +41,8 @@ public class WaterballPlayer : CITEPlayer {
         }
 
         isRotating = false;
-        WaterballCanvasManager.Instance.LoadSceneUI(playerID);
+        // WaterballCanvasManager.Instance.LoadSceneUI(playerID);
+        playerHUD.GetComponent<WaterballPlayerHUD>().LoadSceneUI();
         var scene = SceneManager.GetActiveScene().name;
         if (scene == "Title Screen") {
             barrelPart.SetActive(false);
@@ -66,8 +69,19 @@ public class WaterballPlayer : CITEPlayer {
         handleTouch();
         handleMouse();
     }
-    
-    
+
+
+    public void TellServerReadyButtonPressed(bool status) {
+        CmdReadyButtonPressed(status);
+        
+    }
+
+
+    [Command]
+    public void CmdReadyButtonPressed(bool status) {
+        var script = WaterballGameManager.Instance; 
+        script.UpdateReadyPlayers(status);
+    }
     
     
     // private void OnEnable() {

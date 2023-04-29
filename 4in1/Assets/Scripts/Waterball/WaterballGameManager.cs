@@ -93,15 +93,14 @@ public class WaterballGameManager : NetworkBehaviour {
         networkManagerScript = networkManager.GetComponent<WaterballNetworkManager>();
         roomManagerScript = networkManager.GetComponent<CITERoomManager>();
 
-        if (isServer) {
-            NetworkServer.RegisterHandler<WaterballReadyButtonMessage>(OnReceiveReadyButtonMessage);
-        }
+        // if (isServer) {
+            // NetworkServer.RegisterHandler<WaterballReadyButtonMessage>(OnReceiveReadyButtonMessage);
+        // }
     }
 
-    private void OnReceiveReadyButtonMessage(NetworkConnectionToClient conn, WaterballReadyButtonMessage message) {
+    // private void OnReceiveReadyButtonMessage(NetworkConnectionToClient conn, WaterballReadyButtonMessage message) {
 
-        var status = message.IsReady;
-
+    public void UpdateReadyPlayers(bool status) {
         if (status) {
             IncrementReadyPlayers();
         }

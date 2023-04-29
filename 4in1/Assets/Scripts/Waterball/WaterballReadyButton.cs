@@ -11,6 +11,8 @@ public class WaterballReadyButton : MonoBehaviour {
     public Button button; 
     private Sprite currentSprite;
     private Transform buttonTransform;
+
+    public GameObject parentNetworkObject; 
     
     // [SyncVar(hook = nameof(OnButtonStateChanged))]
     private bool pushed = false;
@@ -22,9 +24,9 @@ public class WaterballReadyButton : MonoBehaviour {
     // }
 
 
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID; 
-    }
+    // public void setPlayerID(int playerID) {
+        // this.playerID = playerID; 
+    // }
 
 
     private void Awake() {
@@ -36,6 +38,8 @@ public class WaterballReadyButton : MonoBehaviour {
 
     private void Start() {
         currentSprite = notReadyButton; 
+        playerID = parentNetworkObject.GetComponent<WaterballPlayer>().playerID; 
+        
     }
 
     private void OnButtonClick() {
@@ -52,13 +56,13 @@ public class WaterballReadyButton : MonoBehaviour {
             // WaterballGameManager.Instance.DecrementReadyPlayers();
         }
 
-        var message = new WaterballReadyButtonMessage {
-            playerID = playerID,
-            IsReady = pushed
-        };
-
-        NetworkClient.Send(message);
-
+        // var message = new WaterballReadyButtonMessage {
+            // playerID = playerID,
+            // IsReady = pushed
+        // };
+        
+        parentNetworkObject.GetComponent<WaterballPlayer>().TellServerReadyButtonPressed(pushed);
+        
     }
     
     
