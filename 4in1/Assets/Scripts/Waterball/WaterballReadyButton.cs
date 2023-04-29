@@ -2,8 +2,9 @@
 using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror; 
 
-public class WaterballReadyButton : NetworkBehaviour {
+public class WaterballReadyButton : MonoBehaviour {
     
     public Sprite notReadyButton;
     public Sprite readyButton; 
@@ -12,10 +13,18 @@ public class WaterballReadyButton : NetworkBehaviour {
     private Transform buttonTransform;
     
     // [SyncVar(hook = nameof(OnButtonStateChanged))]
-    private bool pushed = false; 
+    private bool pushed = false;
 
-    
-    
+    private int playerID; 
+
+    // public WaterballReadyButton(int playerID) {
+        // this.playerID = playerID; 
+    // }
+
+
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID; 
+    }
 
 
     private void Awake() {
@@ -33,15 +42,23 @@ public class WaterballReadyButton : NetworkBehaviour {
         // if (isServer) {
             pushed = !pushed;
         // }
-
+        
         if (pushed) {
             button.image.sprite = readyButton;
-            WaterballGameManager.Instance.IncrementReadyPlayers();
+            // WaterballGameManager.Instance.IncrementReadyPlayers();
         }
         else {
             button.image.sprite = notReadyButton;
-            WaterballGameManager.Instance.DecrementReadyPlayers();
+            // WaterballGameManager.Instance.DecrementReadyPlayers();
         }
+
+        var message = new WaterballReadyButtonMessage {
+            playerID = playerID,
+            IsReady = pushed
+        };
+
+        NetworkClient.Send(message);
+
     }
     
     

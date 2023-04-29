@@ -37,6 +37,8 @@ public class WaterballGameManager : NetworkBehaviour {
     private int currentLevel = 0;
     private GameState currentState = GameState.Loading;
     private bool levelLoadedDueToEvent = false;
+    
+    
     private int readyPlayers = 0; 
 
     public enum GameState {
@@ -90,7 +92,77 @@ public class WaterballGameManager : NetworkBehaviour {
         networkManager = GameObject.Find("Advanced Network Configuration");
         networkManagerScript = networkManager.GetComponent<WaterballNetworkManager>();
         roomManagerScript = networkManager.GetComponent<CITERoomManager>();
+
+        if (isServer) {
+            NetworkServer.RegisterHandler<WaterballReadyButtonMessage>(OnReceiveReadyButtonMessage);
+        }
     }
+
+    private void OnReceiveReadyButtonMessage(NetworkConnectionToClient conn, WaterballReadyButtonMessage message) {
+
+        var status = message.IsReady;
+
+        if (status) {
+            IncrementReadyPlayers();
+        }
+        else {
+            DecrementReadyPlayers();
+        }
+
+    }
+    
+    
+    
+    public void IncrementReadyPlayers() {
+        if (!isServer) {
+            return; 
+        }
+        readyPlayers++;
+        var requirement = roomManagerScript.minRequirement;
+
+        if (readyPlayers > requirement) {
+            readyPlayers = requirement; 
+        }
+
+        Debug.Log("incremented!, readyPlayers: " + readyPlayers);
+    }
+
+
+    public void DecrementReadyPlayers() {
+        if (!isServer) {
+            return; 
+        }
+        readyPlayers--;
+        if (readyPlayers < 0) {
+            readyPlayers = 0; 
+        }
+        
+        Debug.Log("decremented!, readyPlayers: " + readyPlayers);
+
+        
+        
+    }
+    
+    
+    
+
+    // private void IncrementCounter() {
+    //     var requirement = roomManagerScript.minRequirement; 
+    //     
+    //     readyPlayers++;
+    //     if (readyPlayers > requirement) {
+    //         readyPlayers = requirement; 
+    //     }
+    // }
+    //
+    //
+    // private void DecrementCounter() {
+    //     readyPlayers--;
+    //     if (readyPlayers < 0) {
+    //         readyPlayers = 0; 
+    //     }
+    // }
+    
 
     private void Update() {
         var sceneName = SceneManager.GetActiveScene().name;
@@ -163,29 +235,7 @@ public class WaterballGameManager : NetworkBehaviour {
         
     }
 
-    public void IncrementReadyPlayers() {
-        if (!isServer) {
-            return; 
-        }
-        readyPlayers++;
-        var requirement = roomManagerScript.minRequirement;
 
-        if (readyPlayers > requirement) {
-            readyPlayers = requirement; 
-        }
-    }
-
-
-    public void DecrementReadyPlayers() {
-        if (!isServer) {
-            return; 
-        }
-        readyPlayers--;
-        if (readyPlayers < 0) {
-            readyPlayers = 0; 
-        }
-        
-    }
 
 
     [Server]

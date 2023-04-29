@@ -62,7 +62,6 @@ public class WaterballCanvasManager : MonoBehaviour {
 
     private void ShowTitleScreenUI(int playerID) {
         gameObject.SetActive(true);
-        var script = waterballReadyButtonPrefab.GetComponent<WaterballReadyButton>();
         var position = calculateButtonPosition(playerID);
         var rotation = calculateButtonRotation(playerID);
         var scale = new Vector3(1, 1, 1);
@@ -70,6 +69,9 @@ public class WaterballCanvasManager : MonoBehaviour {
         var readyButton = Instantiate(waterballReadyButtonPrefab, position, rotation, canvas.transform); 
         readyButton.transform.localPosition = position;
         readyButton.transform.localScale = scale;
+        
+        var script = readyButton.GetComponent<WaterballReadyButton>();
+        script.setPlayerID(playerID);
     }
     
     
