@@ -39,9 +39,9 @@ Material:
     - _FresnelExp: 5
     - _Gradient1: 3.58
     - _Gradient2: 4.74
-    - _MainFoamIntensity: 1.31
+    - _MainFoamIntensity: 0
     - _MainFoamOpacity: 1
-    - _MainFoamScale: 17.36
+    - _MainFoamScale: 0
     - _SecondaryFoamIntensity: 4.82
     - _SecondaryFoamOpacity: 0.507
     - _SecondaryFoamScale: 17.6

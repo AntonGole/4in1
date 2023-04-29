@@ -293,7 +293,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 50
   field of view: 25.869692
-  orthographic: 1
+  orthographic: 0
   orthographic size: 3.773568
   m_Depth: 0
   m_CullingMask:
@@ -759,6 +759,77 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338998971}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &340148829
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1500304132}
+    m_Modifications:
+    - target: {fileID: 1517900040056248, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_Name
+      value: WaterPlane
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1725642
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1725642
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d0518394070180d479a27ec38709efc9, type: 3}
+--- !u!4 &340148830 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4215464231897044, guid: d0518394070180d479a27ec38709efc9,
+    type: 3}
+  m_PrefabInstance: {fileID: 340148829}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &341697292
 GameObject:
   m_ObjectHideFlags: 0
@@ -2283,7 +2354,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 50
   field of view: 25.869692
-  orthographic: 1
+  orthographic: 0
   orthographic size: 3.773568
   m_Depth: 0
   m_CullingMask:
@@ -2476,7 +2547,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 50
   field of view: 25.869692
-  orthographic: 1
+  orthographic: 0
   orthographic size: 3.773568
   m_Depth: 0
   m_CullingMask:
@@ -2551,7 +2622,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 50
   field of view: 25.869692
-  orthographic: 1
+  orthographic: 0
   orthographic size: 3.773568
   m_Depth: 0
   m_CullingMask:
@@ -3130,6 +3201,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d57cfb293ff0d34386cb45589461911, type: 3}
+--- !u!1 &1500304131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1500304132}
+  m_Layer: 0
+  m_Name: Water
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1500304132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500304131}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.48, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 340148830}
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1501385077 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2212063245929673775, guid: 5d57cfb293ff0d34386cb45589461911,

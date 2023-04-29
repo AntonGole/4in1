@@ -115,7 +115,7 @@ public class CameraPositioner : MonoBehaviour {
         
         cameraTransform.localRotation = Quaternion.identity;
         cameraTransform.position = cameraPosition + new Vector3(0, 10, 0);
-        camera.orthographic = true;
+        camera.orthographic = false;
         camera.orthographicSize = cameraHeight; 
 
     }
