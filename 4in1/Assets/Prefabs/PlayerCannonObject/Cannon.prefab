@@ -272,7 +272,7 @@ MonoBehaviour:
   barrelPart: {fileID: 1194714952341941709}
   towerPart: {fileID: 373196664381607419}
   sensitivity: 0.1
-  playerHUD: {fileID: 0}
+  playerHUD: {fileID: 7507243959035505973}
   cutoffMaxRatio: 0.4
   cutoffMinRatio: 0.1
 --- !u!114 &-5173129791187024878
