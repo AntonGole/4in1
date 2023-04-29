@@ -90,8 +90,8 @@ public class WaterballPlayerHUD : MonoBehaviour {
     
         
     private Vector3 calculateButtonPosition(int playerID) {
-        var x = 110;
-        var y = 50;
+        var x = 750;
+        var y = 475;
         var z = 0;
 
         switch (playerID) {
