@@ -28,7 +28,7 @@ public class WaterballPlayerHUD : MonoBehaviour {
         switch (scene) {
             case "Title Screen":
                 Debug.Log("hello!!!! this is in loadSceneUI for title screen");
-                // ShowTitleScreenUI(playerID);
+                ShowTitleScreenUI(playerID);
                 return;
             default:
                 HideCanvas();
@@ -49,9 +49,10 @@ public class WaterballPlayerHUD : MonoBehaviour {
 
         // var readyButton = Instantiate(waterballReadyButtonPrefab, position, rotation, canvas.transform); 
         readyButton.transform.localPosition = position;
+        readyButton.transform.localRotation = rotation; 
         readyButton.transform.localScale = scale;
         
-        var script = readyButton.GetComponent<WaterballReadyButton>();
+        // var script = readyButton.GetComponent<WaterballReadyButton>();
         // script.setPlayerID(playerID);
     }
     
