@@ -1,4 +1,5 @@
 ﻿using System;
+using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -42,6 +43,10 @@ public class WaterballPlayerHUD : MonoBehaviour {
     
     
     private void ShowTitleScreenUI(int playerID) {
+        if (!parentNetworkObject.GetComponent<WaterballPlayer>().isLocalPlayer) {
+            Debug.Log("jag var inte local player");
+            return; 
+        }
         Debug.Log("nu ska vi sätta active");
         gameObject.SetActive(true);
         var position = calculateButtonPosition(playerID);
