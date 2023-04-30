@@ -45,7 +45,7 @@ public class WaterballTitleBanner : NetworkBehaviour {
 
 
     private void RotateBanner() {
-        circularBanner.transform.rotation = Quaternion.Euler(0, 0, syncedRotation);
+        circularBanner.transform.localRotation = Quaternion.Euler(0, 0, syncedRotation);
         // circularBanner.transform.Rotate(new Vector3(0, 0, -circularBannerRotationSpeed * Time.deltaTime));
     }
 
