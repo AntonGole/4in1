@@ -409,7 +409,9 @@ public class WaterballGameManager : NetworkBehaviour {
 
     [Server]
     private void LoadNextLevel() {
+        Debug.Log("nu ska vi stoppa alla coroutines");
         StopAllGameCoroutines();
+        Debug.Log("nu ska vi vara loading");
         currentState = GameState.Loading;
         isPlayingEndingScreen = false; 
         var scene = SceneManager.GetActiveScene().name;
@@ -441,6 +443,22 @@ public class WaterballGameManager : NetworkBehaviour {
             return;
         }
 
+        Debug.Log("nu ska vi in i onsceneloadeds hook och snart sätta nytt state");
+        switch (scene.name) {
+            case "Title Screen":
+                currentState = GameState.TitleScreen; 
+                break;
+            case "Ending Screen":
+                currentState = GameState.EndingScreen;
+                break; 
+            default:
+                currentState = GameState.Warmup;
+                break;
+        }
+
+
+        Debug.Log("nu har vi satt nytt state: " + currentState);
+
         StartCoroutine(OnSceneLoadedDelayed(1f, scene));
 
         if (scene.name is "GameScene") {
@@ -458,17 +476,6 @@ public class WaterballGameManager : NetworkBehaviour {
         SubToEveryoneReady();
 
 
-        switch (scene.name) {
-            case "Title Screen":
-                currentState = GameState.TitleScreen; 
-                break;
-            case "Ending Screen":
-                currentState = GameState.EndingScreen;
-                break; 
-            default:
-                currentState = GameState.Warmup;
-                break;
-        }
         // if (scene.name == "Title Screen") {
             // currentState = GameState.TitleScreen; 
         // }
