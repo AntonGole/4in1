@@ -36,7 +36,7 @@ public class WaterballTitleBanner : NetworkBehaviour {
 
         if (isServer) {
             syncedRotation += circularBannerRotationSpeed * Time.deltaTime;
-            syncedRotation = syncedRotation % 360f; 
+            // syncedRotation = syncedRotation % 360f; 
         }
         else {
             lastRotation = Mathf.Lerp(lastRotation, syncedRotation, Time.deltaTime * lerpSpeed);
