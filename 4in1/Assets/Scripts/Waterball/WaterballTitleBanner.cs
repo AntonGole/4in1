@@ -19,7 +19,7 @@ public class WaterballTitleBanner : NetworkBehaviour {
 
     private void Start() {
         if (!isServer) {
-            syncedRotation = transform.rotation.eulerAngles.z; 
+            syncedRotation = transform.rotation.eulerAngles.y; 
         }
 
     }
@@ -45,7 +45,7 @@ public class WaterballTitleBanner : NetworkBehaviour {
 
 
     private void RotateBanner() {
-        transform.rotation = Quaternion.Euler(0, 0, syncedRotation);
+        transform.rotation = Quaternion.Euler(0, syncedRotation, 0);
         // circularBanner.transform.Rotate(new Vector3(0, 0, -circularBannerRotationSpeed * Time.deltaTime));
     }
 
