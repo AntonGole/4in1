@@ -265,6 +265,10 @@ public class WaterballGameManager : NetworkBehaviour {
     }
 
 
+    private IEnumerator ShortPause() {
+        yield return new WaitForSeconds(0.5f); 
+    }
+
 
 
     [Server]
@@ -273,6 +277,8 @@ public class WaterballGameManager : NetworkBehaviour {
             yield break;
         }
 
+        yield return StartCoroutine(ShortPause()); 
+        
         // Debug.Log("startar get ready coroutine");
         warmupCoroutine = StartCoroutine(script.StartGetReadyBannerCoroutine());
         yield return warmupCoroutine;
