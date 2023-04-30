@@ -531,7 +531,7 @@ public class WaterballGameManager : NetworkBehaviour {
     }
 
 
-    
+    [Server]
     private void SubToEveryoneReady() {
         if (!isServer) {
             return; 
@@ -542,8 +542,9 @@ public class WaterballGameManager : NetworkBehaviour {
         }
     }
 
-
+    [Server]
     private void ReactOnEveryoneReady() {
+        Debug.Log("react on everyone ready, isServer: " + isServer);
         if (!isServer) {
             return; 
         }
