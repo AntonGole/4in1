@@ -14,15 +14,24 @@ public class WaterballTitleBanner : NetworkBehaviour {
 
     public float circularBannerRotationSpeed = 30f;
 
-
+    [SyncVar]
+    public float syncedRotation; 
 
     private void Start() {
+        if (!isServer) {
+            syncedRotation = transform.rotation.eulerAngles.z; 
+        }
 
     }
 
     private void Update() {
         if (!circularBanner) {
             return;
+        }
+
+        if (isServer) {
+            syncedRotation += circularBannerRotationSpeed * Time.deltaTime;
+            syncedRotation = syncedRotation % 360f; 
         }
 
         RotateBanner();
@@ -36,7 +45,8 @@ public class WaterballTitleBanner : NetworkBehaviour {
 
 
     private void RotateBanner() {
-        circularBanner.transform.Rotate(new Vector3(0, 0, -circularBannerRotationSpeed * Time.deltaTime));
+        transform.rotation = Quaternion.Euler(0, 0, syncedRotation);
+        // circularBanner.transform.Rotate(new Vector3(0, 0, -circularBannerRotationSpeed * Time.deltaTime));
     }
 
 
