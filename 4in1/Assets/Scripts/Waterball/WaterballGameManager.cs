@@ -24,6 +24,8 @@ public class WaterballGameManager : NetworkBehaviour {
     private Coroutine ballSpawningCoroutine;
     private Coroutine endingCoroutine;
     private Coroutine countdownCoroutine;
+
+    private Coroutine shortPauseCoroutine; 
     // private Coroutine titleScreenCoroutine;
     
     private GameObject networkManager;
@@ -276,8 +278,11 @@ public class WaterballGameManager : NetworkBehaviour {
         if (warmupCoroutine != null) {
             yield break;
         }
+        
+        shortPauseCoroutine = StartCoroutine(ShortPause());
 
-        yield return StartCoroutine(ShortPause()); 
+        yield return shortPauseCoroutine;
+        shortPauseCoroutine = null; 
         
         // Debug.Log("startar get ready coroutine");
         warmupCoroutine = StartCoroutine(script.StartGetReadyBannerCoroutine());
@@ -356,6 +361,12 @@ public class WaterballGameManager : NetworkBehaviour {
             StopCoroutine(endingCoroutine);
             endingCoroutine = null;
         }
+        
+        if (shortPauseCoroutine != null) {
+            StopCoroutine(shortPauseCoroutine);
+            shortPauseCoroutine = null;
+        }
+        
     }
 
 
