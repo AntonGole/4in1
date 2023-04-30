@@ -15,7 +15,7 @@ public class WaterballTitleBanner : NetworkBehaviour {
     public float circularBannerRotationSpeed = 30f;
 
     private float lastRotation;
-    private float lerpSpeed = 10f; 
+    private float lerpSpeed = 30f; 
     
     [SyncVar]
     public float syncedRotation;
