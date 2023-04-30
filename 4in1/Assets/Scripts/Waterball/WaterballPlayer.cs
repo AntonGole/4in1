@@ -188,13 +188,25 @@ public class WaterballPlayer : CITEPlayer {
         if (touch.phase is not TouchPhase.Moved and not TouchPhase.Began) {
             return;
         }
+
+        Ray touchRay = mainCamera.ScreenPointToRay(touch.position);
+        Plane cannonPlane = new Plane(Vector3.up, barrelPart.transform.position);
+        float enter;
         
-        Vector3 touchPosition = new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane);
-        Vector3 touchPositionWorld = mainCamera.ScreenToWorldPoint(touchPosition);
-        // Vector3 touchPositionWorld =
-            // mainCamera.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane));
-        // Debug.Log(touchPositionWorld);
+        if (!cannonPlane.Raycast(touchRay, out enter)) {
+            return;
+        }
+
+        Vector3 touchPositionWorld = touchRay.GetPoint(enter); 
         Vector3 cannonPosition = barrelPart.transform.position;
+        
+        
+        
+        // Vector3 touchPosition = new Vector3(touch.position.x, touch.position.y, mainCamera.nearClipPlane);
+        // Vector3 touchPositionWorld = mainCamera.ScreenToWorldPoint(touchPosition);
+        
+        
+        
         Vector3 touchPositionWorldProjected = new Vector3(touchPositionWorld.x, cannonPosition.y, touchPositionWorld.z);
 
         Quaternion horizontal = CalculateHorizontalRotation(touchPositionWorldProjected, cannonPosition);

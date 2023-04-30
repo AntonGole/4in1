@@ -108,15 +108,29 @@ public class CameraPositioner : MonoBehaviour {
                 cameraPosition = corner + new Vector3(0, 0,0 );
                 break;
         }
-        
 
-        var cameraHeight = relativeScreenZ / 2;
-        var cameraTransform = camera.transform; 
-        
+        var targetHeight = relativeScreenZ;
+        var verticalFOV = 2f * Mathf.Atan(targetHeight / (2f * distance)) * Mathf.Rad2Deg;
+
+        var targetWidth = relativeScreenX;
+        var targetAspectRatio = targetWidth / targetHeight;
+
+        var cameraTransform = camera.transform;
         cameraTransform.localRotation = Quaternion.identity;
-        cameraTransform.position = cameraPosition + new Vector3(0, 10, 0);
+        cameraTransform.position = cameraPosition + new Vector3(0, distance, 0);
+        camera.fieldOfView = verticalFOV;
+        // camera.aspect = targetAspectRatio;
         camera.orthographic = false;
-        camera.orthographicSize = cameraHeight; 
+
+        // Debug.Log("targetAspectRatio: " + targetAspectRatio);
+
+        // var cameraHeight = relativeScreenZ / 2;
+        // var cameraTransform = camera.transform; 
+        //
+        // cameraTransform.localRotation = Quaternion.identity;
+        // cameraTransform.position = cameraPosition + new Vector3(0, 10, 0);
+        // camera.orthographic = true;
+        // camera.orthographicSize = cameraHeight; 
 
     }
 
