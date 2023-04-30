@@ -70,11 +70,8 @@ public class WaterballGameManager : NetworkBehaviour {
         
     }
     
-    [Server]
+
     private void Start() {
-        if (!isServer) {
-            return; 
-        }
         levelNames = new List<string>();
         // levelNames.Add("GameScene");
         levelNames.Add("Title Screen");
@@ -113,11 +110,7 @@ public class WaterballGameManager : NetworkBehaviour {
 
     // private void OnReceiveReadyButtonMessage(NetworkConnectionToClient conn, WaterballReadyButtonMessage message) {
 
-    [Server]
     public void UpdateReadyPlayers(bool status) {
-        if (!isServer) {
-            return; 
-        }
         if (status) {
             IncrementReadyPlayers();
         }
@@ -128,7 +121,7 @@ public class WaterballGameManager : NetworkBehaviour {
     }
     
     
-    [Server]
+    
     public void IncrementReadyPlayers() {
         if (!isServer) {
             return; 
@@ -143,7 +136,7 @@ public class WaterballGameManager : NetworkBehaviour {
         Debug.Log("incremented!, readyPlayers: " + readyPlayers);
     }
 
-    [Server]
+
     public void DecrementReadyPlayers() {
         if (!isServer) {
             return; 
@@ -186,6 +179,10 @@ public class WaterballGameManager : NetworkBehaviour {
             return;
         }
 
+        if (sceneName == "Title Screen") {
+            currentState = GameState.TitleScreen; 
+        }
+
         if (!isServer) {
             // Debug.Log("vi är inte server");
             return;
@@ -197,9 +194,6 @@ public class WaterballGameManager : NetworkBehaviour {
 
 
     private void CheckStates(GameState currentStateInput) {
-        if (!isServer) {
-            return; 
-        }
         if (levelManager == null) {
             return;
         }
@@ -238,12 +232,8 @@ public class WaterballGameManager : NetworkBehaviour {
     }
 
 
-    [Server]
+
     private IEnumerator EndingScreen(ILevelManager script) {
-        if (!isServer) {
-            yield break; 
-        }
-        
         if (isPlayingEndingScreen) {
             yield break; 
         }
@@ -261,11 +251,7 @@ public class WaterballGameManager : NetworkBehaviour {
 
     }
 
-    [Server]
     private IEnumerator TitleScreen(ILevelManager script) {
-        if (!isServer) {
-            yield break; 
-        }
         // if (titleScreenCoroutine != null) {
             // yield break;
             
@@ -364,11 +350,7 @@ public class WaterballGameManager : NetworkBehaviour {
     }
 
 
-    [Server]
     private void StopAllGameCoroutines() {
-        if (!isServer) {
-            return; 
-        }
         if (warmupCoroutine != null) {
             StopCoroutine(warmupCoroutine);
             warmupCoroutine = null;
@@ -394,9 +376,6 @@ public class WaterballGameManager : NetworkBehaviour {
 
     [Server]
     private void CheckHotkeys() {
-        if (!isServer) {
-            return; 
-        }
         if (levelManager == null) {
             return;
         }
@@ -434,9 +413,6 @@ public class WaterballGameManager : NetworkBehaviour {
 
     [Server]
     private void LoadNextLevel() {
-        if (!isServer) {
-            return; 
-        }
         Debug.Log("nu ska vi stoppa alla coroutines");
         StopAllGameCoroutines();
         Debug.Log("nu ska vi vara loading");
@@ -466,15 +442,11 @@ public class WaterballGameManager : NetworkBehaviour {
 
     [Server]
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        if (!isServer) {
-            return; 
-        }
         Debug.Log("New scene loaded: " + scene.name);
         if (scene.name is "Network" or "LobbyScene" or "ErrorScene") {
             return;
         }
 
-        Debug.Log("nu ska vi in i onsceneloadeds hook och snart sätta nytt state");
         switch (scene.name) {
             case "Title Screen":
                 currentState = GameState.TitleScreen; 
@@ -486,9 +458,8 @@ public class WaterballGameManager : NetworkBehaviour {
                 currentState = GameState.Warmup;
                 break;
         }
-
-
-        Debug.Log("nu har vi satt nytt state: " + currentState);
+        
+        
 
         StartCoroutine(OnSceneLoadedDelayed(1f, scene));
 
@@ -501,9 +472,6 @@ public class WaterballGameManager : NetworkBehaviour {
 
     [Server]
     private IEnumerator OnSceneLoadedDelayed(float waitingTime, Scene scene) {
-        if (!isServer) {
-            yield break; 
-        }
         yield return new WaitForSeconds(waitingTime);
         levelManager = GameObject.Find("LevelManager");
 
@@ -531,23 +499,15 @@ public class WaterballGameManager : NetworkBehaviour {
     }
 
 
-    [Server]
     private void SubToEveryoneReady() {
-        if (!isServer) {
-            return; 
-        }
         var players = GameObject.FindGameObjectsWithTag("Player");
         foreach (var player in players) {
             player.GetComponent<PuzzleBehaviour>().everyoneReadyEvent += ReactOnEveryoneReady;
         }
     }
 
-    [Server]
+
     private void ReactOnEveryoneReady() {
-        Debug.Log("react on everyone ready, isServer: " + isServer);
-        if (!isServer) {
-            return; 
-        }
         var sceneName = SceneManager.GetActiveScene().name;
         if (sceneName is not "GameScene" || levelLoadedDueToEvent) {
             return;
