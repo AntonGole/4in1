@@ -45,6 +45,10 @@ public class PuzzleBehaviour : NetworkBehaviour {
     [Command] void CmdSetReadyness(bool iAmReady){
         wasReady = iAmReady; // Set readyness on server
 
+        if (iAmReady) {
+            everyoneReadyEvent?.Invoke();
+        }
+
         // Check everyone
         bool everyoneReady = true;
         foreach (PuzzleBehaviour participant in FindObjectsOfType<PuzzleBehaviour>()){
