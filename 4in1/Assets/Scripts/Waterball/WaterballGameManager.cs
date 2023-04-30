@@ -409,6 +409,7 @@ public class WaterballGameManager : NetworkBehaviour {
 
     [Server]
     private void LoadNextLevel() {
+        StopAllGameCoroutines();
         currentState = GameState.Loading;
         isPlayingEndingScreen = false; 
         var scene = SceneManager.GetActiveScene().name;
@@ -423,7 +424,6 @@ public class WaterballGameManager : NetworkBehaviour {
         // Debug.Log(currentLevel);
         // Debug.Log(levelNames);
         // Debug.Log(levelNames[currentLevel]);
-        StopAllGameCoroutines();
         // var networkManager = GameObject.Find("Advanced Network Configuration");
         // var script = networkManager.GetComponent<WaterballNetworkManager>();
         networkManagerScript.ServerChangeScene(levelNames[currentLevel]);
