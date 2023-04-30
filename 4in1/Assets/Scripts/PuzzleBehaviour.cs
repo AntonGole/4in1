@@ -56,8 +56,20 @@ public class PuzzleBehaviour : NetworkBehaviour {
             foreach (PuzzleBehaviour participant in FindObjectsOfType<PuzzleBehaviour>()){
                 participant.RpcOnEveryoneReady();
             }
+            
+            Debug.Log("EVERYONE READY");
+
+            
             everyoneReadyEvent?.Invoke();
         }
+    }
+
+    private IEnumerator PlayReadySound() {
+
+        var audioManager = WaterballAudioManager.Instance;
+        audioManager.PlaySoundEffect(audioManager.positiveBlip, 1);
+        yield return new WaitForSeconds(0.5f); 
+        
     }
 
     /**
