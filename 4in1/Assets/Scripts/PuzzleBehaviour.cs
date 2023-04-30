@@ -59,6 +59,7 @@ public class PuzzleBehaviour : NetworkBehaviour {
             
             Debug.Log("EVERYONE READY");
 
+            StartCoroutine(PlayReadySound()); 
             
             everyoneReadyEvent?.Invoke();
         }
