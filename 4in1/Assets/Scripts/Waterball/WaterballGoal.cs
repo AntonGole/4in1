@@ -2,7 +2,7 @@
 using Mirror;
 using UnityEngine;
 
-public class WaterballGoal : NetworkBehaviour {
+public class WaterballGoal : NetworkBehaviour, IGoal {
     // public float maxBalls = 5; // The total number of balls to reach a full blend
     // public float currentBalls = 5; /* the current number of balls in the goal area */
 
