@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using Mirror;
 
-public class WaterballTitleBanner : MonoBehaviour {
+public class WaterballTitleBanner : NetworkBehaviour {
     public float circularBannerRotationSpeed = 30f;
 
     private void Update() {
-        // if (!isServer) {
-            // return;
-        // }
+        if (!isServer) {
+            return;
+        }
+
+
+        // Debug.Log("jag är server inne i rotatebanner");
         
         RotateBanner();
     }
