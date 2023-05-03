@@ -10,7 +10,7 @@ public class WaterballBallSpawner : NetworkBehaviour {
     public float oneWayColliderTimeActive = 3f;
     public float minBallSpawningSpeed = 15f;
     public int numberOfBalls = 1;
-    public float spawningHeight = 8f;
+    public float spawningHeight = 4f;
 
     [SyncVar(hook = nameof(OnColliderStateChanged))]
     public bool isOneWayColliderActive;
@@ -31,11 +31,9 @@ public class WaterballBallSpawner : NetworkBehaviour {
         // oneWaySpawnCollider.GetComponent<Collider>().enabled = true;
         isOneWayColliderActive = true; 
         Vector3 position = new Vector3(0, spawningHeight, 0);
-        int counter = numberOfBalls;
-        float ballAngle = -1f;  
+        int counter = numberOfBalls; 
         while (counter > 0) {
-            ballAngle = GetRandomBallAngle(ballAngle);
-            Quaternion ballDirection = Quaternion.Euler(0, ballAngle, 0);  
+            Quaternion ballDirection = GetRandomBallDirection();
             GameObject ballInstance = Instantiate(ballPrefab, position, ballDirection);
             Vector3 velocity = GetRandomBallVelocity(minBallSpawningSpeed, ballInstance);
             ballInstance.GetComponent<Rigidbody>().velocity = velocity;
@@ -60,27 +58,12 @@ public class WaterballBallSpawner : NetworkBehaviour {
         return lastPosition + Vector3.up * (ballHeight + 0.1f);
     }
 
-    private float GetRandomBallAngle(float previous) {
-
-        float value; 
+    private Quaternion GetRandomBallDirection() {
         float multiplier = (float) rd.NextDouble();
-        
-        if (previous < 0) {
-            value = 360f;
-            return value * multiplier;
-        }
-
-        float baseline = 30f;
-        value = 30f;
-        return baseline + multiplier * value; 
-
-        
-        
-        
-        // Quaternion rotationY = Quaternion.Euler(0, 360 * multiplier, 0);
-        // Quaternion rotationX = Quaternion.Euler(0, 0, 0);
-        // Quaternion finalRotation = rotationY * rotationX;
-        // return finalRotation;
+        Quaternion rotationY = Quaternion.Euler(0, 360 * multiplier, 0);
+        Quaternion rotationX = Quaternion.Euler(0, 0, 0);
+        Quaternion finalRotation = rotationY * rotationX;
+        return finalRotation;
     }
 
     private Vector3 GetRandomBallVelocity(float minBaseSpeed, GameObject ballInstance) {
