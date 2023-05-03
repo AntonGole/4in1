@@ -78,10 +78,10 @@ public class WaterballGameManager : NetworkBehaviour {
         levelNames.Add("Level 8");
         // levelNames.Add("Level 16");
         levelNames.Add("Level 9");
+        levelNames.Add("Level 18");
         
         levelNames.Add("Level 10");
         levelNames.Add("Level 13");
-        levelNames.Add("Level 18");
         levelNames.Add("Level 19");
         levelNames.Add("Ending Screen");
         
