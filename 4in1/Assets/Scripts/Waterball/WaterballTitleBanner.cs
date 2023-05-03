@@ -1,46 +1,19 @@
-﻿using System;
-using UnityEngine;
-
-//using System;
-using System.Collections;
+﻿using UnityEngine;
 using Mirror;
-//using UnityEngine;
-using UnityEngine.UI;
 
-
-public class WaterballTitleBanner : NetworkBehaviour {
-    public GameObject canvas;
-    public GameObject circularBanner;
-
+public class WaterballTitleBanner : MonoBehaviour {
     public float circularBannerRotationSpeed = 30f;
 
-
-
-    private void Start() {
-
-    }
-
     private void Update() {
-        if (!circularBanner) {
-            return;
-        }
-
+        // if (!isServer) {
+            // return;
+        // }
+        
         RotateBanner();
     }
-    
-    
-    
-  
 
-
-
-
+    // [Server]
     private void RotateBanner() {
-        circularBanner.transform.Rotate(new Vector3(0, 0, -circularBannerRotationSpeed * Time.deltaTime));
+        transform.Rotate(new Vector3(0, 0, -circularBannerRotationSpeed * Time.deltaTime));
     }
-
-
-
-
-
 }
