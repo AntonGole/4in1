@@ -10,7 +10,7 @@ public class WaterballBallSpawner : NetworkBehaviour {
     public float oneWayColliderTimeActive = 3f;
     public float minBallSpawningSpeed = 15f;
     public int numberOfBalls = 1;
-    public float spawningHeight = 6f;
+    public float spawningHeight = 8f;
 
     [SyncVar(hook = nameof(OnColliderStateChanged))]
     public bool isOneWayColliderActive;
