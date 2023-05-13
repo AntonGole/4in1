@@ -38,7 +38,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Ball Tester.unity
     guid: 09bfd327f1c60aa40a439adaedc86105
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level 10.unity
     guid: 7d78afeacde9d9347b720daaf22e1f24
   - enabled: 1

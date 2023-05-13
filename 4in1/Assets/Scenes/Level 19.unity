@@ -17128,7 +17128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distance: 2.7
-  speed: 0.1
+  speed: 0.05
   reversed: 1
   randomStartPos: 1
   objsToMoove:
