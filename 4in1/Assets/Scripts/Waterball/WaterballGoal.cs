@@ -2,7 +2,7 @@
 using Mirror;
 using UnityEngine;
 
-public class WaterballGoal : NetworkBehaviour, IGoal {
+public class WaterballGoal : MonoBehaviour {
     // public float maxBalls = 5; // The total number of balls to reach a full blend
     // public float currentBalls = 5; /* the current number of balls in the goal area */
 
@@ -11,38 +11,38 @@ public class WaterballGoal : NetworkBehaviour, IGoal {
 
     // private Material goalMaterial; /* the reference to the CustomCheckerboardBlending material */
 
-    [SyncVar(hook = nameof(OnBallRatioChanged))]
-    public float ballRatio = 1;
+    // [SyncVar(hook = nameof(OnBallRatioChanged))]
+    // public float ballRatio = 1;
 
 
 
-    public event Action BallEnteredGoalEvent;
-    public event Action BallExitedGoalEvent;
-
-    // [ClientRpc]
-    [Server]
-    public void SetBallRatio(float newRatio) {
-        
-        ballRatio = newRatio;
-        Debug.Log("set new ballradio: " + newRatio);
-    }
-
+    // public event Action BallEnteredGoalEvent;
+    // public event Action BallExitedGoalEvent;
 
     // [ClientRpc]
-    private void OnBallRatioChanged(float oldRatio, float newRatio) {
-        Debug.Log("got a new ball ratio!: " + newRatio);
-        foreach (var surface in goalSurfaces) {
-            var goalMaterial = surface.GetComponent<Renderer>().material; 
-            goalMaterial.SetFloat("_Blend", ballRatio);
-        }
-    }
+    // [Server]
+    // public void SetBallRatio(float newRatio) {
+    //     
+    //     ballRatio = newRatio;
+    //     Debug.Log("set new ballradio: " + newRatio);
+    // }
+
+
+    // // [ClientRpc]
+    // private void OnBallRatioChanged(float oldRatio, float newRatio) {
+    //     Debug.Log("got a new ball ratio!: " + newRatio);
+    //     foreach (var surface in goalSurfaces) {
+    //         var goalMaterial = surface.GetComponent<Renderer>().material; 
+    //         goalMaterial.SetFloat("_Blend", ballRatio);
+    //     }
+    // }
 
 
     private void Start() {
         //     goalMaterial = transform.GetChild(0).GetComponent<Renderer>().material;
         //     Debug.Log(goalMaterial);
         AdjustTiling();
-        OnBallRatioChanged(1, 1);
+        // OnBallRatioChanged(1, 1);
     }
     //
     // private void Update() {
@@ -64,25 +64,25 @@ public class WaterballGoal : NetworkBehaviour, IGoal {
         }
     }
 
-
-    private void OnTriggerEnter(Collider other) {
-        if (!other.CompareTag("Ball")) {
-            return;
-        }
-
-        BallEnteredGoalEvent?.Invoke();
-    }
-
-    private void OnTriggerExit(Collider other) {
-        if (!other.CompareTag("Ball")) {
-            return;
-        }
-
-        BallExitedGoalEvent?.Invoke();
-    }
-    
-    
-        
+    //
+    // private void OnTriggerEnter(Collider other) {
+    //     if (!other.CompareTag("Ball")) {
+    //         return;
+    //     }
+    //
+    //     BallEnteredGoalEvent?.Invoke();
+    // }
+    //
+    // private void OnTriggerExit(Collider other) {
+    //     if (!other.CompareTag("Ball")) {
+    //         return;
+    //     }
+    //
+    //     BallExitedGoalEvent?.Invoke();
+    // }
+    //
+    //
+    //     
         
         
 }
